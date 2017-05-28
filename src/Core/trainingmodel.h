@@ -1,9 +1,10 @@
 #ifndef TRAININGMODEL_H
 #define TRAININGMODEL_H
 
+#include "core_global.h"
 #include <QAbstractListModel>
 
-class TrainingModel : public QAbstractListModel
+class CORESHARED_EXPORT TrainingModel : public QAbstractListModel
 {
     Q_OBJECT
 
