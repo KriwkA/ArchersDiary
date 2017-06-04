@@ -9,13 +9,36 @@ ApplicationWindow {
     height: 1280
     title: qsTr("Archer's Diary")
 
+    header: ToolBar {
+
+    }
+
     TableView {
+        id: tableView
+
+        anchors.fill: parent
+
+        TableViewColumn {
+            id: titleColumn
+            title: "Id"
+            role: "Id"
+            movable: false
+            resizable: false
+            width: tableView.viewport.width * 0.1
+            visible: false
+        }
+
+        TableViewColumn {
+            id: authorColumn
+            title: "Name"
+            role: "Name"
+            movable: false
+            resizable: false
+            width: tableView.viewport.width - titleColumn.width
+        }
+
+
         model: ArchersModel
-
-        width: parent.width
-        height: parent.height
-        headerVisible: true
-
     }
 
 

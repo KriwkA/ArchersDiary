@@ -2,10 +2,9 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include <modelsfacade.h>
-#include <database/sqltable.h>
-#include <QSqlDatabase>
-#include <QSqlTableModel>
+#include <diarytables.h>
+#include <tables/archerstablemodel.h>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -13,18 +12,19 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("achresdiary.db");
-    ModelsFacade diariesTables(&db);
-
     QString error;
 
     QQmlApplicationEngine engine;
     auto context = engine.rootContext();
-    ModelsFacade::archersTable().insertValues(&db, QVariantList() << "aaa", error);
 
-    auto archerTableModel = diariesTables.archersTableModel(error);
+    DiaryTables diariesTables;
+
+
+    auto archerTableModel = (ArchersTableModel*)diariesTables.archersTableModel(error);    
     archerTableModel->select();
+    archerTableModel->addArcher("BlahBlah");
+
+    qDebug() << archerTableModel->rowCount();
 
     context->setContextProperty("ArchersModel", (QObject*)archerTableModel);
 
