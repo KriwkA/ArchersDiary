@@ -22,12 +22,8 @@ int main(int argc, char *argv[])
 
     auto archerTableModel = (ArchersTableModel*)diariesTables.archersTableModel(error);    
     archerTableModel->select();
-    archerTableModel->addArcher("BlahBlah");
-
-    qDebug() << archerTableModel->rowCount();
 
     context->setContextProperty("ArchersModel", (QObject*)archerTableModel);
-
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
     return app.exec();
