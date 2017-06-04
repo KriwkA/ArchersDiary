@@ -9,29 +9,29 @@ class SqlTable;
 class QSqlDatabase;
 
 
-class ModelsFacaderPrivate
+class ModelsFacadePrivate
 {
     friend class ModelsFacade;
     ModelsFacade* q;
 
 private:
-    ModelsFacaderPrivate(ModelsFacade* qPtr, QSqlDatabase* db);
+    ModelsFacadePrivate(ModelsFacade* qPtr, QSqlDatabase* db);
 
-    QSqlTableModel* archersTable();
-    QSqlTableModel* initArchersTable();
+    QSqlTableModel* archersTable(QString &error);
+    QSqlTableModel* initArchersTable(QString &error);
 
-    QSqlTableModel* initTable(QSqlTableModel **tableModel, SqlTable &table);
+    QSqlTableModel* initTable(QSqlTableModel **tableModel, SqlTable (*getTable)(void), QString &error);
 
     QSqlDatabase* m_db;
     QSqlTableModel* m_archers;
 
 };
 
-inline QSqlTableModel *ModelsFacaderPrivate::archersTable()
+inline QSqlTableModel *ModelsFacadePrivate::archersTable(QString &error)
 {
     if( m_archers != nullptr)
         return m_archers;
-    return m_archers = initArchersTable();
+    return m_archers = initArchersTable(error);
 }
 
 

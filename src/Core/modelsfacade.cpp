@@ -10,25 +10,33 @@
 
 ModelsFacade::ModelsFacade(QSqlDatabase *db, QObject *parent)
     : QObject(parent)
-    , d(new ModelsFacaderPrivate(this, db))
+    , d(new ModelsFacadePrivate(this, db))
 {
 
 }
 
-QSqlTableModel *ModelsFacade::archersTable()
+SqlTable ModelsFacade::archersTable()
 {
-    return d->archersTable();
+    SqlTable::SqlColumn id;
+    id.name = "Id";
+    id.dataType = "INTEGER";
+    id.type = SqlTable::PRIMARY_KEY;
+
+    SqlTable::SqlColumn name;
+    name.name = "Name";
+    name.dataType = "TEXT";
+
+    return SqlTable("Archers", { id, name });
+}
+
+QSqlTableModel *ModelsFacade::archersTableModel(QString &error)
+{
+    return d->archersTable(error);
 }
 
 // PRIVATE
 
-//const SqlTableRecord tblArchers = {
-//    "Archers",
-//    { "Id", "INTEGER", SqlField::PRIMARY_KEY },
-//    { "Name", "TEXT" }
-//};
-
-ModelsFacaderPrivate::ModelsFacaderPrivate(ModelsFacade *qPtr, QSqlDatabase *db)
+ModelsFacadePrivate::ModelsFacadePrivate(ModelsFacade *qPtr, QSqlDatabase *db)
     : q( qPtr )
     , m_db( db )
     , m_archers( nullptr )
@@ -36,23 +44,19 @@ ModelsFacaderPrivate::ModelsFacaderPrivate(ModelsFacade *qPtr, QSqlDatabase *db)
 
 }
 
-QSqlTableModel *ModelsFacaderPrivate::initArchersTable()
+QSqlTableModel *ModelsFacadePrivate::initArchersTable(QString &error)
 {
-    if( m_archers != nullptr )
-    {
-        return m_archers;
-    }
-    return nullptr;
+    return initTable( &m_archers, &ModelsFacade::archersTable, error );
 }
 
-QSqlTableModel *ModelsFacaderPrivate::initTable(QSqlTableModel **tableModel, SqlTable &table)
+QSqlTableModel *ModelsFacadePrivate::initTable(QSqlTableModel **tableModel, SqlTable (*getTable)(void), QString &error)
 {
-    QString error;
     if( *tableModel != nullptr )
     {
         return *tableModel;
     }
-    else if ( table.init(m_db, error) )
+    SqlTable table = getTable();
+    if ( table.init(m_db, error) )
     {
         *tableModel = new QSqlTableModel( q, *m_db );
         (*tableModel)->setTable( table.name() );

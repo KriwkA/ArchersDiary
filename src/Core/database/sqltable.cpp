@@ -43,7 +43,7 @@ bool SqlTable::insertValues(QSqlDatabase *db, const QVariantList &values, QStrin
 
 bool SqlTable::insertValues(QSqlDatabase *db, const QStringList &colNames, const QVariantList &values, QString &error)
 {
-    if(values.size())
+    if(openDatabase( db, error ) && values.size())
     {
         if(colNames.size() == 0 || colNames.size() == values.size())
         {

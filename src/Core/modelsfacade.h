@@ -6,7 +6,8 @@
 
 class QSqlDatabase;
 class QSqlTableModel;
-class ModelsFacaderPrivate;
+class ModelsFacadePrivate;
+class SqlTable;
 
 class CORESHARED_EXPORT ModelsFacade : public QObject
 {
@@ -14,7 +15,8 @@ class CORESHARED_EXPORT ModelsFacade : public QObject
 public:
     explicit ModelsFacade(QSqlDatabase* db, QObject *parent = 0);
 
-    QSqlTableModel* archersTable();
+    QSqlTableModel* archersTableModel(QString& error);
+    static SqlTable archersTable();
 
 
 public slots:
@@ -23,8 +25,8 @@ signals:
 
 private:
     Q_DISABLE_COPY( ModelsFacade )
-    friend class ModelsFacaderPrivate;
-    ModelsFacaderPrivate* d;
+    friend class ModelsFacadePrivate;
+    ModelsFacadePrivate* d;
 };
 
 
