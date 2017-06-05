@@ -14,9 +14,14 @@ DiaryTables::DiaryTables(QObject *parent)
 {
 }
 
-SqlTableModel *DiaryTables::archersTableModel(QString &error)
+ArchersTableModel *DiaryTables::archersTableModel()
 {
-    return d->initArchersTable( error );
+    QString error;
+    auto archers = d->initArchersTable( error );
+    if( archers != nullptr )
+        return archers;
+    emit databaseError( error );
+    return nullptr;
 }
 
 // PRIVATE
@@ -29,7 +34,7 @@ DiaryTablesPrivate::DiaryTablesPrivate(DiaryTables *qPtr)
     m_db->setDatabaseName("db/archers.db");    
 }
 
-SqlTableModel *DiaryTablesPrivate::initArchersTable(QString &error)
+ArchersTableModel *DiaryTablesPrivate::initArchersTable(QString &error)
 {
     if( m_archers != nullptr )
         return m_archers;

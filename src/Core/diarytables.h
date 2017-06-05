@@ -5,7 +5,7 @@
 #include <QObject>
 
 class DiaryTablesPrivate;
-class SqlTableModel;
+class ArchersTableModel;
 
 class CORESHARED_EXPORT DiaryTables : public QObject
 {
@@ -13,15 +13,18 @@ class CORESHARED_EXPORT DiaryTables : public QObject
 public:
     explicit DiaryTables(QObject *parent = 0);
 
-    SqlTableModel* archersTableModel(QString& error);
+
+public slots:
+    ArchersTableModel* archersTableModel();
+
+signals:
+    void databaseError(QString error);
 
 
 private:
     Q_DISABLE_COPY( DiaryTables )
     friend class DiaryTablesPrivate;
     DiaryTablesPrivate* d;
-
-    static SqlTableModel* archersTable();
 };
 
 
