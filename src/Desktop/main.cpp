@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     auto archerTableModel = (ArchersTableModel*)diariesTables.archersTableModel(error);    
     archerTableModel->select();
 
+
     context->setContextProperty("ArchersModel", (QObject*)archerTableModel);
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
