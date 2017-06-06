@@ -8,6 +8,8 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Controls.Universal 2.1
 import Qt.labs.settings 1.0
 
+import "elements"
+
 ApplicationWindow {    
     id: window
     visible: true
@@ -17,7 +19,7 @@ ApplicationWindow {
 
     Settings {
         id: settings
-        property string style: "Material"
+        property string style: "Default"
     }
 
     header: ToolBar {
@@ -33,11 +35,15 @@ ApplicationWindow {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "images/drawer.png";
+                    source: pages.depth > 1 ? "images/back.png" : "images/drawer.png";
                 }
 
-                onClicked: {
-                    archerListDrawer.open()
+                onClicked: {        
+                    if( pages.depth > 1 ){
+                        pages.pop()
+                    } else {
+                        archerListDrawer.open()
+                    }
                 }
             }
 
@@ -62,8 +68,6 @@ ApplicationWindow {
             }
         }
     }
-
-
 
     Drawer {
         id: archerListDrawer
@@ -98,28 +102,19 @@ ApplicationWindow {
 
                 delegate: ItemDelegate {
                     width: parent.width
-                    text: Id + " " + Name
+                    text: Name
                     highlighted: ListView.isCurrentItem
                     onClicked: {
                         archerList.currentIndex = index
                         archerListDrawer.close()
+                        arrowsModel.archerID = Id
                     }
                 }
 
-                RoundButton {
-                    parent:  archerList
-
+                AddButton {
+                    parent: archerList
                     x : parent.width - width - 20
                     y : parent.height - height - 20
-
-                    highlighted: true
-                    contentItem: Image {
-                        fillMode: Image.Pad
-                        horizontalAlignment: Image.AlignHCenter
-                        verticalAlignment: Image.AlignVCenter
-                        source: "images/drawer.png";
-                    }
-
                     onClicked: {
                         addArcherDialog.open()
                     }
@@ -170,13 +165,15 @@ ApplicationWindow {
                 width: menu.width
                 text: model.title
                 onClicked: {
-
+                    pages.push(model.source)
+                    if( model.title === "Arrows" )
+                        arrowsModel.select();
                 }
             }
 
             model: ListModel {
-                ListElement { title: "Bows"; }
-                ListElement { title: "Arrows"; }
+                ListElement { title: "Bows";  }
+                ListElement { title: "Arrows"; source: "qrc:/pages/Arrows.qml"}
                 ListElement { title: "Scopes"; }
                 ListElement { title: "Trainings"; }
                 ListElement { title: "Records"; }

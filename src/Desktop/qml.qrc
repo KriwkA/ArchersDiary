@@ -38,5 +38,9 @@
         <file>images/qt-logo@2x.png</file>
         <file>images/qt-logo@3x.png</file>
         <file>images/qt-logo@4x.png</file>
+        <file>pages/Arrows.qml</file>
+        <file>elements/AddButton.qml</file>
+        <file>images/plus.png</file>
+        <file>elements/DoubleSpinBox.qml</file>
     </qresource>
 </RCC>

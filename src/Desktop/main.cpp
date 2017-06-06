@@ -5,6 +5,7 @@
 
 #include <diarytables.h>
 #include <tables/archerstablemodel.h>
+#include <tables/arrowstablemodel.h>
 #include <QDebug>
 
 void setStylesToContext(QQmlContext* context)
@@ -16,6 +17,7 @@ void setStylesToContext(QQmlContext* context)
 void setTablesToContext(QQmlContext* context, DiaryTables& diary)
 {
     context->setContextProperty("archersModel", diary.archersTableModel());
+    context->setContextProperty("arrowsModel", diary.arrowsTableModel());
 }
 
 int main(int argc, char *argv[])

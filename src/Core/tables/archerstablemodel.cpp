@@ -2,11 +2,10 @@
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QSqlError>
-
 #include <QDebug>
 
 ArchersTableModel::ArchersTableModel(QSqlDatabase* db, QObject *parent)
-    : SqlTableModel(db, "Archers", getColumns(), parent)
+    : SqlTableModel(db, "Archer", getColumns(), parent)
 {
 
 }

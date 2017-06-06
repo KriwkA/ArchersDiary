@@ -6,6 +6,7 @@
 
 class DiaryTablesPrivate;
 class ArchersTableModel;
+class ArrowsTableModel;
 
 class CORESHARED_EXPORT DiaryTables : public QObject
 {
@@ -13,9 +14,8 @@ class CORESHARED_EXPORT DiaryTables : public QObject
 public:
     explicit DiaryTables(QObject *parent = 0);
 
-
-public slots:
     ArchersTableModel* archersTableModel();
+    ArrowsTableModel* arrowsTableModel();
 
 signals:
     void databaseError(QString error);

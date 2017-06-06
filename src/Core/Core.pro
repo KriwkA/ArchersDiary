@@ -31,13 +31,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     database/sqltablemodel.cpp \
     tables/archerstablemodel.cpp \
-    diarytables.cpp
+    diarytables.cpp \
+    tables/arrowstablemodel.cpp
 
 HEADERS += core_global.h \
     database/sqltablemodel.h \
     tables/archerstablemodel.h \
     diarytables.h \
-    diarytables_p.h
+    diarytables_p.h \
+    tables/arrowstablemodel.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
