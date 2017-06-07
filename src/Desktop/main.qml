@@ -165,9 +165,18 @@ ApplicationWindow {
                 width: menu.width
                 text: model.title
                 onClicked: {
-                    pages.push(model.source)
-                    if( model.title === "Arrows" )
-                        arrowsModel.select();
+                    var canOpenPage = false;
+                    if( model.title === "Arrows" ) {
+                        if( arrowsModel.archerID >= 0 ) {
+                            arrowsModel.select();
+                            canOpenPage = true;
+                        } else {
+                            archerListDrawer.open();
+                        }
+                    }
+
+                    if( canOpenPage )
+                        pages.push( model.source );
                 }
             }
 

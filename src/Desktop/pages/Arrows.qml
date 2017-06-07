@@ -36,8 +36,9 @@ Page {
     Dialog {
         id: createArrowDialog
 
-//        x: (window.width - width) / 2
-//        y: (window.height - height) / 2
+//        height: window.height * 3 / 2
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
 
         focus: true
         modal: true
@@ -52,6 +53,11 @@ Page {
                 focus: true
                 placeholderText: "Arrow name"
                 Layout.fillWidth: true
+            }
+
+            Label {
+                text : "Spine"
+                height: spine.height * 2 / 3
             }
 
             SpinBox {
