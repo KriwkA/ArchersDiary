@@ -9,6 +9,7 @@ import QtQuick.Controls.Universal 2.1
 import Qt.labs.settings 1.0
 
 import "elements"
+import "dialogs"
 
 ApplicationWindow {    
     id: window
@@ -74,83 +75,53 @@ ApplicationWindow {
         width: Math.min(window.width, window.height) / 3 * 2
         height: parent.height
 
-        ColumnLayout {
-
+        ListView {
+            id: archerList
+            model: archersModel
+            onModelChanged: model.select();
+            currentIndex: -1
             anchors.fill: parent
 
-            Label {
-                id: selectArcherLabel
-                text: "Select Archer"
-                font.pixelSize: 20
-                height: 25
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
+            header: ToolBar {
+                Material.foreground: "white"
+                width: parent.width
+                z: 2
+                Label {
+                    text: "Select Archer"
+                    font.pixelSize: 20
+                    horizontalAlignment: Qt.AlignHCenter
+                    verticalAlignment: Qt.AlignVCenter
+                    anchors.fill: parent
+                }
+            }
+            headerPositioning: ListView.OverlayHeader
+
+            delegate: ItemDelegate {
+                width: parent.width
+                text: Name
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    archerList.currentIndex = index
+                    archerListDrawer.close()
+                    arrowsModel.archerID = Id
+                }
             }
 
-
-            ListView {
-                id: archerList
-
-                Layout.fillWidth: true
-                height: parent.height - selectArcherLabel.height
-
-                model: archersModel
-                onModelChanged: model.select();
-                currentIndex: -1
-
-                delegate: ItemDelegate {
-                    width: parent.width
-                    text: Name
-                    highlighted: ListView.isCurrentItem
-                    onClicked: {
-                        archerList.currentIndex = index
-                        archerListDrawer.close()
-                        arrowsModel.archerID = Id
-                    }
+            AddButton {
+                parent: archerList
+                x : parent.width - width - 20
+                y : parent.height - height - 20
+                onClicked: {
+                    addArcherDialog.open()
                 }
-
-                AddButton {
-                    parent: archerList
-                    x : parent.width - width - 20
-                    y : parent.height - height - 20
-                    onClicked: {
-                        addArcherDialog.open()
-                    }
-                }
-
             }
+
         }
 
-        Dialog {
+        AddArcherDialog {
             id: addArcherDialog
-
             x: (window.width - width) / 2
             y: (window.height - height) / 2
-
-            focus: true
-            modal: true
-            title: "Add Archer"
-            standardButtons: archerNameInput.text.length !== 0 ? Dialog.Ok | Dialog.Cancel : Dialog.Cancel
-
-            ColumnLayout {
-                spacing: 20
-                anchors.fill: parent
-
-                TextField {
-                    id: archerNameInput
-                    focus: true
-                    placeholderText: "Enter your name"
-                    Layout.fillWidth: true
-                }
-            }
-
-            onAccepted: {
-                archersModel.addArcher(archerNameInput.text);
-                archersModel.select();
-                archerNameInput.text = "";
-            }
         }
     }
 
@@ -182,7 +153,7 @@ ApplicationWindow {
 
             model: ListModel {
                 ListElement { title: "Bows";  }
-                ListElement { title: "Arrows"; source: "qrc:/pages/Arrows.qml"}
+                ListElement { title: "Arrows"; source: "qrc:/pages/Arrows.qml" }
                 ListElement { title: "Scopes"; }
                 ListElement { title: "Trainings"; }
                 ListElement { title: "Records"; }
