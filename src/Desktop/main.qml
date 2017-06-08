@@ -105,6 +105,11 @@ ApplicationWindow {
                     archerListDrawer.close()
                     arrowsModel.archerID = Id
                 }
+
+                onPressAndHold: {
+                    archerEditDialog.name = Name
+                    archerEditDialog.open()
+                }
             }
 
             AddButton {
@@ -112,16 +117,21 @@ ApplicationWindow {
                 x : parent.width - width - 20
                 y : parent.height - height - 20
                 onClicked: {
-                    addArcherDialog.open()
+                    archerEditDialog.open()
                 }
             }
 
         }
 
-        AddArcherDialog {
-            id: addArcherDialog
+        ArcherEditDialog {
+            id: archerEditDialog
             x: (window.width - width) / 2
             y: (window.height - height) / 2
+            onAccepted: {
+                archersModel.addArcher( archerEditDialog.name );
+                archersModel.select();
+                archerEditDialog.name = "";
+            }
         }
     }
 

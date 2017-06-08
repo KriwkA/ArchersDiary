@@ -59,7 +59,6 @@ void ArrowsTableModel::addArrow(const QString &name, double spine, double length
 {
     if(m_archerId >= 0)
     {
-
         QString queryStr = QString("INSERT INTO Arrow VALUES (%0, %1, %2, %3, %4)")
                               .arg(m_archerId)
                               .arg('"' + name + '"')
@@ -75,29 +74,6 @@ void ArrowsTableModel::addArrow(const QString &name, double spine, double length
             qDebug() << query.lastError().text();
         }
 
-//        QSqlField archer("Archer", QVariant::Int);
-//        QSqlField fName("Name", QVariant::String);
-//        QSqlField fSpine("Spine", QVariant::Double);
-//        QSqlField fLength("Length", QVariant::Double);
-//        QSqlField fDiametr("Diametr", QVariant::Double);
-
-//        archer.setValue(m_archerId);
-//        fName.setValue(name);
-//        fSpine.setValue(spine);
-//        fLength.setValue(length);
-//        fDiametr.setValue(diameter);
-
-//        QSqlRecord rec;
-//        rec.append(archer);
-//        rec.append(fName);
-//        rec.append(fSpine);
-//        rec.append(fLength);
-//        rec.append(fDiametr);
-
-//        if( !insertRecord(-1, rec) )
-//        {
-//           qDebug() << "Insert record error: " << this->lastError().text();
-//        }
     }
     else
         qDebug() << "Invalid archer Id";

@@ -42,7 +42,7 @@
         <file>elements/AddButton.qml</file>
         <file>images/plus.png</file>
         <file>elements/DoubleSpinBox.qml</file>
-        <file>dialogs/AddArcherDialog.qml</file>
         <file>dialogs/CreateArrowDialog.qml</file>
+        <file>dialogs/ArcherEditDialog.qml</file>
     </qresource>
 </RCC>

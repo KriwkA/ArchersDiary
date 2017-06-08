@@ -12,7 +12,6 @@ ArchersTableModel::ArchersTableModel(QSqlDatabase* db, QObject *parent)
 
 void ArchersTableModel::addArcher(const QString &archerName)
 {
-
     QSqlField id("Id", QVariant::Int);
 
     QSqlField name("Name", QVariant::String);
@@ -20,9 +19,9 @@ void ArchersTableModel::addArcher(const QString &archerName)
 
     QSqlRecord rec;
     rec.append(id);
-    rec.append(name);
+    rec.append(name);    
 
-    if( !insertRecord(-1, rec) )
+    if( !insertRecord(rowCount(), rec) )
     {
        qDebug() << "Insert record error: " << this->lastError().text();
     }
