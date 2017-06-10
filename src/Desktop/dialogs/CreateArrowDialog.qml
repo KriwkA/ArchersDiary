@@ -55,7 +55,7 @@ Dialog {
             realTo: 15.0
             realValue: diameter
             realStepSize: 0.1
-            editable: true
+            editable: true           
         }
 
         RowLayout {
@@ -82,14 +82,10 @@ Dialog {
             title = "Create Arrow";
             arrowName.text = "";
             spineSpinBox.value = (spineSpinBox.from + spineSpinBox.to) / 2
-            lengthSpinBox.value = (lengthSpinBox.from + lengthSpinBox.to) / 2
+            lengthSpinBox.real = (lengthSpinBox.from + lengthSpinBox.to) / 2
             diameterSpinBox.value = (diameterSpinBox.from + diameterSpinBox.to) / 2
         } else {
-            title = "Edit Arrow";
-            console.log(spine)
-            console.log(length)
-            console.log(diameter)
-            console.log(editRowInView)
+            title = "Edit Arrow";            
         }
     }
 
@@ -101,6 +97,22 @@ Dialog {
         if(editRowInView < 0) {
             view.model.addArrow(arrowName.text, spineSpinBox.value, lengthSpinBox.realValue, diameterSpinBox.realValue)
             view.model.select();
+        } else {
+            var nameRole = arrowsModel.roleFromRoleName("Name");
+            var spineRole = arrowsModel.roleFromRoleName("Spine");
+            var lengthRole = arrowsModel.roleFromRoleName("Length");
+            var diameterRole = arrowsModel.roleFromRoleName("Diameter");
+            if(!(nameRole === -1 || spineRole === -1 || lengthRole === -1 || diameterRole === -1 ))
+            {
+                arrowsModel.setData(editRowInView, arrowName.text, nameRole);
+                arrowsModel.setData(editRowInView, spineSpinBox.value, spineRole);
+                arrowsModel.setData(editRowInView, lengthSpinBox.realValue, lengthRole);
+                console.log(diameterSpinBox.realValue);
+                arrowsModel.setData(editRowInView, diameterSpinBox.realValue, diameterRole);
+                arrowsModel.acc
+            } else {
+                console.log("Error role");
+            }
         }
     }
 

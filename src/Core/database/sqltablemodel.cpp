@@ -25,6 +25,7 @@ SqlTableModel::SqlTableModel(QSqlDatabase *db, const QString &name, const SqlTab
     , m_db( db )
 {
     setTable(name);
+    setEditStrategy( QSqlTableModel::OnFieldChange );
 }
 
 SqlTableModel::~SqlTableModel(){}
@@ -121,10 +122,20 @@ bool SqlTableModel::setData(int row, const QVariant &value, int role)
             const QModelIndex index = createIndex(row, col);
             if( QSqlTableModel::setData(index, value, Qt::EditRole) )
             {
-                emit dataChanged(index, index, QVector<int>() << role);
+                emit dataChanged(index, index, QVector<int>() << role);                
                 return true;
             }
         }
     }
     return false;
+}
+
+int SqlTableModel::roleFromRoleName(const QByteArray &roleName) const
+{
+    for(auto roleIt = m_roles.cbegin(); roleIt != m_roles.cend(); ++roleIt) {
+        QByteArray arr = roleIt.value();
+        if(roleIt.value() == roleName)
+            return roleIt.key();
+    }
+    return -1;
 }

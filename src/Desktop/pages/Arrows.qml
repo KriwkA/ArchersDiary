@@ -17,11 +17,10 @@ Page {
             text: Name + "\n" +
                   "Spine: " + Spine + "\n" +
                   "Length: " + Length + " mm.\n" +
-                  "Diametr: " + Diameter + " mm.";
+                  "Diameter: " + Diameter + " mm.";
 
             onClicked: {
-                arrowList.currentIndex = index;
-                console.log(Name);
+                arrowList.currentIndex = index;                
             }
 
             onPressAndHold: {

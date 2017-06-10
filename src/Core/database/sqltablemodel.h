@@ -67,7 +67,9 @@ private:
 public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
-    virtual bool setData(int row, const QVariant &value, int role);
+    using QSqlTableModel::setData;
+    Q_INVOKABLE bool setData(int row, const QVariant &value, int role);
+    Q_INVOKABLE int roleFromRoleName(const QByteArray& roleName) const;
 };
 
 Q_ALWAYS_INLINE const SqlTableModel::SqlColumns &SqlTableModel::columns() const
