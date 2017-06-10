@@ -32,14 +32,19 @@ SOURCES += \
     database/sqltablemodel.cpp \
     tables/archerstablemodel.cpp \
     diarytables.cpp \
-    tables/arrowstablemodel.cpp
+    tables/arrowstablemodel.cpp \
+    tables/bowstablemodel.cpp \
+    tables/scopestablemodel.cpp
 
 HEADERS += core_global.h \
     database/sqltablemodel.h \
     tables/archerstablemodel.h \
     diarytables.h \
     diarytables_p.h \
-    tables/arrowstablemodel.h
+    tables/arrowstablemodel.h \
+    tables/bowstablemodel.h \
+    tables/scopestablemodel.h \
+    precomp.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

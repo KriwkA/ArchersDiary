@@ -4,7 +4,8 @@ CONFIG += c++11
 
 SOURCES += main.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    qml.qrc
 
 Release:DESTDIR = release
 Release:OBJECTS_DIR = release/binary/.obj

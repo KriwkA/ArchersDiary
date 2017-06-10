@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 
 Dialog {
-    property string name: archerNameInput.text
+    property string name: ""
     property int currentArcher: -1
 
     focus: true
@@ -20,6 +20,9 @@ Dialog {
             placeholderText: "Enter your name"
             Layout.fillWidth: true
             text: name
+            onTextChanged: {
+                name = text;
+            }
         }
 
         RowLayout {
@@ -39,5 +42,9 @@ Dialog {
                 Layout.fillWidth: true
             }
         }
+    }  
+
+    onRejected: {
+        name = "";
     }
 }

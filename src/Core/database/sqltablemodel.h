@@ -53,6 +53,12 @@ public:
 
     bool init(QString& error);
 
+    virtual SqlColumns getColumns() const = 0;
+
+protected:
+    void insertAllValues(const QStringList& fieldNames, const QStringList& values);
+    void insertAllValues(const QStringList& values);
+
 private:
     SqlColumns m_columns;
     QSqlDatabase* m_db;
@@ -69,7 +75,8 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     using QSqlTableModel::setData;
     Q_INVOKABLE bool setData(int row, const QVariant &value, int role);
-    Q_INVOKABLE int roleFromRoleName(const QByteArray& roleName) const;
+    Q_INVOKABLE int roleFromRoleName(const QByteArray& roleName) const;    
+    Q_INVOKABLE bool removeRows(int row, int count);
 };
 
 Q_ALWAYS_INLINE const SqlTableModel::SqlColumns &SqlTableModel::columns() const

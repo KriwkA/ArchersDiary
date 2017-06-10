@@ -82,7 +82,7 @@ Dialog {
             title = "Create Arrow";
             arrowName.text = "";
             spineSpinBox.value = (spineSpinBox.from + spineSpinBox.to) / 2
-            lengthSpinBox.real = (lengthSpinBox.from + lengthSpinBox.to) / 2
+            lengthSpinBox.value = (lengthSpinBox.from + lengthSpinBox.to) / 2
             diameterSpinBox.value = (diameterSpinBox.from + diameterSpinBox.to) / 2
         } else {
             title = "Edit Arrow";            

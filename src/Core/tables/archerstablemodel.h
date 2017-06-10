@@ -8,10 +8,9 @@ class CORESHARED_EXPORT ArchersTableModel : public SqlTableModel
     Q_OBJECT
 public:    
     explicit ArchersTableModel(QSqlDatabase* db, QObject* parent = nullptr);
-    static SqlTableModel::SqlColumns getColumns();
+    virtual SqlColumns getColumns() const override;
 
-public slots:
-    void addArcher(const QString& archerName );
+    Q_INVOKABLE void addArcher(const QString& archerName );
 };
 
 #endif // ARCHERSTABLEMODEL_H

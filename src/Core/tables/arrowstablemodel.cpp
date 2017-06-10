@@ -1,19 +1,14 @@
+#include "precomp.h"
 #include "arrowstablemodel.h"
-#include <QSqlRecord>
-#include <QSqlField>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
 
 ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, "Arrow", getColumns(), parent)
     , m_archerId(-1)
 {
-
 }
 
-SqlTableModel::SqlColumns ArrowsTableModel::getColumns()
-{
+SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
+{    
     SqlTableModel::SqlColumn archer;
     archer.name = "Archer";
     archer.dataType = "INTEGER";
@@ -41,12 +36,12 @@ SqlTableModel::SqlColumns ArrowsTableModel::getColumns()
     return { archer, name, spine, length, diameter };
 }
 
-long long ArrowsTableModel::getArcherId() const
+ID ArrowsTableModel::getArcherId() const
 {
     return m_archerId;
 }
 
-void ArrowsTableModel::setArcherId(long long archerId)
+void ArrowsTableModel::setArcherId(ID archerId)
 {
     m_archerId = archerId;
     if(m_archerId >= 0)
@@ -57,23 +52,15 @@ void ArrowsTableModel::setArcherId(long long archerId)
 
 void ArrowsTableModel::addArrow(const QString &name, double spine, double length, double diameter)
 {
-    if(m_archerId >= 0)
-    {
-        QString queryStr = QString("INSERT INTO Arrow VALUES (%0, %1, %2, %3, %4)")
-                              .arg(m_archerId)
-                              .arg('"' + name + '"')
-                              .arg(spine)
-                              .arg(length)
-                              .arg(diameter);
-
-        QSqlQuery query;
-
-        if(!query.exec(queryStr))
-        {
-            qDebug() << query.lastQuery();
-            qDebug() << query.lastError().text();
-        }
-
+    if(m_archerId >= 0) {
+        QStringList values = {
+            QString::number(m_archerId),
+            '"' + name + '"',
+            QString::number(spine),
+            QString::number(length),
+            QString::number(diameter)
+        };
+        insertAllValues(values);
     }
     else
         qDebug() << "Invalid archer Id";

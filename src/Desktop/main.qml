@@ -11,7 +11,13 @@ import Qt.labs.settings 1.0
 import "elements"
 import "dialogs"
 
+
+
 ApplicationWindow {    
+    property string title_DEFAULT_TEXT : "Diary";
+
+    Material.theme: Material.System
+
     id: window
     visible: true
     width: 720 / 2
@@ -23,20 +29,20 @@ ApplicationWindow {
         property string style: "Default"
     }
 
-    header: ToolBar {
-
-        Material.foreground: "white"
+    header: ToolBar {        
 
         RowLayout {
-            spacing: 20
-            anchors.fill: parent
+            id: toolBarRowLayout;
 
-            ToolButton {
+            spacing: 20
+            anchors.fill: parent                      
+
+            ToolButton {                
                 contentItem: Image {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: pages.depth > 1 ? "images/back.png" : "images/drawer.png";
+                    source: pages.depth > 1 ? "img/images/back.png" : "img/images/menu.png"
                 }
 
                 onClicked: {        
@@ -49,8 +55,9 @@ ApplicationWindow {
             }
 
             Label {
+                Material.foreground: "white"
                 id: titleLabel
-                text: "Diary"
+                text: title_DEFAULT_TEXT
                 font.pixelSize: 20
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
@@ -63,10 +70,10 @@ ApplicationWindow {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "images/menu.png"
-                }
-
+                    source: "img/images/settings.png"
+                }                
             }
+
         }
     }
 
@@ -83,10 +90,11 @@ ApplicationWindow {
             anchors.fill: parent
 
             header: ToolBar {
-                Material.foreground: "white"
+
                 width: parent.width
                 z: 2
                 Label {
+                    Material.foreground: "white"
                     text: "Select Archer"
                     font.pixelSize: 20
                     horizontalAlignment: Qt.AlignHCenter
@@ -112,13 +120,14 @@ ApplicationWindow {
                 }
             }
 
-            AddButton {
+            ImageButton {
                 parent: archerList
                 x : parent.width - width - 20
                 y : parent.height - height - 20
                 onClicked: {
                     archerEditDialog.open()
                 }
+                imgSrc: "img/images/plus.png"
             }
 
         }
@@ -127,7 +136,7 @@ ApplicationWindow {
             id: archerEditDialog
             x: (window.width - width) / 2
             y: (window.height - height) / 2
-            onAccepted: {
+            onAccepted: {                
                 archersModel.addArcher( archerEditDialog.name );
                 archersModel.select();
                 archerEditDialog.name = "";
@@ -151,9 +160,10 @@ ApplicationWindow {
                         if( arrowsModel.archerID >= 0 ) {
                             arrowsModel.select();
                             canOpenPage = true;
+                            titleLabel.text = "Arrows";
                         } else {
                             archerListDrawer.open();
-                        }
+                        }                        
                     }
 
                     if( canOpenPage )
@@ -163,13 +173,19 @@ ApplicationWindow {
 
             model: ListModel {
                 ListElement { title: "Bows";  }
-                ListElement { title: "Arrows"; source: "qrc:/pages/Arrows.qml" }
+                ListElement { title: "Arrows"; source: "pages/Arrows.qml" }
                 ListElement { title: "Scopes"; }
                 ListElement { title: "Trainings"; }
                 ListElement { title: "Records"; }
                 ListElement { title: "Stats"; }
             }
         }
+
+        onDepthChanged: {
+            if(pages.depth === 1)
+                titleLabel.text = title_DEFAULT_TEXT;
+        }
+
     }
 
 }

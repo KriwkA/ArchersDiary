@@ -1,13 +1,6 @@
+#include "precomp.h"
 #include "sqltablemodel.h"
 
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QSqlRecord>
-#include <QHash>
-#include <QSqlField>
-#include <algorithm>
-#include <iterator>
 
 SqlTableModel::SqlTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, QString(), parent)
@@ -35,6 +28,25 @@ bool SqlTableModel::init(QString &error)
     if( openDatabase(error) && createTable(error) )
         return true;
     return false;
+}
+
+void SqlTableModel::insertAllValues(const QStringList &fieldNames, const QStringList &values)
+{
+    QString fields = !fieldNames.isEmpty() ? QString("( %1 )").arg( fieldNames.join(", ")) : "";
+    QString allValues = QString("( %1 )").arg( values.join(", "));
+    QString queryString = QString("INSERT INTO %0 %1 VALUES %2;").arg( tableName() ).arg(fields).arg(allValues);
+
+    QSqlQuery query;
+    if(!query.exec(queryString))
+    {
+        qDebug() << query.lastQuery();
+        qDebug() << query.lastError().text();
+    }
+}
+
+void SqlTableModel::insertAllValues(const QStringList &values)
+{
+    insertAllValues(QStringList(), values);
 }
 
 bool SqlTableModel::createTable(QString &error)
@@ -138,4 +150,14 @@ int SqlTableModel::roleFromRoleName(const QByteArray &roleName) const
             return roleIt.key();
     }
     return -1;
+}
+
+
+bool SqlTableModel::removeRows(int row, int count)
+{    
+    if( QSqlTableModel::removeRows(row, count) ) {
+        select();
+        return true;
+    }
+    return false;
 }

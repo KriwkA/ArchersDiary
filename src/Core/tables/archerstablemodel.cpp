@@ -1,8 +1,5 @@
+#include "precomp.h"
 #include "archerstablemodel.h"
-#include <QSqlRecord>
-#include <QSqlField>
-#include <QSqlError>
-#include <QDebug>
 
 ArchersTableModel::ArchersTableModel(QSqlDatabase* db, QObject *parent)
     : SqlTableModel(db, "Archer", getColumns(), parent)
@@ -12,22 +9,12 @@ ArchersTableModel::ArchersTableModel(QSqlDatabase* db, QObject *parent)
 
 void ArchersTableModel::addArcher(const QString &archerName)
 {
-    QSqlField id("Id", QVariant::Int);
-
-    QSqlField name("Name", QVariant::String);
-    name.setValue( archerName );
-
-    QSqlRecord rec;
-    rec.append(id);
-    rec.append(name);    
-
-    if( !insertRecord(rowCount(), rec) )
-    {
-       qDebug() << "Insert record error: " << this->lastError().text();
-    }
+    QStringList names = { "Name" };
+    QStringList values = { '"' + archerName + '"' };
+    insertAllValues(names, values);
 }
 
-SqlTableModel::SqlColumns ArchersTableModel::getColumns()
+SqlTableModel::SqlColumns ArchersTableModel::getColumns() const
 {
     SqlTableModel::SqlColumn id;
     id.name = "Id";
