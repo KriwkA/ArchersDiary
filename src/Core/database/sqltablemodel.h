@@ -37,6 +37,7 @@ public:
         ForeignFlags foreignFlags = NoFlags;
         QString foreignTable;
         QString foreingField;
+        bool unique = false;
     };
 
     typedef QList< SqlColumn > SqlColumns;
@@ -55,6 +56,7 @@ public:
 private:
     SqlColumns m_columns;
     QSqlDatabase* m_db;
+    QHash<int, QByteArray> m_roles;
 
     bool createTable(QString& error);
     bool openDatabase(QString& error);
@@ -65,7 +67,7 @@ private:
 public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
-    QHash<int, QByteArray> m_roles;
+    virtual bool setData(int row, const QVariant &value, int role);
 };
 
 Q_ALWAYS_INLINE const SqlTableModel::SqlColumns &SqlTableModel::columns() const

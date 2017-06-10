@@ -6,6 +6,8 @@
 #include <QSqlRecord>
 #include <QHash>
 #include <QSqlField>
+#include <algorithm>
+#include <iterator>
 
 SqlTableModel::SqlTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, QString(), parent)
@@ -45,6 +47,10 @@ bool SqlTableModel::createTable(QString &error)
     for(const auto& col : m_columns)
     {
         QString fieldStr = QString("%0 %1").arg( col.name ).arg( col.dataType );
+
+        if(col.unique)
+            fieldStr.append(" UNIQUE");
+
         switch (col.type) {
         case PRIMARY_KEY:
                 fieldStr.append(" PRIMARY KEY");
@@ -57,6 +63,7 @@ bool SqlTableModel::createTable(QString &error)
                 fieldStr.append(" ON UPDATE CASCADE");
             break;
         }
+
         fields.append(fieldStr);
         m_roles.insert(Qt::UserRole + m_roles.size() + 1, col.name.toLatin1());
     }
@@ -99,4 +106,26 @@ QVariant SqlTableModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> SqlTableModel::roleNames() const
 {
     return m_roles;
+}
+
+
+bool SqlTableModel::setData(int row, const QVariant &value, int role)
+{
+    if(m_roles.contains(role))
+    {
+        std::vector<int> a;
+        const QString name( m_roles[role] );
+        const auto it = std::find_if(m_columns.begin(), m_columns.end(), [ name ](const SqlColumn& col){ return col.name == name; } );
+        if( it != m_columns.end() )
+        {
+            const int col = std::distance(m_columns.begin(), it);
+            QModelIndex index = createIndex(row, col);
+            if( QSqlTableModel::setData(index, value, Qt::EditRole) )
+            {
+                emit dataChanged(index, index, QVector<int>() << role);
+                return true;
+            }
+        }
+    }
+    return false;
 }
