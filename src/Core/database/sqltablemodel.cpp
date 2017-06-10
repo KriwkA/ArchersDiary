@@ -113,13 +113,12 @@ bool SqlTableModel::setData(int row, const QVariant &value, int role)
 {
     if(m_roles.contains(role))
     {
-        std::vector<int> a;
         const QString name( m_roles[role] );
         const auto it = std::find_if(m_columns.begin(), m_columns.end(), [ name ](const SqlColumn& col){ return col.name == name; } );
         if( it != m_columns.end() )
         {
             const int col = std::distance(m_columns.begin(), it);
-            QModelIndex index = createIndex(row, col);
+            const QModelIndex index = createIndex(row, col);
             if( QSqlTableModel::setData(index, value, Qt::EditRole) )
             {
                 emit dataChanged(index, index, QVector<int>() << role);
