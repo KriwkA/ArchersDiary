@@ -7,7 +7,12 @@ import "../elements"
 Dialog {
     focus: true
     modal: true
-    title: "Create Arrow"
+    property int editRowInView: -1
+    property ListView view;
+    property string name: arrowName.text;
+    property double spine: spineSpinBox.value;
+    property double length: lengthSpinBox.realValue;
+    property double diameter: diameterSpinBox.realValue;
 
     ColumnLayout {
         spacing: 20
@@ -18,54 +23,85 @@ Dialog {
             focus: true
             placeholderText: "Arrow name"
             Layout.fillWidth: true
+            text: name
         }
 
         Label {
             text : "Spine"
-            height: spine.height * 2 / 3
+            height: spineSpinBox.height * 2 / 3
         }
 
         SpinBox {
-            id: spine
+            id: spineSpinBox
             from: 200
             to: 1200
-            value: 600
+            value: spine
             stepSize: 10
+            editable: true
         }
 
         DoubleSpinBox {
-            id: length
+            id: lengthSpinBox
             realFrom: 500.0
             realTo: 800.0
-            realValue: 650.0
+            realValue: length
             realStepSize: 5.0
+            editable: true
         }
 
         DoubleSpinBox {
-            id: diameter
+            id: diameterSpinBox
             realFrom: 3.0
             realTo: 15.0
-            realValue: 5.5
+            realValue: diameter
             realStepSize: 0.1
+            editable: true
         }
 
         RowLayout {
+            spacing: 20
             Button {
-              enabled: arrowName.length !== 0
-              text: "Ok"
-              onClicked: createArrowDialog.accept()
+                highlighted: true
+                enabled: arrowName.length !== 0
+                text: "Ok"
+                onClicked: createArrowDialog.accept()
+                Layout.fillWidth: true
             }
 
             Button {
-              text: "Cancel"
-              onClicked: createArrowDialog.reject()
+                highlighted: true
+                text: "Cancel"
+                onClicked: createArrowDialog.reject()
+                Layout.fillWidth: true
             }
         }
     }
 
-    onAccepted: {
-        arrowsModel.addArrow(arrowName.text, spine.value, length.realValue, diameter.realValue)
-        arrowsModel.select();
-        arrowName.text = "";
+    onOpened: {
+        if(editRowInView < 0) {
+            title = "Create Arrow";
+            arrowName.text = "";
+            spineSpinBox.value = (spineSpinBox.from + spineSpinBox.to) / 2
+            lengthSpinBox.value = (lengthSpinBox.from + lengthSpinBox.to) / 2
+            diameterSpinBox.value = (diameterSpinBox.from + diameterSpinBox.to) / 2
+        } else {
+            title = "Edit Arrow";
+            console.log(spine)
+            console.log(length)
+            console.log(diameter)
+            console.log(editRowInView)
+        }
     }
+
+    onClosed: {
+        editRowInView = -1;
+    }
+
+    onAccepted: {
+        if(editRowInView < 0) {
+            view.model.addArrow(arrowName.text, spineSpinBox.value, lengthSpinBox.realValue, diameterSpinBox.realValue)
+            view.model.select();
+        }
+    }
+
 }

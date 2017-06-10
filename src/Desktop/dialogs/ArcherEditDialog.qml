@@ -8,7 +8,7 @@ Dialog {
 
     focus: true
     modal: true
-    title: "Add Archer"    
+    title: "Add Archer"
 
     ColumnLayout {
         spacing: 20
@@ -23,16 +23,21 @@ Dialog {
         }
 
         RowLayout {
+            spacing: 20
             Button {
-              enabled: name.length !== 0
-              text: "Ok"
-              onClicked: accept()
+                highlighted: true
+                enabled: name.length !== 0
+                text: "Ok"
+                onClicked: accept()
+                Layout.fillWidth: true
             }
 
             Button {
-              text: "Cancel"
-              onClicked: reject()
+                highlighted: true
+                text: "Cancel"
+                onClicked: reject()
+                Layout.fillWidth: true
             }
         }
-    }    
+    }
 }

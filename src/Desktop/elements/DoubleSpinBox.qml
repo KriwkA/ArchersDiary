@@ -1,7 +1,5 @@
-import QtQuick 2.0
-
-import QtQuick 2.0
-
+import QtQuick 2.5
+import QtQml 2.2
 import QtQuick.Controls 2.1
 
 
@@ -20,10 +18,23 @@ SpinBox{
     validator: DoubleValidator {
         bottom: Math.min(spinbox.from, spinbox.to)*spinbox.factor
         top:  Math.max(spinbox.from, spinbox.to)*spinbox.factor
+        decimals: decimals
     }
 
     textFromValue: function(value, locale) {
-        return parseFloat(value*1.0/factor).toFixed(decimals);
+        var realVal = value * 1.0 / factor;
+        var res = Number( realVal ).toLocaleString(locale, 'f', decimals );
+        return res;
+    }
+
+    valueFromText: function(text, locale) {
+        var realVal = Number.fromLocaleText(locale, text);
+        var val = realVal * factor;
+        console.log("ValFromText");
+        console.log(text);
+        console.log(realVal);
+        console.log(val);
+        return val;
     }
 
 }

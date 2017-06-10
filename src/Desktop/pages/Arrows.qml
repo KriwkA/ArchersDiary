@@ -13,12 +13,24 @@ Page {
 
         delegate: ItemDelegate {
             width: arrowList.width
+            highlighted: ListView.isCurrentItem
             text: Name + "\n" +
                   "Spine: " + Spine + "\n" +
                   "Length: " + Length + " mm.\n" +
                   "Diametr: " + Diameter + " mm.";
+
             onClicked: {
-                arrowList.currentIndex = index
+                arrowList.currentIndex = index;
+                console.log(Name);
+            }
+
+            onPressAndHold: {
+                createArrowDialog.editRowInView = index;
+                createArrowDialog.name = Name;
+                createArrowDialog.spine = Spine;
+                createArrowDialog.length = Length;
+                createArrowDialog.diameter = Diameter;
+                createArrowDialog.open()
             }
         }
 
@@ -26,8 +38,8 @@ Page {
             parent: arrowList
             x : parent.width - width - 20
             y : parent.height - height - 20
-            onClicked: {
-                createArrowDialog.open()
+            onClicked: {                
+                createArrowDialog.open()                
             }
         }
 
@@ -38,6 +50,7 @@ Page {
         id: createArrowDialog
         x: (window.width - width) / 2
         y: (window.height - height) / 2
+        view: arrowList
     }
 
 
