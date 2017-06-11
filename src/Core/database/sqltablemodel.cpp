@@ -21,7 +21,10 @@ SqlTableModel::SqlTableModel(QSqlDatabase *db, const QString &name, const SqlTab
     setEditStrategy( QSqlTableModel::OnFieldChange );
 }
 
-SqlTableModel::~SqlTableModel(){}
+SqlTableModel::~SqlTableModel()
+{
+
+}
 
 bool SqlTableModel::init(QString &error)
 {
@@ -74,6 +77,8 @@ bool SqlTableModel::createTable(QString &error)
                 fieldStr.append(" ON DELETE CASCADE");
             if(col.foreignFlags & OnUpdateCascade)
                 fieldStr.append(" ON UPDATE CASCADE");
+            break;
+        default:
             break;
         }
 
@@ -136,6 +141,8 @@ bool SqlTableModel::setData(int row, const QVariant &value, int role)
             {
                 emit dataChanged(index, index, QVector<int>() << role);                
                 return true;
+            } else {
+                qDebug() << lastError().text();
             }
         }
     }

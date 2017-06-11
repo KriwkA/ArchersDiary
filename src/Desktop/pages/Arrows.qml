@@ -1,6 +1,6 @@
 import QtQuick 2.6
 import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.1
 import "../elements"
 import "../dialogs"
 
@@ -30,6 +30,7 @@ Page {
             }
         }
 
+
         ColumnLayout {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
@@ -39,8 +40,10 @@ Page {
                 property double spine;
                 property double length;
                 property double diameter;
+
                 id: editButton;
                 imgSrc: "img/images/edit.png"
+
                 onClicked: {
                     createArrowDialog.editRowInView = arrowList.currentIndex;
                     createArrowDialog.name = name;
@@ -78,6 +81,5 @@ Page {
         id: createArrowDialog
         x: (window.width - width) / 2
         y: (window.height - height) / 2
-        view: arrowList
     }
 }

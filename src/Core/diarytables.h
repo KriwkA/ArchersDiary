@@ -16,6 +16,8 @@ public:
 
     ArchersTableModel* archersTableModel();
     ArrowsTableModel* arrowsTableModel();
+    ArrowsTableModel* bowsTableModel();
+    ArrowsTableModel* scopesTableModel();
 
 signals:
     void databaseError(QString error);

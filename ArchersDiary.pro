@@ -4,7 +4,7 @@ SUBDIRS += \
     Core \
     Desktop
 
-Core.subdir    = src/Core
-Desktop.subdir = src/Desktop
+Core.subdir             = src/Core
+Desktop.subdir          = src/Desktop
 
-Desktop.depends += Core
+Desktop.depends         += Core

@@ -44,7 +44,28 @@ Dialog {
         }
     }  
 
+    onAccepted: {
+        if(currentArcher < 0) {
+            archersModel.addArcher( archerNameInput.name );
+            archersModel.select();
+        } else {
+            var nameRole = archersModel.roleFromRoleName("Name");
+            if(nameRole !== -1)
+            {
+                arrowsModel.setData(currentArcher, archerNameInput.text, nameRole);
+            } else {
+                console.log("Error role");
+            }
+        }
+        reset();
+    }
+
     onRejected: {
+        reset();
+    }
+
+    function reset() {
         name = "";
+        currentArcher = -1;
     }
 }

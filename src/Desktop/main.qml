@@ -109,25 +109,51 @@ ApplicationWindow {
                 text: Name
                 highlighted: ListView.isCurrentItem
                 onClicked: {
-                    archerList.currentIndex = index
-                    archerListDrawer.close()
+                    archerList.currentIndex = index                  
+                    editButton.name = Name
                     arrowsModel.archerID = Id
                 }
-
-                onPressAndHold: {
-                    archerEditDialog.name = Name
-                    archerEditDialog.open()
+                onDoubleClicked: {
+                    archerListDrawer.close();
                 }
+
             }
 
-            ImageButton {
-                parent: archerList
-                x : parent.width - width - 20
-                y : parent.height - height - 20
-                onClicked: {
-                    archerEditDialog.open()
+            ColumnLayout {
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+
+                ImageButton {
+                    property string name;
+                    id: editButton;
+                    imgSrc: "img/images/edit.png"
+
+                    onClicked: {
+                        archerEditDialog.currentArcher = archerList.currentIndex;
+                        archerEditDialog.name = name;
+                        archerEditDialog.open()
+                    }
+
+                    highlighted: true
+                    visible: archerList.currentIndex !== -1
                 }
-                imgSrc: "img/images/plus.png"
+                ImageButton {
+                    id: removeButton;
+                    imgSrc: "img/images/remove.png"
+                    highlighted: true
+                    onClicked: {
+                        if( archersModel.removeRows( archerList.currentIndex, 1) )
+                            archerList.currentIndex = -1
+                    }
+                    visible: archerList.currentIndex !== -1
+                }
+                ImageButton {
+                    id: addArcherButton
+                    onClicked: {
+                        archerEditDialog.open()
+                    }
+                    imgSrc: "img/images/plus.png"
+                }
             }
 
         }
@@ -136,11 +162,6 @@ ApplicationWindow {
             id: archerEditDialog
             x: (window.width - width) / 2
             y: (window.height - height) / 2
-            onAccepted: {                
-                archersModel.addArcher( archerEditDialog.name );
-                archersModel.select();
-                archerEditDialog.name = "";
-            }
         }
     }
 

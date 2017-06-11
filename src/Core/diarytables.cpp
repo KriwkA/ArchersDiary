@@ -16,22 +16,22 @@ DiaryTables::DiaryTables(QObject *parent)
 }
 
 ArchersTableModel *DiaryTables::archersTableModel()
-{
-    QString error;
-    auto archers = d->initArchersTable( error );
-    if( archers != nullptr )
-        return archers;
-    emit databaseError( error );
-    return nullptr;
+{    
+    return d->initArchersTable();
 }
 
 ArrowsTableModel *DiaryTables::arrowsTableModel()
+{    
+    return d->initArrowsTable();
+}
+
+ArrowsTableModel *DiaryTables::bowsTableModel()
 {
-    QString error;
-    auto arrows = d->initArrowsTable( error );
-    if( arrows != nullptr )
-        return arrows;
-    emit databaseError( error );
+    return nullptr;
+}
+
+ArrowsTableModel *DiaryTables::scopesTableModel()
+{
     return nullptr;
 }
 
@@ -46,28 +46,30 @@ DiaryTablesPrivate::DiaryTablesPrivate(DiaryTables *qPtr)
     m_db->setDatabaseName("diary.db");
 }
 
-ArchersTableModel *DiaryTablesPrivate::initArchersTable(QString &error)
-{
-    if( m_archers != nullptr )
-        return m_archers;
-
-    QScopedPointer<ArchersTableModel> archers( new ArchersTableModel( m_db.data(), q ) );
-
-    if( archers->init( error ) )
-        return m_archers = archers.take();
-
-    return nullptr;
+ArchersTableModel *DiaryTablesPrivate::initArchersTable()
+{    
+    return (ArchersTableModel*)initTable(new ArchersTableModel( m_db.data(), q ), (SqlTableModel**)(&m_archers) );
 }
 
-ArrowsTableModel *DiaryTablesPrivate::initArrowsTable(QString &error)
+ArrowsTableModel *DiaryTablesPrivate::initArrowsTable()
 {
-    if( m_arrows != nullptr )
-        return m_arrows;
+    return (ArrowsTableModel*)initTable(new ArrowsTableModel( m_db.data(), q ), (SqlTableModel**)(&m_arrows) );
+}
 
-    QScopedPointer<ArrowsTableModel> arrows( new ArrowsTableModel( m_db.data(), q ) );
+SqlTableModel *DiaryTablesPrivate::initTable(SqlTableModel* table, SqlTableModel **dest)
+{
+    if( *dest != nullptr ) {
+        if(*dest != table)
+            delete table;
+        return *dest;
+    }
 
-    if( arrows->init( error ) )
-        return m_arrows = arrows.take();
+    QString error;
+    if( table->init( error ) )
+        return *dest = table;
+    emit q->databaseError( error );
+
+    delete table;
 
     return nullptr;
 }

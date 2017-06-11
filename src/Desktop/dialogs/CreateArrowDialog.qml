@@ -7,8 +7,7 @@ import "../elements"
 Dialog {
     focus: true
     modal: true
-    property int editRowInView: -1
-    property ListView view;
+    property int editRowInView: -1    
     property string name: arrowName.text;
     property double spine: spineSpinBox.value;
     property double length: lengthSpinBox.realValue;
@@ -95,8 +94,8 @@ Dialog {
 
     onAccepted: {
         if(editRowInView < 0) {
-            view.model.addArrow(arrowName.text, spineSpinBox.value, lengthSpinBox.realValue, diameterSpinBox.realValue)
-            view.model.select();
+            arrowsModel.addArrow(arrowName.text, spineSpinBox.value, lengthSpinBox.realValue, diameterSpinBox.realValue)
+            arrowsModel.select();
         } else {
             var nameRole = arrowsModel.roleFromRoleName("Name");
             var spineRole = arrowsModel.roleFromRoleName("Spine");
@@ -107,9 +106,7 @@ Dialog {
                 arrowsModel.setData(editRowInView, arrowName.text, nameRole);
                 arrowsModel.setData(editRowInView, spineSpinBox.value, spineRole);
                 arrowsModel.setData(editRowInView, lengthSpinBox.realValue, lengthRole);
-                console.log(diameterSpinBox.realValue);
                 arrowsModel.setData(editRowInView, diameterSpinBox.realValue, diameterRole);
-                arrowsModel.acc
             } else {
                 console.log("Error role");
             }

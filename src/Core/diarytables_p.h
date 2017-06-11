@@ -9,6 +9,7 @@ class QSqlTableModel;
 class QSqlDatabase;
 
 //tables
+class SqlTableModel;
 class ArchersTableModel;
 class ArrowsTableModel;
 
@@ -22,13 +23,13 @@ private:
     DiaryTablesPrivate(DiaryTables* qPtr);
 
 
-    ArchersTableModel* initArchersTable(QString &error);
+    ArchersTableModel* initArchersTable();
     ArchersTableModel* m_archers;
 
-    ArrowsTableModel* initArrowsTable(QString& error);
+    ArrowsTableModel* initArrowsTable();
     ArrowsTableModel* m_arrows;
 
-
+    SqlTableModel* initTable(SqlTableModel *table, SqlTableModel **dest);
 
     QScopedPointer< QSqlDatabase > m_db;
 
