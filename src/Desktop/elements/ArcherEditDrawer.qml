@@ -67,9 +67,10 @@ Drawer {
                 imgSrc: "img/images/remove.png"
                 highlighted: true
                 onClicked: {                    
-                    if( archersModel.removeRows( archerList.currentIndex, 1) )
+                    if( archersModel.removeRow( archerList.currentIndex ) ) {
                         archerList.currentIndex = -1;
-
+                        arrowsModel.archerID = -1;
+                    }
                 }
                 visible: archerList.currentIndex !== -1
             }

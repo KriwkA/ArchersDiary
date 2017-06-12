@@ -179,9 +179,9 @@ int SqlTableModel::roleFromRoleName(const QByteArray &roleName) const
 }
 
 
-bool SqlTableModel::removeRows(int row, int count)
+bool SqlTableModel::removeRow(int row)
 {    
-    if( QSqlTableModel::removeRows(row, count) ) {
+    if( QSqlTableModel::removeRow(row) ) {
         select();
         return true;
     }
