@@ -31,7 +31,7 @@ Drawer {
 
         delegate: ItemDelegate {
             width: parent.width
-            text: archersModel.rowCount() !== 0 ? Name : "";
+            text: Name ? Name : "";
             highlighted: ListView.isCurrentItem
             onClicked: {
                 archerList.currentIndex = index
@@ -69,6 +69,7 @@ Drawer {
                 onClicked: {                    
                     if( archersModel.removeRows( archerList.currentIndex, 1) )
                         archerList.currentIndex = -1;
+
                 }
                 visible: archerList.currentIndex !== -1
             }

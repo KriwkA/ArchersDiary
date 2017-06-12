@@ -33,7 +33,8 @@ HEADERS += core_global.h \
     tables/arrowstablemodel.h \
     tables/bowstablemodel.h \
     tables/scopestablemodel.h \
-    precomp.h
+    precomp.h \
+    tables/alltables.h
 
 unix {
     target.path = /usr/lib

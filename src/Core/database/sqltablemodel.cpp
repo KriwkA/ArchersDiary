@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "sqltablemodel.h"
 
+#include <QSqlRelation>
 
 SqlTableModel::SqlTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, QString(), parent)
@@ -18,7 +19,7 @@ SqlTableModel::SqlTableModel(QSqlDatabase *db, const QString &name, const SqlTab
     , m_db( db )
 {
     setTable(name);
-    setEditStrategy( QSqlTableModel::OnFieldChange );
+    setEditStrategy( QSqlTableModel::OnRowChange );
 }
 
 SqlTableModel::~SqlTableModel()
@@ -45,6 +46,7 @@ void SqlTableModel::insertAllValues(const QStringList &fieldNames, const QString
         qDebug() << query.lastQuery();
         qDebug() << query.lastError().text();
     }
+    select();
 }
 
 void SqlTableModel::insertAllValues(const QStringList &values)
@@ -89,7 +91,22 @@ bool SqlTableModel::createTable(QString &error)
         queryString.append(QString(" ( %0 )").arg(fields.join(", ")));
 
     queryString.append(';');
-    return execQuery(queryString, error);
+    if( execQuery(queryString, error) ) {
+        setRelations();
+        return true;
+    }
+
+    return false;
+}
+
+void SqlTableModel::setRelations()
+{
+    for(int i = 0; i < m_columns.size(); ++i) {
+        const auto col = m_columns[i];
+        if(col.type == FOREIGN_KEY) {
+//            setRelation(i, QSqlRelation(col.foreignTable, col.foreingField, col.name));
+        }
+    }
 }
 
 bool SqlTableModel::openDatabase(QString &error)
@@ -108,6 +125,8 @@ bool SqlTableModel::execQuery(const QString &queryString, QString& error)
     error = query.lastError().text();
     return false;
 }
+
+
 
 
 QVariant SqlTableModel::data(const QModelIndex &index, int role) const

@@ -28,12 +28,11 @@ SpinBox {
         return Number( val * 1.0 / factor ).toLocaleString(loc, 'f', decimals)
     }
 
-    validator: DoubleValidator {
-        id: validatorSpin
+    validator: DoubleValidator {        
         decimals: spin.decimals
         notation: DoubleValidator.StandardNotation
-        top: Math.max(spin.from, spin.to) / spin.factor
-        bottom: Math.min(spin.from, spin.to) / spin.factor
+        top: Math.max(from, to) / factor
+        bottom: Math.min(from, to) / factor
     }
 
     Keys.onReturnPressed: {
@@ -43,4 +42,5 @@ SpinBox {
     onValueChanged: {
         realValue = value * 1.0 / factor;
     }
+
 }

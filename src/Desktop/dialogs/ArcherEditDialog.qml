@@ -44,15 +44,22 @@ Dialog {
         }
     }
 
+    onOpened: {
+        if(currentArcher < 0) {
+            title = "Add Archer"
+        } else {
+            title = "Rename Archer"
+        }
+    }
+
     onAccepted: {
         if(currentArcher < 0) {
             archersModel.addArcher( name );
             archersModel.select();
         } else {
             var nameRole = archersModel.roleFromRoleName("Name");
-            if(nameRole !== -1)
-            {
-                arrowsModel.setData(currentArcher, archerNameInput.text, nameRole);
+            if(nameRole !== -1) {
+                archersModel.setData(currentArcher, archerNameInput.text, nameRole);
             } else {
                 console.log("Error role");
             }

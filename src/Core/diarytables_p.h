@@ -1,18 +1,10 @@
 #ifndef MODELSWRAPPER_P_H
 #define MODELSWRAPPER_P_H
 
-#include <core_global.h>
 #include <QScopedPointer>
+#include <tables/alltables.h>
 
 class DiaryTables;
-class QSqlTableModel;
-class QSqlDatabase;
-
-//tables
-class SqlTableModel;
-class ArchersTableModel;
-class ArrowsTableModel;
-
 
 class DiaryTablesPrivate
 {
@@ -24,11 +16,36 @@ private:
 
     ArchersTableModel* initArchersTable();
     ArrowsTableModel* initArrowsTable();
+    BowsTableModel* initBowsTable();
+    ScopesTableModel* initScopesTableModel();
 
-    SqlTableModel* initTable(SqlTableModel *table, SqlTableModel **dest);
+    template<typename Table>
+    Q_ALWAYS_INLINE Table* initTable(Table* &dest)
+    {
+        if( dest != nullptr ) {
+            return dest;
+        }
+
+        dest = new Table( m_db.data(), q );
+
+        if( dest != nullptr ) {
+            QString error;
+            if( dest->init( error ) )
+                return dest;
+
+            qDebug() << error;
+            emit q->databaseError( error );
+            delete dest;
+        }                
+
+        return dest = nullptr;
+    }
 
     ArchersTableModel* m_archers;
     ArrowsTableModel* m_arrows;
+    BowsTableModel* m_bows;
+    ScopesTableModel* m_scopes;
+
     QScopedPointer< QSqlDatabase > m_db;
 
 };

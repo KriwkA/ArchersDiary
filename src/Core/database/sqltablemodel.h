@@ -3,7 +3,7 @@
 
 #include <core_global.h>
 
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 
 #include <QString>
 #include <QLinkedList>
@@ -67,6 +67,7 @@ private:
     bool createTable(QString& error);
     bool openDatabase(QString& error);
     bool execQuery(const QString& queryString, QString &error);
+    void setRelations();
 
 
     // QAbstractItemModel interface

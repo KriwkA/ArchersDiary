@@ -71,8 +71,8 @@ SqlTableModel::SqlColumns BowsTableModel::getColumns() const
     limbs.dataType = "TEXT";
 
     SqlTableModel::SqlColumn length;
-    limbs.name = "Length";
-    limbs.dataType = "INTEGER";
+    length.name = "Length";
+    length.dataType = "INTEGER";
 
     SqlTableModel::SqlColumn weight;
     weight.name = "Weight";

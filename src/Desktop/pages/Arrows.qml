@@ -61,7 +61,7 @@ Page {
                 highlighted: true
                 onClicked: {
                     if( arrowsModel.removeRows(arrowList.currentIndex, 1) )
-                        arrowList.currentIndex = -1
+                        arrowList.currentIndex = -1;
                 }
                 visible: arrowList.currentIndex !== -1
             }

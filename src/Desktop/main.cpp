@@ -3,9 +3,8 @@
 #include <QQmlContext>
 #include <QQuickStyle>
 
+#include <tables/alltables.h>
 #include <diarytables.h>
-#include <tables/archerstablemodel.h>
-#include <tables/arrowstablemodel.h>
 #include <QDebug>
 
 void setStylesToContext(QQmlContext* context)
@@ -16,8 +15,11 @@ void setStylesToContext(QQmlContext* context)
 
 void setTablesToContext(QQmlContext* context, DiaryTables& diary)
 {
+    context->setContextProperty("diaryTables", &diary);
     context->setContextProperty("archersModel", diary.archersTableModel());
     context->setContextProperty("arrowsModel", diary.arrowsTableModel());
+    context->setContextProperty("bowsModel", diary.bowsTableModel());
+    context->setContextProperty("scopesModel", diary.scopesTableModel());
 }
 
 int main(int argc, char *argv[])

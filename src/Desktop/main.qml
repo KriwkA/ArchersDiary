@@ -95,23 +95,25 @@ ApplicationWindow {
                 text: model.title
                 onClicked: {
                     var canOpenPage = false;
-                    if( model.title === "Arrows" ) {
+
+                    if( model.title === "Arrows" || model.title === "Bows" ) {
                         if( arrowsModel.archerID >= 0 ) {
                             arrowsModel.select();
                             canOpenPage = true;
-                            titleLabel.text = "Arrows";
                         } else {
                             archerListDrawer.open();
                         }                        
                     }
 
-                    if( canOpenPage )
+                    if( canOpenPage ) {
+                        titleLabel.text = model.title;
                         pages.push( model.source );
+                    }
                 }
             }
 
             model: ListModel {
-                ListElement { title: "Bows";  }
+                ListElement { title: "Bows"; source: "pages/Bows.qml" }
                 ListElement { title: "Arrows"; source: "pages/Arrows.qml" }
                 ListElement { title: "Scopes"; }
                 ListElement { title: "Trainings"; }

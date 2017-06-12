@@ -7,21 +7,25 @@
 class DiaryTablesPrivate;
 class ArchersTableModel;
 class ArrowsTableModel;
+class BowsTableModel;
+class ScopesTableModel;
 
 class CORESHARED_EXPORT DiaryTables : public QObject
 {
     Q_OBJECT
 public:
-    explicit DiaryTables(QObject *parent = 0);
+    explicit DiaryTables(QObject *parent = 0);      
+    DiaryTables(DiaryTables&& move);
+    void operator=(DiaryTables&& move);
+    virtual ~DiaryTables();
 
     ArchersTableModel* archersTableModel();
     ArrowsTableModel* arrowsTableModel();
-    ArrowsTableModel* bowsTableModel();
-    ArrowsTableModel* scopesTableModel();
+    BowsTableModel *bowsTableModel();
+    ScopesTableModel *scopesTableModel();
 
 signals:
     void databaseError(QString error);
-
 
 private:
     Q_DISABLE_COPY( DiaryTables )

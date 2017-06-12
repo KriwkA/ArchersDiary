@@ -89,7 +89,10 @@ Dialog {
             lengthSpinBox.value = (lengthSpinBox.from + lengthSpinBox.to) / 2
             diameterSpinBox.value = (diameterSpinBox.from + diameterSpinBox.to) / 2
         } else {
-            title = "Edit Arrow";            
+            title = "Edit Arrow";
+            spineSpinBox.value = spine
+            lengthSpinBox.realValue = length
+            diameterSpinBox.realValue = diameter
         }
     }
 
