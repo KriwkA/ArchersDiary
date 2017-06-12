@@ -21,17 +21,16 @@ void setTablesToContext(QQmlContext* context, DiaryTables& diary)
 }
 
 int main(int argc, char *argv[])
-{
+{    
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
     DiaryTables diaryTables;
 
     QQmlApplicationEngine engine;
+
     setStylesToContext(engine.rootContext());
     setTablesToContext(engine.rootContext(), diaryTables);
-
-
 
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
     return app.exec();

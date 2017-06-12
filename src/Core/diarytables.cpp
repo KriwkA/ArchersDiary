@@ -39,9 +39,9 @@ ArrowsTableModel *DiaryTables::scopesTableModel()
 
 DiaryTablesPrivate::DiaryTablesPrivate(DiaryTables *qPtr)
     : q( qPtr )
-    , m_db( new QSqlDatabase( QSqlDatabase::addDatabase("QSQLITE") ) )
     , m_archers( nullptr )
     , m_arrows( nullptr )
+    , m_db( new QSqlDatabase( QSqlDatabase::addDatabase("QSQLITE") ) )
 {
     m_db->setDatabaseName("diary.db");
 }

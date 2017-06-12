@@ -22,15 +22,13 @@ class DiaryTablesPrivate
 private:
     DiaryTablesPrivate(DiaryTables* qPtr);
 
-
     ArchersTableModel* initArchersTable();
-    ArchersTableModel* m_archers;
-
     ArrowsTableModel* initArrowsTable();
-    ArrowsTableModel* m_arrows;
 
     SqlTableModel* initTable(SqlTableModel *table, SqlTableModel **dest);
 
+    ArchersTableModel* m_archers;
+    ArrowsTableModel* m_arrows;
     QScopedPointer< QSqlDatabase > m_db;
 
 };

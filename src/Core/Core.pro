@@ -7,22 +7,11 @@
 QT       -= gui
 QT       += sql
 
-RCC_DIR= binary
-
 TARGET = Core
 TEMPLATE = lib
-
-#Release:DESTDIR = release
-#Release:OBJECTS_DIR = release/binary/.obj
-#Release:MOC_DIR = release/binary/.moc
-#Release:RCC_DIR = release/binary/.rcc
-#Release:UI_DIR = release/binary/.ui
-
-#Debug:DESTDIR = debug
-#Debug:OBJECTS_DIR = debug/binary/.obj
-#Debug:MOC_DIR = debug/binary/.moc
-#Debug:RCC_DIR = debug/binary/.rcc
-#Debug:UI_DIR = debug/binary/.ui
+android {
+    TEMPLATE = app  # for Android this is an "app"
+}
 
 DEFINES += CORE_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -45,6 +34,7 @@ HEADERS += core_global.h \
     tables/bowstablemodel.h \
     tables/scopestablemodel.h \
     precomp.h
+
 unix {
     target.path = /usr/lib
     INSTALLS += target

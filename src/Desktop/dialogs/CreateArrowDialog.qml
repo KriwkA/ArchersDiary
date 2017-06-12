@@ -23,6 +23,7 @@ Dialog {
             placeholderText: "Arrow name"
             Layout.fillWidth: true
             text: name
+            KeyNavigation.tab: spineSpinBox
         }
 
         Label {
@@ -37,6 +38,7 @@ Dialog {
             value: spine
             stepSize: 10
             editable: true
+            KeyNavigation.tab: lengthSpinBox
         }
 
         DoubleSpinBox {
@@ -46,6 +48,7 @@ Dialog {
             realValue: length
             realStepSize: 5.0
             editable: true
+            KeyNavigation.tab: diameterSpinBox
         }
 
         DoubleSpinBox {
@@ -54,12 +57,14 @@ Dialog {
             realTo: 15.0
             realValue: diameter
             realStepSize: 0.1
-            editable: true           
+            editable: true
+            KeyNavigation.tab: acceptButton
         }
 
         RowLayout {
             spacing: 20
             Button {
+                id: acceptButton
                 highlighted: true
                 enabled: arrowName.length !== 0
                 text: "Ok"

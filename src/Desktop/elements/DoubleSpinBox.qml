@@ -1,45 +1,46 @@
-import QtQuick 2.5
-import QtQml 2.2
+import QtQuick 2.7
 import QtQuick.Controls 2.1
 
+SpinBox {
+    editable: true;
+    id: spin
 
-SpinBox{
     property int decimals: 2
-    property double realValue: 0.0
-    property double realFrom: 0.0
-    property double realTo: 100.0
-    property double realStepSize: 1.0
-    property double factor: Math.pow(10, decimals)
+    property double factor: Math.pow(10.0, decimals)
 
-    id: spinbox
-    stepSize: realStepSize*factor
-    value: realValue*factor
-    to : realTo*factor
-    from : realFrom*factor
+    property double realFrom: 0.0
+    from: realFrom * factor;
+
+    property double realTo: 100.0
+    to: realTo * factor;
+
+    property double realValue: 1.0
+    value: realValue * factor
+
+    property double realStepSize: 0.1
+    stepSize: realStepSize * factor
+
+    valueFromText: function( txt, loc ) {
+        return Number.fromLocaleString(loc, txt) * factor;
+    }
+
+    textFromValue: function( val, loc ) {
+        return Number( val * 1.0 / factor ).toLocaleString(loc, 'f', decimals)
+    }
 
     validator: DoubleValidator {
-        bottom: Math.min(spinbox.from, spinbox.to)*spinbox.factor
-        top:  Math.max(spinbox.from, spinbox.to)*spinbox.factor
-        decimals: decimals
+        id: validatorSpin
+        decimals: spin.decimals
+        notation: DoubleValidator.StandardNotation
+        top: Math.max(spin.from, spin.to) / spin.factor
+        bottom: Math.min(spin.from, spin.to) / spin.factor
     }
 
-    textFromValue: function(value, locale) {       
-        return Number( valueToReal( value ) ).toLocaleString(locale, 'f', decimals );
-    }
-
-    valueFromText: function(text, locale) {        
-        return realToValue(Number.fromLocaleText(locale, text));
-    }
-
-    function realToValue(real) {
-        return real * factor;
-    }
-
-    function valueToReal(val) {
-        return val * 1.0 / factor;
+    Keys.onReturnPressed: {
+        Qt.inputMethod.hide();
     }
 
     onValueChanged: {
-        realValue = valueToReal(value);
+        realValue = value * 1.0 / factor;
     }
 }

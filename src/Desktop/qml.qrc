@@ -8,6 +8,7 @@
         <file>dialogs/ArcherEditDialog.qml</file>
         <file>elements/EditableListView.qml</file>
         <file>elements/ImageButton.qml</file>
+        <file>elements/ArcherEditDrawer.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>images/accept.png</file>
@@ -75,5 +76,6 @@
         <file>images/+material/settings@x2.png</file>
         <file>images/+material/settings@x3.png</file>
         <file>images/+material/settings@x4.png</file>
+        <file>images/archery.png</file>
     </qresource>
 </RCC>

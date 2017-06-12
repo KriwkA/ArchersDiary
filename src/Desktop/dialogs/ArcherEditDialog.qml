@@ -42,11 +42,11 @@ Dialog {
                 Layout.fillWidth: true
             }
         }
-    }  
+    }
 
     onAccepted: {
         if(currentArcher < 0) {
-            archersModel.addArcher( archerNameInput.name );
+            archersModel.addArcher( name );
             archersModel.select();
         } else {
             var nameRole = archersModel.roleFromRoleName("Name");
