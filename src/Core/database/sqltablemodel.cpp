@@ -1,7 +1,6 @@
 #include "precomp.h"
 #include "sqltablemodel.h"
 
-#include <QSqlRelation>
 
 SqlTableModel::SqlTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, QString(), parent)
@@ -90,24 +89,10 @@ bool SqlTableModel::createTable(QString &error)
     if(fields.size())
         queryString.append(QString(" ( %0 )").arg(fields.join(", ")));
 
-    queryString.append(';');
-    if( execQuery(queryString, error) ) {
-        setRelations();
-        return true;
-    }
-
-    return false;
+    return execQuery(queryString, error);
 }
 
-void SqlTableModel::setRelations()
-{
-    for(int i = 0; i < m_columns.size(); ++i) {
-        const auto col = m_columns[i];
-        if(col.type == FOREIGN_KEY) {
-//            setRelation(i, QSqlRelation(col.foreignTable, col.foreingField, col.name));
-        }
-    }
-}
+
 
 bool SqlTableModel::openDatabase(QString &error)
 {    
@@ -144,7 +129,6 @@ QHash<int, QByteArray> SqlTableModel::roleNames() const
 {
     return m_roles;
 }
-
 
 bool SqlTableModel::setData(int row, const QVariant &value, int role)
 {

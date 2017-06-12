@@ -64,8 +64,14 @@ DiaryTablesPrivate::DiaryTablesPrivate(DiaryTables *qPtr)
     , m_db( new QSqlDatabase( QSqlDatabase::addDatabase("QSQLITE") ) )
 {
     m_db->setDatabaseName("diary.db");
-    if(!m_db->open())
-        throw;
+    if(m_db->open())
+    {
+        QSqlQuery query(*m_db);
+        if(query.exec("PRAGMA foreign_keys = ON;")) {
+            return;
+        }
+    }
+    throw;
 }
 
 ArchersTableModel *DiaryTablesPrivate::initArchersTable()

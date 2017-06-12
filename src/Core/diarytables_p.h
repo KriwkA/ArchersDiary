@@ -34,7 +34,7 @@ private:
                 return dest;
 
             qDebug() << error;
-            emit q->databaseError( error );
+//            emit q->databaseError( error );
             delete dest;
         }                
 
