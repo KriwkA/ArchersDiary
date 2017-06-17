@@ -2,9 +2,10 @@
 #include "bowstablemodel.h"
 
 BowsTableModel::BowsTableModel(QSqlDatabase *db, QObject *parent)
-    : SqlTableModel(db, "Bow", getColumns(), parent)
+    : SqlTableModel(db, parent)
     , m_archerId(-1)
 {
+    setTable( "Bow" );
 }
 
 ID BowsTableModel::getArcherId() const
@@ -21,25 +22,13 @@ void BowsTableModel::setArcherId(ID archerId)
         setFilter(QString(""));
 }
 
-void BowsTableModel::addBow(const QString &name, const QString &handle, const QString &limbs, int length, double weight, double base)
+bool BowsTableModel::addBow(const QString &name, const QString &handle, const QString &limbs, int length, double weight, double base)
 {
     if(m_archerId >= 0)
-    {
-        QStringList names = {"Archer", "Name", "Handle", "Limbs", "Length", "Weight", "Base"};
+        return insertValues( { m_archerId, name, handle, limbs, length, weight, base } );
 
-        QStringList values = {
-            QString::number(m_archerId),
-            '"' + name + '"',
-            '"' + handle + '"',
-            '"' + limbs + '"',
-            QString::number(length),
-            QString::number(weight),
-            QString::number(base)
-        };
-        insertAllValues(names, values);
-    }
-    else
-        qDebug() << "Invalid archer Id";
+    qDebug() << "Invalid archer Id";
+    return false;
 }
 
 

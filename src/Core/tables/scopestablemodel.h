@@ -14,8 +14,7 @@ public:
     inline ID getBowId() const { return m_bowId; }
     void setBowId(ID bowId );
 
-    Q_INVOKABLE void addScope(int distance, double vertical, double horizontal );
-
+    Q_INVOKABLE bool addScope(int distance, double vertical, double horizontal );
 
 private:
     ID m_bowId;

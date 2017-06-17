@@ -2,36 +2,27 @@
 #include "scopestablemodel.h"
 
 ScopesTableModel::ScopesTableModel(QSqlDatabase *db, QObject *parent)
-    : SqlTableModel(db, "Scope", getColumns(), parent)
+    : SqlTableModel(db, parent)
     , m_bowId(-1)
 {
-
+    setTable( "Scope" );
 }
 
 void ScopesTableModel::setBowId(ID bowId)
 {
     m_bowId = bowId;
-    if(m_bowId >= 0)
-        setFilter(QString("Bow=%0").arg(m_bowId));
+    if( m_bowId >= 0 )
+        setFilter(QString( "Bow=%0" ).arg(m_bowId));
     else
-        setFilter(QString(""));
+        setFilter(QString( "" ));
 }
 
-void ScopesTableModel::addScope(int distance, double vertical, double horizontal)
+bool ScopesTableModel::addScope(int distance, double vertical, double horizontal)
 {
-    if(m_bowId >= 0)
-    {
-        QStringList values = {
-            QString::number(m_bowId),
-            QString::number(distance),
-            QString::number(vertical),
-            QString::number(horizontal)
-        };
-
-        insertAllValues(values);
-    }
-    else
-        qDebug() << "Invalid bow Id";
+    if(m_bowId >= 0)    
+        return insertValues( { m_bowId, distance, vertical, horizontal } );
+    qWarning() << "Invalid bow Id";
+    return false;
 }
 
 

@@ -23,7 +23,8 @@ SOURCES += \
     diarytables.cpp \
     tables/arrowstablemodel.cpp \
     tables/bowstablemodel.cpp \
-    tables/scopestablemodel.cpp
+    tables/scopestablemodel.cpp \
+    database/sqlfield.cpp
 
 HEADERS += core_global.h \
     database/sqltablemodel.h \
@@ -34,7 +35,8 @@ HEADERS += core_global.h \
     tables/bowstablemodel.h \
     tables/scopestablemodel.h \
     precomp.h \
-    tables/alltables.h
+    tables/alltables.h \
+    database/sqlfield.h
 
 unix {
     target.path = /usr/lib

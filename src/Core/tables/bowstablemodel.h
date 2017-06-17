@@ -14,7 +14,7 @@ public:
     ID getArcherId() const;
     void setArcherId( ID archerId );
 
-    Q_INVOKABLE void addBow( const QString& name, const QString& handle, const QString& limbs, int length, double weight, double base );
+    Q_INVOKABLE bool addBow( const QString& name, const QString& handle, const QString& limbs, int length, double weight, double base );
 
 private:
     ID m_archerId;

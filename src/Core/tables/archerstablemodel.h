@@ -10,7 +10,7 @@ public:
     explicit ArchersTableModel(QSqlDatabase* db, QObject* parent = nullptr);
     virtual SqlColumns getColumns() const override;
 
-    Q_INVOKABLE void addArcher(const QString& archerName );
+    Q_INVOKABLE bool addArcher(const QString& archerName );
 };
 
 #endif // ARCHERSTABLEMODEL_H

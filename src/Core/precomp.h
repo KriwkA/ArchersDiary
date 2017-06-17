@@ -2,7 +2,7 @@
 #define PRECOMP_H
 
 #include <QSqlRecord>
-#include <QSqlField>
+#include "database/sqlfield.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>

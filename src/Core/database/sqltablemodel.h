@@ -6,10 +6,14 @@
 #include <QSqlTableModel>
 
 #include <QString>
-#include <QLinkedList>
 #include <QVariant>
 
 class QSqlDatabase;
+
+class SqlField;
+typedef QList<SqlField> SqlFieldList;
+
+static const int APPEND_INDEX = -1;
 
 class CORESHARED_EXPORT SqlTableModel : public QSqlTableModel
 {
@@ -41,23 +45,16 @@ public:
     };
 
     typedef QList< SqlColumn > SqlColumns;
-
-    explicit SqlTableModel(QSqlDatabase *db, QObject* parent = nullptr);
-    SqlTableModel(QSqlDatabase *db, const QString& name, QObject *parent = nullptr);
-    SqlTableModel(QSqlDatabase *db, const QString& name, const SqlColumns& columns, QObject *parent = nullptr);
+    explicit SqlTableModel(QSqlDatabase *db, QObject *parent = nullptr);
     virtual ~SqlTableModel();
 
-    const SqlColumns& columns() const;
-    void addColumn(const SqlColumn& col);
-    void removeColumn(int pos);
-
     bool init(QString& error);
-
     virtual SqlColumns getColumns() const = 0;
 
 protected:
-    void insertAllValues(const QStringList& fieldNames, const QStringList& values);
-    void insertAllValues(const QStringList& values);
+    bool insertValues(const QStringList& fieldNames, const QVariantList& values);
+    bool insertValues(const QVariantList& values);
+    bool insertValues(const SqlFieldList& fields);
 
 private:
     SqlColumns m_columns;
@@ -78,21 +75,5 @@ public:
     Q_INVOKABLE int roleFromRoleName(const QByteArray& roleName) const;    
     Q_INVOKABLE bool removeRow(int row);
 };
-
-Q_ALWAYS_INLINE const SqlTableModel::SqlColumns &SqlTableModel::columns() const
-{
-    return m_columns;
-}
-
-Q_ALWAYS_INLINE void SqlTableModel::addColumn(const SqlTableModel::SqlColumn &col)
-{
-    m_columns.append(col);
-}
-
-Q_ALWAYS_INLINE void SqlTableModel::removeColumn(int pos)
-{
-    if(pos < m_columns.size() && pos >= 0)
-        m_columns.removeAt(pos);
-}
 
 #endif // SQLTABLE_H

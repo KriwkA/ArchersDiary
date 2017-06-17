@@ -2,9 +2,10 @@
 #include "arrowstablemodel.h"
 
 ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
-    : SqlTableModel(db, "Arrow", getColumns(), parent)
+    : SqlTableModel(db, parent)
     , m_archerId(-1)
 {
+    setTable( "Arrow" );
 }
 
 SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
@@ -50,18 +51,10 @@ void ArrowsTableModel::setArcherId(ID archerId)
         setFilter(QString(""));
 }
 
-void ArrowsTableModel::addArrow(const QString &name, double spine, double length, double diameter)
+bool ArrowsTableModel::addArrow(const QString &name, double spine, double length, double diameter)
 {
-    if(m_archerId >= 0) {
-        QStringList values = {
-            QString::number(m_archerId),
-            '"' + name + '"',
-            QString::number(spine),
-            QString::number(length),
-            QString::number(diameter)
-        };
-        insertAllValues(values);
-    }
-    else
-        qDebug() << "Invalid archer Id";
+    if(m_archerId >= 0)
+        return insertValues({ m_archerId, name, spine, length, diameter });
+    qDebug() << "Invalid archer Id";
+    return false;
 }

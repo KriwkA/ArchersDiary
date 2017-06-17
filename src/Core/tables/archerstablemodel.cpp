@@ -2,16 +2,14 @@
 #include "archerstablemodel.h"
 
 ArchersTableModel::ArchersTableModel(QSqlDatabase* db, QObject *parent)
-    : SqlTableModel(db, "Archer", getColumns(), parent)
+    : SqlTableModel(db, parent)
 {
-
+    setTable( "Archer" );
 }
 
-void ArchersTableModel::addArcher(const QString &archerName)
-{
-    QStringList names = { "Name" };
-    QStringList values = { '"' + archerName + '"' };
-    insertAllValues(names, values);
+bool ArchersTableModel::addArcher(const QString &archerName)
+{    
+    return insertValues( { archerName } );
 }
 
 SqlTableModel::SqlColumns ArchersTableModel::getColumns() const

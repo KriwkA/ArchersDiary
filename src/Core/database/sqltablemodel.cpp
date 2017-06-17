@@ -1,56 +1,60 @@
 #include "precomp.h"
 #include "sqltablemodel.h"
 
-
 SqlTableModel::SqlTableModel(QSqlDatabase *db, QObject *parent)
-    : SqlTableModel(db, QString(), parent)
-{
-}
-
-SqlTableModel::SqlTableModel(QSqlDatabase *db, const QString &name, QObject *parent)
-    : SqlTableModel(db, name, SqlColumns(), parent )
-{
-}
-
-SqlTableModel::SqlTableModel(QSqlDatabase *db, const QString &name, const SqlTableModel::SqlColumns &columns, QObject *parent)
-    : QSqlTableModel(parent)
-    , m_columns(columns)
+    : QSqlTableModel(parent)   
     , m_db( db )
 {
-    setTable(name);
     setEditStrategy( QSqlTableModel::OnRowChange );
 }
 
 SqlTableModel::~SqlTableModel()
 {
-
 }
 
 bool SqlTableModel::init(QString &error)
 {
+    m_columns = getColumns();
     if( openDatabase(error) && createTable(error) )
         return true;
     return false;
 }
 
-void SqlTableModel::insertAllValues(const QStringList &fieldNames, const QStringList &values)
+bool SqlTableModel::insertValues(const QStringList &fieldNames, const QVariantList &values)
 {
-    QString fields = !fieldNames.isEmpty() ? QString("( %1 )").arg( fieldNames.join(", ")) : "";
-    QString allValues = QString("( %1 )").arg( values.join(", "));
-    QString queryString = QString("INSERT INTO %0 %1 VALUES %2;").arg( tableName() ).arg(fields).arg(allValues);
-
-    QSqlQuery query;
-    if(!query.exec(queryString))
+    const int valuesCount = values.size();
+    if( fieldNames.size() == valuesCount )
     {
-        qDebug() << query.lastQuery();
-        qDebug() << query.lastError().text();
+        SqlFieldList fields;
+        SqlField field;
+        for(int i = 0; i < valuesCount; ++i)
+        {
+            field.setName( fieldNames[i] );
+            field.setValue( values[i] );
+            fields.append( field);
+        }
+        return insertValues( fields );
     }
-    select();
+    return false;
 }
 
-void SqlTableModel::insertAllValues(const QStringList &values)
+bool SqlTableModel::insertValues(const QVariantList &values)
 {
-    insertAllValues(QStringList(), values);
+    QStringList names;
+    for(const auto& col : m_columns)
+    {
+        if(col.type != PRIMARY_KEY)
+            names.append( col.name );
+    }
+    return insertValues( names, values );
+}
+
+bool SqlTableModel::insertValues(const SqlFieldList &fields)
+{
+    QSqlRecord newRec;
+    for(const auto& field : fields)
+        newRec.append( field );
+    return insertRecord( APPEND_INDEX, newRec );
 }
 
 bool SqlTableModel::createTable(QString &error)
