@@ -24,7 +24,9 @@ SOURCES += \
     tables/arrowstablemodel.cpp \
     tables/bowstablemodel.cpp \
     tables/scopestablemodel.cpp \
-    database/sqlfield.cpp
+    database/sqlfield.cpp \
+    tables/trainingtablemodel.cpp \
+    tables/recordtablemodel.cpp
 
 HEADERS += core_global.h \
     database/sqltablemodel.h \
@@ -36,7 +38,9 @@ HEADERS += core_global.h \
     tables/scopestablemodel.h \
     precomp.h \
     tables/alltables.h \
-    database/sqlfield.h
+    database/sqlfield.h \
+    tables/trainingtablemodel.h \
+    tables/recordtablemodel.h
 
 unix {
     target.path = /usr/lib

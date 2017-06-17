@@ -1,6 +1,7 @@
 #ifndef PRECOMP_H
 #define PRECOMP_H
 
+#include <QSqlTableModel>
 #include <QSqlRecord>
 #include "database/sqlfield.h"
 #include <QSqlQuery>
