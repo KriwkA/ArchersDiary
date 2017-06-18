@@ -1,7 +1,7 @@
 #ifndef SCOPESTABLEMODEL_H
 #define SCOPESTABLEMODEL_H
 
-#include "database/sqltablemodel.h"
+#include <database/sqltablemodel.h>
 
 class CORESHARED_EXPORT ScopesTableModel : public SqlTableModel
 {

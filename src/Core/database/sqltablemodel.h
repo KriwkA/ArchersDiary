@@ -51,9 +51,8 @@ public:
     bool init(QString& error);
     virtual SqlColumns getColumns() const = 0;
 
-    inline QSqlDatabase* getDataBase() const { return m_db; }
-
 protected:
+    inline QSqlDatabase* getDataBase() const { return m_db; }
     bool insertValues(const QStringList& fieldNames, const QVariantList& values);
     bool insertValues(const QVariantList& values);
     bool insertValues(const SqlFieldList& fields);

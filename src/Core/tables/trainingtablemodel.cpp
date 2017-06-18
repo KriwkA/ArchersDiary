@@ -1,5 +1,6 @@
 #include <precomp.h>
 #include "trainingtablemodel.h"
+#include "archerstablemodel.h"
 #include <QDateTime>
 
 TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
@@ -11,19 +12,25 @@ TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
 {
-    SqlTableModel::SqlColumn archer;
-    archer.name = "Archer";
-    archer.dataType = "INTEGER";
-    archer.type = SqlTableModel::FOREIGN_KEY;
-    archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-    archer.foreignTable = "Archer";
-    archer.foreingField = "Id";
+    ArchersTableModel archers( getDataBase() );
+    QString error;
+    if( archers.init( error ) )
+    {
+        SqlTableModel::SqlColumn archer;
+        archer.name = "Archer";
+        archer.dataType = "INTEGER";
+        archer.type = SqlTableModel::FOREIGN_KEY;
+        archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
+        archer.foreignTable = "Archer";
+        archer.foreingField = "Id";
 
-    SqlTableModel::SqlColumn date;
-    date.name = "Date";
-    date.dataType = "INTEGER";
-
-    return { archer, date };
+        SqlTableModel::SqlColumn date;
+        date.name = "Date";
+        date.dataType = "INTEGER";
+        return { archer, date };
+    }
+    qCritical() << error;
+    return SqlColumns();
 }
 
 void TrainingTableModel::setArcherId(ID archerId)

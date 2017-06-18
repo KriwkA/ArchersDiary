@@ -3,7 +3,7 @@
 
 #include <database/sqltablemodel.h>
 
-class TrainingTableModel : public SqlTableModel
+class CORESHARED_EXPORT TrainingTableModel : public SqlTableModel
 {
     Q_OBJECT
     Q_PROPERTY(long long archerID READ getArcherId WRITE setArcherId)

@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "scopestablemodel.h"
+#include "bowstablemodel.h"
 
 ScopesTableModel::ScopesTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
@@ -19,7 +20,7 @@ void ScopesTableModel::setBowId(ID bowId)
 
 bool ScopesTableModel::addScope(int distance, double vertical, double horizontal)
 {
-    if(m_bowId >= 0)    
+    if(m_bowId >= 0)
         return insertValues( { m_bowId, distance, vertical, horizontal } );
     qWarning() << "Invalid bow Id";
     return false;
@@ -28,25 +29,32 @@ bool ScopesTableModel::addScope(int distance, double vertical, double horizontal
 
 SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
 {
-    SqlTableModel::SqlColumn bow;
-    bow.name = "Bow";
-    bow.dataType = "INTEGER";
-    bow.type = SqlTableModel::FOREIGN_KEY;
-    bow.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-    bow.foreignTable = "Bow";
-    bow.foreingField = "Id";
+    BowsTableModel bows( getDataBase() );
+    QString error;
+    if( bows.init( error ) )
+    {
+        SqlTableModel::SqlColumn bow;
+        bow.name = "Bow";
+        bow.dataType = "INTEGER";
+        bow.type = SqlTableModel::FOREIGN_KEY;
+        bow.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
+        bow.foreignTable = "Bow";
+        bow.foreingField = "Id";
 
-    SqlTableModel::SqlColumn distance;
-    distance.name = "Distance";
-    distance.dataType = "INTEGER";
+        SqlTableModel::SqlColumn distance;
+        distance.name = "Distance";
+        distance.dataType = "INTEGER";
 
-    SqlTableModel::SqlColumn vertical;
-    vertical.name = "Vertical";
-    vertical.dataType = "REAL";
+        SqlTableModel::SqlColumn vertical;
+        vertical.name = "Vertical";
+        vertical.dataType = "REAL";
 
-    SqlTableModel::SqlColumn horizontal;
-    horizontal.name = "Horizontal";
-    horizontal.dataType = "REAL";
+        SqlTableModel::SqlColumn horizontal;
+        horizontal.name = "Horizontal";
+        horizontal.dataType = "REAL";
 
-    return { bow, distance, vertical, horizontal };
+        return { bow, distance, vertical, horizontal };
+    }
+    qCritical() << error;
+    return SqlColumns();
 }

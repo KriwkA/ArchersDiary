@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "arrowstablemodel.h"
+#include "archerstablemodel.h"
 
 ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
