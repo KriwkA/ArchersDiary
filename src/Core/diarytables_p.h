@@ -6,6 +6,19 @@
 
 class DiaryTables;
 
+class ArchersTableModel;
+class ArrowsTableModel;
+class BowsTableModel;
+class ScopesTableModel;
+class TrainingTableModel;
+class RecordTableModel;
+class TrainingStandardModel;
+class StandardModel;
+class StandardExcersiceModel;
+class ExcersiceModel;
+class TargetModel;
+class ShotModel;
+
 class DiaryTablesPrivate
 {
     friend class DiaryTables;
@@ -18,6 +31,17 @@ private:
     ArrowsTableModel* initArrowsTable();
     BowsTableModel* initBowsTable();
     ScopesTableModel* initScopesTableModel();
+
+
+    TrainingTableModel* initTrainingModel();
+    RecordTableModel* initRecordModel();
+    TrainingStandardModel* initTrainingStandardModel();
+    StandardModel* initStandardModel();
+    StandardExcersiceModel* initStandardExcersiceModel();
+    ExcersiceModel* initExcersiceModel();
+    TargetModel* initTargetModel();
+    ShotModel* initShotModel();
+
 
     template<typename Table>
     Q_ALWAYS_INLINE Table* initTable(Table* &dest)
@@ -41,10 +65,18 @@ private:
         return dest = nullptr;
     }
 
-    ArchersTableModel* m_archers;
-    ArrowsTableModel* m_arrows;
-    BowsTableModel* m_bows;
-    ScopesTableModel* m_scopes;
+    ArchersTableModel* m_archers = nullptr;
+    ArrowsTableModel* m_arrows = nullptr;
+    BowsTableModel* m_bows = nullptr;
+    ScopesTableModel* m_scopes = nullptr;
+    TrainingTableModel* m_trainings = nullptr;
+    RecordTableModel* m_records = nullptr;
+    TrainingStandardModel* m_trainingStandards = nullptr;
+    StandardModel* m_standards = nullptr;
+    StandardExcersiceModel* m_standardExcersices = nullptr;
+    ExcersiceModel* m_excersices = nullptr;
+    TargetModel* m_targets = nullptr;
+    ShotModel* m_shots = nullptr;
 
     QScopedPointer< QSqlDatabase > m_db;
 

@@ -10,31 +10,38 @@ ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
 {    
-    SqlTableModel::SqlColumn archer;
-    archer.name = "Archer";
-    archer.dataType = "INTEGER";
-    archer.type = SqlTableModel::FOREIGN_KEY;
-    archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-    archer.foreignTable = "Archer";
-    archer.foreingField = "Id";
+    ArchersTableModel archers( getDataBase() );
+    QString error;
+    if( archers.init(error) )
+    {
+        SqlTableModel::SqlColumn archer;
+        archer.name = "Archer";
+        archer.dataType = "INTEGER";
+        archer.type = SqlTableModel::FOREIGN_KEY;
+        archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
+        archer.foreignTable = "Archer";
+        archer.foreingField = "Id";
 
-    SqlTableModel::SqlColumn name;
-    name.name = "Name";
-    name.dataType = "TEXT";
+        SqlTableModel::SqlColumn name;
+        name.name = "Name";
+        name.dataType = "TEXT";
 
-    SqlTableModel::SqlColumn spine;
-    spine.name = "Spine";
-    spine.dataType = "REAL";
+        SqlTableModel::SqlColumn spine;
+        spine.name = "Spine";
+        spine.dataType = "REAL";
 
-    SqlTableModel::SqlColumn length;
-    length.name = "Length";
-    length.dataType = "REAL";
+        SqlTableModel::SqlColumn length;
+        length.name = "Length";
+        length.dataType = "REAL";
 
-    SqlTableModel::SqlColumn diameter;
-    diameter.name = "Diameter";
-    diameter.dataType = "REAL";
+        SqlTableModel::SqlColumn diameter;
+        diameter.name = "Diameter";
+        diameter.dataType = "REAL";
 
-    return { archer, name, spine, length, diameter };
+        return { archer, name, spine, length, diameter };
+    }
+    qCritical() << error;
+    return SqlColumns();
 }
 
 ID ArrowsTableModel::getArcherId() const

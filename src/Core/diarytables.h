@@ -5,10 +5,19 @@
 #include <QObject>
 
 class DiaryTablesPrivate;
+
 class ArchersTableModel;
 class ArrowsTableModel;
 class BowsTableModel;
 class ScopesTableModel;
+class TrainingTableModel;
+class RecordTableModel;
+class TrainingStandardModel;
+class StandardModel;
+class StandardExcersiceModel;
+class ExcersiceModel;
+class TargetModel;
+class ShotModel;
 
 class CORESHARED_EXPORT DiaryTables : public QObject
 {
@@ -19,10 +28,19 @@ public:
     void operator=(DiaryTables&& move);
     virtual ~DiaryTables();
 
-    ArchersTableModel* archersTableModel();
-    ArrowsTableModel* arrowsTableModel();
-    BowsTableModel *bowsTableModel();
-    ScopesTableModel *scopesTableModel();
+    ArchersTableModel* archersModel();
+    ArrowsTableModel* arrowsModel();
+    BowsTableModel *bowsModel();
+    ScopesTableModel *scopesModel();
+
+    TrainingTableModel* trainingModel();
+    RecordTableModel* recordModel();
+    TrainingStandardModel* trainingStandardModel();
+    StandardModel* standardModel();
+    StandardExcersiceModel* standardExcersiceModel();
+    ExcersiceModel* excersiceModel();
+    TargetModel* targetModel();
+    ShotModel* shotModel();
 
 signals:
     void databaseError(QString error);

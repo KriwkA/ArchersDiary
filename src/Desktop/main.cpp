@@ -16,10 +16,10 @@ void setStylesToContext(QQmlContext* context)
 void setTablesToContext(QQmlContext* context, DiaryTables& diary)
 {
     context->setContextProperty("diaryTables", &diary);
-    context->setContextProperty("archersModel", diary.archersTableModel());
-    context->setContextProperty("arrowsModel", diary.arrowsTableModel());
-    context->setContextProperty("bowsModel", diary.bowsTableModel());
-    context->setContextProperty("scopesModel", diary.scopesTableModel());
+    context->setContextProperty("archersModel", diary.archersModel());
+    context->setContextProperty("arrowsModel", diary.arrowsModel());
+    context->setContextProperty("bowsModel", diary.bowsModel());
+    context->setContextProperty("scopesModel", diary.scopesModel());
 }
 
 int main(int argc, char *argv[])

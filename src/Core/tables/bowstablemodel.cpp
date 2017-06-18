@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "bowstablemodel.h"
+#include "archerstablemodel.h"
 
 BowsTableModel::BowsTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
@@ -34,43 +35,48 @@ bool BowsTableModel::addBow(const QString &name, const QString &handle, const QS
 
 SqlTableModel::SqlColumns BowsTableModel::getColumns() const
 {
-    SqlTableModel::SqlColumn id;
-    id.name = "Id";
-    id.dataType = "INTEGER";
-    id.type = SqlTableModel::PRIMARY_KEY;
+    ArchersTableModel archers( getDataBase() );
+    QString error;
+    if( archers.init(error) )
+    {
+        SqlTableModel::SqlColumn id;
+        id.name = "Id";
+        id.dataType = "INTEGER";
+        id.type = SqlTableModel::PRIMARY_KEY;
 
-    SqlTableModel::SqlColumn archer;
-    archer.name = "Archer";
-    archer.dataType = "INTEGER";
-    archer.type = SqlTableModel::FOREIGN_KEY;
-    archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-    archer.foreignTable = "Archer";
-    archer.foreingField = "Id";
+        SqlTableModel::SqlColumn archer;
+        archer.name = "Archer";
+        archer.dataType = "INTEGER";
+        archer.type = SqlTableModel::FOREIGN_KEY;
+        archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
+        archer.foreignTable = "Archer";
+        archer.foreingField = "Id";
 
-    SqlTableModel::SqlColumn name;
-    name.name = "Name";
-    name.dataType = "TEXT";
+        SqlTableModel::SqlColumn name;
+        name.name = "Name";
+        name.dataType = "TEXT";
 
-    SqlTableModel::SqlColumn handle;
-    handle.name = "Handle";
-    handle.dataType = "TEXT";
+        SqlTableModel::SqlColumn handle;
+        handle.name = "Handle";
+        handle.dataType = "TEXT";
 
-    SqlTableModel::SqlColumn limbs;
-    limbs.name = "Limbs";
-    limbs.dataType = "TEXT";
+        SqlTableModel::SqlColumn limbs;
+        limbs.name = "Limbs";
+        limbs.dataType = "TEXT";
 
-    SqlTableModel::SqlColumn length;
-    length.name = "Length";
-    length.dataType = "INTEGER";
+        SqlTableModel::SqlColumn length;
+        length.name = "Length";
+        length.dataType = "INTEGER";
 
-    SqlTableModel::SqlColumn weight;
-    weight.name = "Weight";
-    weight.dataType = "REAL";
+        SqlTableModel::SqlColumn weight;
+        weight.name = "Weight";
+        weight.dataType = "REAL";
 
-    SqlTableModel::SqlColumn base;
-    base.name = "Base";
-    base.dataType = "REAL";
-
-
-    return { id, archer, name, handle, limbs, length, weight, base };
+        SqlTableModel::SqlColumn base;
+        base.name = "Base";
+        base.dataType = "REAL";
+        return { id, archer, name, handle, limbs, length, weight, base };
+    }
+    qCritical() << error;
+    return SqlColumns();
 }

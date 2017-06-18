@@ -33,34 +33,65 @@ DiaryTables::~DiaryTables()
     delete d;
 }
 
-ArchersTableModel *DiaryTables::archersTableModel()
+ArchersTableModel *DiaryTables::archersModel()
 {    
     return d->initArchersTable();
 }
 
-ArrowsTableModel *DiaryTables::arrowsTableModel()
+ArrowsTableModel *DiaryTables::arrowsModel()
 {    
     return d->initArrowsTable();
 }
 
-BowsTableModel *DiaryTables::bowsTableModel()
+BowsTableModel *DiaryTables::bowsModel()
 {
     return d->initBowsTable();
 }
 
-ScopesTableModel *DiaryTables::scopesTableModel()
+ScopesTableModel *DiaryTables::scopesModel()
 {
     return d->initScopesTableModel();
+}
+
+TrainingTableModel *DiaryTables::trainingModel()
+{
+    return nullptr;
+}
+
+RecordTableModel *DiaryTables::recordModel()
+{
+    return nullptr;
+}
+
+TrainingStandardModel *DiaryTables::trainingStandardModel()
+{
+    return nullptr;
+}
+
+StandardModel *DiaryTables::standardModel()
+{
+    return nullptr;
+}
+
+StandardExcersiceModel *DiaryTables::standardExcersiceModel()
+{
+    return nullptr;
+}
+
+ExcersiceModel *DiaryTables::excersiceModel()
+{
+    return nullptr;
+}
+
+ShotModel *DiaryTables::shotModel()
+{
+    return nullptr;
 }
 
 // PRIVATE
 
 DiaryTablesPrivate::DiaryTablesPrivate(DiaryTables *qPtr)
     : q( qPtr )
-    , m_archers( nullptr )
-    , m_arrows( nullptr )
-    , m_bows( nullptr )
-    , m_scopes( nullptr )
     , m_db( new QSqlDatabase( QSqlDatabase::addDatabase("QSQLITE") ) )
 {
     m_db->setDatabaseName("diary.db");
@@ -92,5 +123,45 @@ BowsTableModel *DiaryTablesPrivate::initBowsTable()
 ScopesTableModel *DiaryTablesPrivate::initScopesTableModel()
 {
     return initTable( m_scopes );
+}
+
+TrainingTableModel *DiaryTablesPrivate::initTrainingModel()
+{
+    return initTable( m_trainings );
+}
+
+RecordTableModel *DiaryTablesPrivate::initRecordModel()
+{
+    return initTable( m_records );
+}
+
+TrainingStandardModel *DiaryTablesPrivate::initTrainingStandardModel()
+{
+    return nullptr;
+}
+
+StandardModel *DiaryTablesPrivate::initStandardModel()
+{
+    return nullptr;
+}
+
+StandardExcersiceModel *DiaryTablesPrivate::initStandardExcersiceModel()
+{
+    return nullptr;
+}
+
+ExcersiceModel *DiaryTablesPrivate::initExcersiceModel()
+{
+    return nullptr;
+}
+
+TargetModel *DiaryTablesPrivate::initTargetModel()
+{
+    return nullptr;
+}
+
+ShotModel *DiaryTablesPrivate::initShotModel()
+{
+    return nullptr;
 }
 
