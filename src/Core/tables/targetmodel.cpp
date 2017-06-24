@@ -30,8 +30,11 @@ SqlTableModel::SqlColumns TargetModel::getColumns() const
 }
 
 bool TargetModel::addTarget(int circleCount, int growingRadius, const QList<int> &circleColors)
-{
+{    
+    QList<int> a;
+    QVariantList b;
+    b.append(a);
     if( circleCount == circleColors.size() )
-        return insertValues( { circleCount, growingRadius, circleColors });
+        return insertValues( { circleCount, growingRadius, circleColors } );
     return false;
 }

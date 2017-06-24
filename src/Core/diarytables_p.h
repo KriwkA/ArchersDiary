@@ -56,9 +56,7 @@ private:
             QString error;
             if( dest->init( error ) )
                 return dest;
-
-            qDebug() << error;
-//            emit q->databaseError( error );
+            emit q->databaseError( error );
             delete dest;
         }                
 

@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "scopestablemodel.h"
-#include "bowstablemodel.h"
+#include "diarytables.h"
 
 ScopesTableModel::ScopesTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
@@ -29,16 +29,15 @@ bool ScopesTableModel::addScope(int distance, double vertical, double horizontal
 
 SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
 {
-    BowsTableModel bows( getDataBase() );
-    QString error;
-    if( bows.init( error ) )
+    auto bowsModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->bowsModel());
+    if( bowsModel != nullptr )
     {
         SqlTableModel::SqlColumn bow;
-        bow.name = "Bow";
+        bow.name = bowsModel->tableName();
         bow.dataType = "INTEGER";
         bow.type = SqlTableModel::FOREIGN_KEY;
         bow.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        bow.foreignTable = "Bow";
+        bow.foreignTable = bowsModel->tableName();
         bow.foreingField = "Id";
 
         SqlTableModel::SqlColumn distance;
@@ -54,7 +53,6 @@ SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
         horizontal.dataType = "REAL";
 
         return { bow, distance, vertical, horizontal };
-    }
-    qCritical() << error;
+    }   
     return SqlColumns();
 }

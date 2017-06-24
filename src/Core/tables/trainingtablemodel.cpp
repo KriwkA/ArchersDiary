@@ -1,6 +1,6 @@
 #include <precomp.h>
 #include "trainingtablemodel.h"
-#include "archerstablemodel.h"
+#include "diarytables.h"
 #include <QDateTime>
 
 TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
@@ -11,25 +11,23 @@ TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
 }
 
 SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
-{
-    ArchersTableModel archers( getDataBase() );
-    QString error;
-    if( archers.init( error ) )
+{    
+    auto archerModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
+    if( archerModel != nullptr )
     {
         SqlTableModel::SqlColumn archer;
-        archer.name = "Archer";
+        archer.name = archerModel->tableName();
         archer.dataType = "INTEGER";
         archer.type = SqlTableModel::FOREIGN_KEY;
         archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        archer.foreignTable = "Archer";
+        archer.foreignTable = archerModel->tableName();
         archer.foreingField = "Id";
 
         SqlTableModel::SqlColumn date;
         date.name = "Date";
         date.dataType = "INTEGER";
         return { archer, date };
-    }
-    qCritical() << error;
+    }    
     return SqlColumns();
 }
 
@@ -46,6 +44,6 @@ bool TrainingTableModel::addTraining()
 {
     if(m_archerId >= 0)
         return insertValues({ m_archerId, QDateTime::currentDateTime().toSecsSinceEpoch() });
-    qDebug() << "Invalid archer Id";
+    qWarning() << "Invalid archer Id";
     return false;
 }

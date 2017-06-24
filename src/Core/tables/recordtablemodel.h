@@ -11,10 +11,8 @@ public:
     explicit RecordTableModel(QSqlDatabase* db, QObject* parent = nullptr);
     virtual SqlColumns getColumns() const override;
 
-
     inline ID getTrainingId() const { return m_trainingId; }
     void setTrainingID( ID trainingId );
-
 
     Q_INVOKABLE bool addRecord(const QString& record);
 

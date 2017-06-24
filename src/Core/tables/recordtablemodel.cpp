@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "recordtablemodel.h"
-#include "trainingtablemodel.h"
+#include "diarytables.h"
 
 RecordTableModel::RecordTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel( db, parent )
@@ -11,16 +11,15 @@ RecordTableModel::RecordTableModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns RecordTableModel::getColumns() const
 {
-    TrainingTableModel trainings( getDataBase() );
-    QString error;
-    if(trainings.init(error))
+    auto trainingModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->trainingModel());
+    if( trainingModel != nullptr )
     {
         SqlTableModel::SqlColumn training;
-        training.name = trainings.tableName();
+        training.name = trainingModel->tableName();
         training.dataType = "INTEGER";
         training.type = SqlTableModel::FOREIGN_KEY;
         training.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        training.foreignTable = trainings.tableName();
+        training.foreignTable = trainingModel->tableName();
         training.foreingField = "Id";
 
         SqlColumn record;
@@ -28,7 +27,6 @@ SqlTableModel::SqlColumns RecordTableModel::getColumns() const
         record.dataType = "TEXT";
         return { training, record };
     }
-    qCritical() << error;
     return SqlColumns();
 }
 

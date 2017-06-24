@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "arrowstablemodel.h"
-#include "archerstablemodel.h"
+#include "diarytables.h"
 
 ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
@@ -10,17 +10,16 @@ ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
 }
 
 SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
-{    
-    ArchersTableModel archers( getDataBase() );
-    QString error;
-    if( archers.init(error) )
+{            
+    auto archersModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
+    if( archersModel != nullptr )
     {
         SqlTableModel::SqlColumn archer;
-        archer.name = "Archer";
+        archer.name = archersModel->tableName();
         archer.dataType = "INTEGER";
         archer.type = SqlTableModel::FOREIGN_KEY;
         archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        archer.foreignTable = "Archer";
+        archer.foreignTable = archersModel->tableName();
         archer.foreingField = "Id";
 
         SqlTableModel::SqlColumn name;
@@ -40,8 +39,7 @@ SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
         diameter.dataType = "REAL";
 
         return { archer, name, spine, length, diameter };
-    }
-    qCritical() << error;
+    }    
     return SqlColumns();
 }
 

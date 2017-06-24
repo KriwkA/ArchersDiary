@@ -3,9 +3,8 @@
 #include "diarytables_p.h"
 #include "diarytables.h"
 
-
-DiaryTables::DiaryTables(QObject *parent)
-    : QObject(parent)
+DiaryTables::DiaryTables()
+    : QObject( nullptr )
     , d(new DiaryTablesPrivate(this))
 {    
 }
@@ -16,6 +15,14 @@ DiaryTables::DiaryTables(DiaryTables &&move)
 {
     d->q = this;
     move.d = new DiaryTablesPrivate(&move);
+}
+
+DiaryTables *DiaryTables::getObject()
+{
+    static DiaryTables* object = nullptr;
+    if( object == nullptr )
+        object = new DiaryTables();
+    return object;
 }
 
 void DiaryTables::operator=(DiaryTables &&move)

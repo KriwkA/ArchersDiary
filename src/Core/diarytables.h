@@ -23,7 +23,8 @@ class CORESHARED_EXPORT DiaryTables : public QObject
 {
     Q_OBJECT
 public:
-    explicit DiaryTables(QObject *parent = 0);      
+    static DiaryTables* getObject();
+
     DiaryTables(DiaryTables&& move);
     void operator=(DiaryTables&& move);
     virtual ~DiaryTables();
@@ -46,9 +47,11 @@ signals:
     void databaseError(QString error);
 
 private:
+    DiaryTables();
+
     Q_DISABLE_COPY( DiaryTables )
     friend class DiaryTablesPrivate;
-    DiaryTablesPrivate* d;
+    DiaryTablesPrivate* d;    
 };
 
 
