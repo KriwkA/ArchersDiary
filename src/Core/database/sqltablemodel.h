@@ -12,6 +12,8 @@ class QSqlDatabase;
 
 class SqlField;
 typedef QList<SqlField> SqlFieldList;
+typedef long long ID;
+Q_DECLARE_METATYPE( ID )
 
 static const int APPEND_INDEX = -1;
 

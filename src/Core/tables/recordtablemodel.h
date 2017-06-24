@@ -6,7 +6,7 @@
 class CORESHARED_EXPORT RecordTableModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(long long trainingID READ getTrainingId WRITE setTrainingID)
+    Q_PROPERTY(ID trainingID READ getTrainingId WRITE setTrainingID)
 public:
     explicit RecordTableModel(QSqlDatabase* db, QObject* parent = nullptr);
     virtual SqlColumns getColumns() const override;

@@ -6,7 +6,7 @@
 class CORESHARED_EXPORT BowsTableModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(long long archerID READ getArcherId WRITE setArcherId)
+    Q_PROPERTY(ID archerID READ getArcherId WRITE setArcherId)
 public:    
     explicit BowsTableModel(QSqlDatabase* db, QObject* parent = nullptr);
     virtual SqlColumns getColumns() const override;

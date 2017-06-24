@@ -6,7 +6,7 @@
 class CORESHARED_EXPORT ScopesTableModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(long long bowId READ getBowId WRITE setBowId)
+    Q_PROPERTY(ID bowId READ getBowId WRITE setBowId)
 public:
     explicit ScopesTableModel(QSqlDatabase* db, QObject* parent = nullptr);
     virtual SqlColumns getColumns() const override;

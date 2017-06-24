@@ -9,6 +9,4 @@
 #  define CORESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-typedef long long ID;
-
 #endif // CORE_GLOBAL_H

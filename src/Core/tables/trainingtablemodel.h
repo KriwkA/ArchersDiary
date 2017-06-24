@@ -6,7 +6,7 @@
 class CORESHARED_EXPORT TrainingTableModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(long long archerID READ getArcherId WRITE setArcherId)
+    Q_PROPERTY(ID archerID READ getArcherId WRITE setArcherId)
 public:
     explicit TrainingTableModel(QSqlDatabase* db, QObject* parent = nullptr);
 
