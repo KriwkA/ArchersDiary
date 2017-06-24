@@ -4,7 +4,7 @@
 
 RecordTableModel::RecordTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel( db, parent )
-    , m_trainingId( -1 )
+    , m_trainingId( FAKE_ID )
 {
     setTable("Record");
 }
@@ -14,13 +14,7 @@ SqlTableModel::SqlColumns RecordTableModel::getColumns() const
     auto trainingModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->trainingModel());
     if( trainingModel != nullptr )
     {
-        SqlTableModel::SqlColumn training;
-        training.name = trainingModel->tableName();
-        training.dataType = "INTEGER";
-        training.type = SqlTableModel::FOREIGN_KEY;
-        training.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        training.foreignTable = trainingModel->tableName();
-        training.foreingField = "Id";
+        SqlTableModel::SqlColumn training = SqlColumn::createForeign( trainingModel );
 
         SqlColumn record;
         record.name = "Record";

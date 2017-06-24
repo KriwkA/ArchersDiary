@@ -158,9 +158,9 @@ bool SqlTableModel::setData(int row, const QVariant &value, int role)
 
 int SqlTableModel::roleFromRoleName(const QByteArray &roleName) const
 {
-    for(auto roleIt = m_roles.cbegin(); roleIt != m_roles.cend(); ++roleIt) {
+    for( auto roleIt = m_roles.cbegin(); roleIt != m_roles.cend(); ++roleIt ) {
         QByteArray arr = roleIt.value();
-        if(roleIt.value() == roleName)
+        if( roleIt.value() == roleName )
             return roleIt.key();
     }
     return -1;
@@ -174,4 +174,38 @@ bool SqlTableModel::removeRow(int row)
         return true;
     }
     return false;
+}
+
+SqlTableModel::SqlColumn SqlTableModel::SqlColumn::createPrimaryKey(const QString name, const QString dataType)
+{
+    SqlColumn primaryCol;
+    primaryCol.name = name;
+    primaryCol.dataType = dataType;
+    primaryCol.type = PRIMARY_KEY;
+    return primaryCol;
+}
+
+SqlTableModel::SqlColumn SqlTableModel::SqlColumn::createForeign(const QString &foreignTableName, QString dataType, QString foreignField, SqlTableModel::ForeignFlags foreignFlags)
+{
+    SqlColumn col;
+    col.name = foreignTableName;
+    col.dataType = dataType;
+    col.type = FOREIGN_KEY;
+    col.foreignFlags = foreignFlags;
+    col.foreignTable = foreignTableName;
+    col.foreingField = foreignField;
+    return col;
+}
+
+SqlTableModel::SqlColumn SqlTableModel::SqlColumn::createForeign(SqlTableModel *foreignTable, QString foreignField, SqlTableModel::ForeignFlags foreignFlags)
+{
+    if( foreignTable != nullptr )
+    {
+        for( const auto& col : foreignTable->getColumns() )
+        {
+            if( col.name == foreignField )
+                return createForeign( foreignTable->tableName(), col.dataType, foreignField, foreignFlags);
+        }
+    }
+    return SqlColumn();
 }

@@ -14,8 +14,8 @@ class TrainingTableModel;
 class RecordTableModel;
 class TrainingStandardModel;
 class StandardModel;
-class StandardExcersiceModel;
-class ExcersiceModel;
+class StandardExcerciseModel;
+class ExcerciseModel;
 class TargetModel;
 class ShotModel;
 
@@ -38,8 +38,8 @@ public:
     RecordTableModel* recordModel();
     TrainingStandardModel* trainingStandardModel();
     StandardModel* standardModel();
-    StandardExcersiceModel* standardExcersiceModel();
-    ExcersiceModel* excersiceModel();
+    StandardExcerciseModel* standardExcersiceModel();
+    ExcerciseModel* excersiceModel();
     TargetModel* targetModel();
     ShotModel* shotModel();
 

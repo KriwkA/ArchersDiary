@@ -14,10 +14,7 @@ bool ArchersTableModel::addArcher(const QString &archerName)
 
 SqlTableModel::SqlColumns ArchersTableModel::getColumns() const
 {
-    SqlTableModel::SqlColumn id;
-    id.name = "Id";
-    id.dataType = "INTEGER";
-    id.type = SqlTableModel::PRIMARY_KEY;
+    SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
 
     SqlTableModel::SqlColumn name;
     name.name = "Name";

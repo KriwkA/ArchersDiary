@@ -4,7 +4,7 @@
 
 BowsTableModel::BowsTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_archerId(-1)
+    , m_archerId( FAKE_ID )
 {
     setTable( "Bow" );
 }
@@ -17,7 +17,7 @@ ID BowsTableModel::getArcherId() const
 void BowsTableModel::setArcherId(ID archerId)
 {
     m_archerId = archerId;
-    if(m_archerId >= 0)
+    if( m_archerId != FAKE_ID )
         setFilter(QString("Archer=%0").arg(m_archerId));
     else
         setFilter(QString(""));
@@ -25,7 +25,7 @@ void BowsTableModel::setArcherId(ID archerId)
 
 bool BowsTableModel::addBow(const QString &name, const QString &handle, const QString &limbs, int length, double weight, double base)
 {
-    if(m_archerId >= 0)
+    if(m_archerId !=  FAKE_ID )
         return insertValues( { m_archerId, name, handle, limbs, length, weight, base } );
 
     qDebug() << "Invalid archer Id";
@@ -38,40 +38,31 @@ SqlTableModel::SqlColumns BowsTableModel::getColumns() const
     auto archersModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
     if( archersModel != nullptr )
     {
-        SqlTableModel::SqlColumn id;
-        id.name = "Id";
-        id.dataType = "INTEGER";
-        id.type = SqlTableModel::PRIMARY_KEY;
+        SqlColumn id = SqlColumn::createPrimaryKey();
 
-        SqlTableModel::SqlColumn archer;
-        archer.name = archersModel->tableName();
-        archer.dataType = "INTEGER";
-        archer.type = SqlTableModel::FOREIGN_KEY;
-        archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        archer.foreignTable = archersModel->tableName();
-        archer.foreingField = "Id";
+        SqlColumn archer = SqlColumn::createForeign( archersModel );
 
-        SqlTableModel::SqlColumn name;
+        SqlColumn name;
         name.name = "Name";
         name.dataType = "TEXT";
 
-        SqlTableModel::SqlColumn handle;
+        SqlColumn handle;
         handle.name = "Handle";
         handle.dataType = "TEXT";
 
-        SqlTableModel::SqlColumn limbs;
+        SqlColumn limbs;
         limbs.name = "Limbs";
         limbs.dataType = "TEXT";
 
-        SqlTableModel::SqlColumn length;
+        SqlColumn length;
         length.name = "Length";
         length.dataType = "INTEGER";
 
-        SqlTableModel::SqlColumn weight;
+        SqlColumn weight;
         weight.name = "Weight";
         weight.dataType = "REAL";
 
-        SqlTableModel::SqlColumn base;
+        SqlColumn base;
         base.name = "Base";
         base.dataType = "REAL";
         return { id, archer, name, handle, limbs, length, weight, base };

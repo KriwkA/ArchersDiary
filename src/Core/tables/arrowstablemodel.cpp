@@ -4,7 +4,7 @@
 
 ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_archerId(-1)
+    , m_archerId( FAKE_ID )
 {
     setTable( "Arrow" );
 }
@@ -14,27 +14,21 @@ SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
     auto archersModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
     if( archersModel != nullptr )
     {
-        SqlTableModel::SqlColumn archer;
-        archer.name = archersModel->tableName();
-        archer.dataType = "INTEGER";
-        archer.type = SqlTableModel::FOREIGN_KEY;
-        archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        archer.foreignTable = archersModel->tableName();
-        archer.foreingField = "Id";
+        SqlColumn archer = SqlColumn::createForeign( archersModel );
 
-        SqlTableModel::SqlColumn name;
+        SqlColumn name;
         name.name = "Name";
         name.dataType = "TEXT";
 
-        SqlTableModel::SqlColumn spine;
+        SqlColumn spine;
         spine.name = "Spine";
         spine.dataType = "REAL";
 
-        SqlTableModel::SqlColumn length;
+        SqlColumn length;
         length.name = "Length";
         length.dataType = "REAL";
 
-        SqlTableModel::SqlColumn diameter;
+        SqlColumn diameter;
         diameter.name = "Diameter";
         diameter.dataType = "REAL";
 
@@ -51,7 +45,7 @@ ID ArrowsTableModel::getArcherId() const
 void ArrowsTableModel::setArcherId(ID archerId)
 {
     m_archerId = archerId;
-    if(m_archerId >= 0)
+    if( m_archerId != FAKE_ID )
         setFilter(QString("Archer=%0").arg(m_archerId));
     else
         setFilter(QString(""));
@@ -59,7 +53,7 @@ void ArrowsTableModel::setArcherId(ID archerId)
 
 bool ArrowsTableModel::addArrow(const QString &name, double spine, double length, double diameter)
 {
-    if(m_archerId >= 0)
+    if( m_archerId != FAKE_ID )
         return insertValues({ m_archerId, name, spine, length, diameter });
     qDebug() << "Invalid archer Id";
     return false;

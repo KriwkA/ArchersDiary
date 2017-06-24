@@ -3,9 +3,11 @@
 
 #include <QSqlTableModel>
 #include <QSqlRecord>
-#include "database/sqlfield.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+
+#include "database/sqlfield.h"
+#include "diarytables.h"
 
 #endif // PRECOMP_H

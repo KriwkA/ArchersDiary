@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "tables/alltables.h"
-#include "diarytables_p.h"
 #include "diarytables.h"
+#include "diarytables_p.h"
 
 DiaryTables::DiaryTables()
     : QObject( nullptr )
@@ -62,37 +62,42 @@ ScopesTableModel *DiaryTables::scopesModel()
 
 TrainingTableModel *DiaryTables::trainingModel()
 {
-    return nullptr;
+    return d->initTrainingModel();
 }
 
 RecordTableModel *DiaryTables::recordModel()
 {
-    return nullptr;
+    return d->initRecordModel();
 }
 
 TrainingStandardModel *DiaryTables::trainingStandardModel()
 {
-    return nullptr;
+    return d->initTrainingStandardModel();
 }
 
 StandardModel *DiaryTables::standardModel()
 {
-    return nullptr;
+    return d->initStandardModel();
 }
 
-StandardExcersiceModel *DiaryTables::standardExcersiceModel()
+StandardExcerciseModel *DiaryTables::standardExcersiceModel()
 {
-    return nullptr;
+    return d->initStandardExcersiceModel();
 }
 
-ExcersiceModel *DiaryTables::excersiceModel()
+ExcerciseModel *DiaryTables::excersiceModel()
 {
-    return nullptr;
+    return d->initExcersiceModel();
+}
+
+TargetModel *DiaryTables::targetModel()
+{
+    return d->initTargetModel();
 }
 
 ShotModel *DiaryTables::shotModel()
 {
-    return nullptr;
+    return d->initShotModel();
 }
 
 // PRIVATE
@@ -149,22 +154,22 @@ TrainingStandardModel *DiaryTablesPrivate::initTrainingStandardModel()
 
 StandardModel *DiaryTablesPrivate::initStandardModel()
 {
-    return nullptr;
+    return initTable( m_standards );
 }
 
-StandardExcersiceModel *DiaryTablesPrivate::initStandardExcersiceModel()
+StandardExcerciseModel *DiaryTablesPrivate::initStandardExcersiceModel()
 {
-    return nullptr;
+    return initTable( m_standardExcersices );
 }
 
-ExcersiceModel *DiaryTablesPrivate::initExcersiceModel()
+ExcerciseModel *DiaryTablesPrivate::initExcersiceModel()
 {
-    return nullptr;
+    return initTable( m_excersices );
 }
 
 TargetModel *DiaryTablesPrivate::initTargetModel()
 {
-    return nullptr;
+    return initTable( m_targets );
 }
 
 ShotModel *DiaryTablesPrivate::initShotModel()

@@ -8,11 +8,8 @@ TargetModel::TargetModel(QSqlDatabase *db, QObject *parent)
 }
 
 SqlTableModel::SqlColumns TargetModel::getColumns() const
-{
-    SqlColumn id;
-    id.name = "Id";
-    id.dataType = "INTEGER";
-    id.type = PRIMARY_KEY;
+{    
+    SqlColumn id = SqlColumn::createPrimaryKey();
 
     SqlColumn circleCount;
     circleCount.name = "CircleCount";
@@ -30,11 +27,11 @@ SqlTableModel::SqlColumns TargetModel::getColumns() const
 }
 
 bool TargetModel::addTarget(int circleCount, int growingRadius, const QList<int> &circleColors)
-{    
-    QList<int> a;
-    QVariantList b;
-    b.append(a);
+{       
+    QVariantList colors;
+    for( int color : circleColors )
+        colors.append( color );
     if( circleCount == circleColors.size() )
-        return insertValues( { circleCount, growingRadius, circleColors } );
+        return insertValues( { circleCount, growingRadius, colors } );
     return false;
 }

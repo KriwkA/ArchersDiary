@@ -4,7 +4,7 @@
 
 ScopesTableModel::ScopesTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_bowId(-1)
+    , m_bowId( FAKE_ID )
 {
     setTable( "Scope" );
 }
@@ -32,13 +32,7 @@ SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
     auto bowsModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->bowsModel());
     if( bowsModel != nullptr )
     {
-        SqlTableModel::SqlColumn bow;
-        bow.name = bowsModel->tableName();
-        bow.dataType = "INTEGER";
-        bow.type = SqlTableModel::FOREIGN_KEY;
-        bow.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        bow.foreignTable = bowsModel->tableName();
-        bow.foreingField = "Id";
+        SqlTableModel::SqlColumn bow = SqlColumn::createForeign( bowsModel );
 
         SqlTableModel::SqlColumn distance;
         distance.name = "Distance";

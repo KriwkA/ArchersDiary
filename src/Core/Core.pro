@@ -28,7 +28,10 @@ SOURCES += \
     database/sqlfield.cpp \
     tables/trainingtablemodel.cpp \
     tables/recordtablemodel.cpp \
-    tables/targetmodel.cpp
+    tables/targetmodel.cpp \
+    tables/standardmodel.cpp \
+    tables/standardexcercisemodel.cpp \
+    tables/excercisemodel.cpp
 
 
 HEADERS += \
@@ -45,7 +48,10 @@ HEADERS += \
     database/sqlfield.h \
     tables/trainingtablemodel.h \
     tables/recordtablemodel.h \
-    tables/targetmodel.h
+    tables/targetmodel.h \
+    tables/standardmodel.h \
+    tables/excercisemodel.h \
+    tables/standardexcercisemodel.h
 
 PRECOMPILED_HEADER += precomp.h
 

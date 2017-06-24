@@ -14,8 +14,8 @@ class TrainingTableModel;
 class RecordTableModel;
 class TrainingStandardModel;
 class StandardModel;
-class StandardExcersiceModel;
-class ExcersiceModel;
+class StandardExcerciseModel;
+class ExcerciseModel;
 class TargetModel;
 class ShotModel;
 
@@ -37,20 +37,20 @@ private:
     RecordTableModel* initRecordModel();
     TrainingStandardModel* initTrainingStandardModel();
     StandardModel* initStandardModel();
-    StandardExcersiceModel* initStandardExcersiceModel();
-    ExcersiceModel* initExcersiceModel();
+    StandardExcerciseModel* initStandardExcersiceModel();
+    ExcerciseModel* initExcersiceModel();
     TargetModel* initTargetModel();
     ShotModel* initShotModel();
 
 
-    template<typename Table>
-    Q_ALWAYS_INLINE Table* initTable(Table* &dest)
+    template<typename TablePtr>
+    Q_ALWAYS_INLINE TablePtr* initTable(TablePtr* &dest)
     {
         if( dest != nullptr ) {
             return dest;
         }
 
-        dest = new Table( m_db.data(), q );
+        dest = new TablePtr( m_db.data(), q );
 
         if( dest != nullptr ) {
             QString error;
@@ -71,17 +71,13 @@ private:
     RecordTableModel* m_records = nullptr;
     TrainingStandardModel* m_trainingStandards = nullptr;
     StandardModel* m_standards = nullptr;
-    StandardExcersiceModel* m_standardExcersices = nullptr;
-    ExcersiceModel* m_excersices = nullptr;
+    StandardExcerciseModel* m_standardExcersices = nullptr;
+    ExcerciseModel* m_excersices = nullptr;
     TargetModel* m_targets = nullptr;
     ShotModel* m_shots = nullptr;
 
     QScopedPointer< QSqlDatabase > m_db;
 
 };
-
-
-
-
 
 #endif // MODELSWRAPPER_P_H

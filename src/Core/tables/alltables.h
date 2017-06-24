@@ -7,5 +7,9 @@
 #include "scopestablemodel.h"
 #include "trainingtablemodel.h"
 #include "recordtablemodel.h"
+#include "standardmodel.h"
+#include "targetmodel.h"
+#include "excercisemodel.h"
+#include "standardexcercisemodel.h"
 
 #endif // ALLTABLES_H

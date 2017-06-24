@@ -5,7 +5,7 @@
 
 TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_archerId( -1 )
+    , m_archerId( FAKE_ID )
 {
     setTable("Training");
 }
@@ -15,13 +15,8 @@ SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
     auto archerModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
     if( archerModel != nullptr )
     {
-        SqlTableModel::SqlColumn archer;
-        archer.name = archerModel->tableName();
-        archer.dataType = "INTEGER";
-        archer.type = SqlTableModel::FOREIGN_KEY;
-        archer.foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade);
-        archer.foreignTable = archerModel->tableName();
-        archer.foreingField = "Id";
+
+        SqlTableModel::SqlColumn archer = SqlColumn::createForeign( archerModel );
 
         SqlTableModel::SqlColumn date;
         date.name = "Date";
