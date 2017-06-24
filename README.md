@@ -1,2 +1,2 @@
 # ArchersDiary
-Archer`s diary application for Android and Desktop
+Archer`s diary application for Android
