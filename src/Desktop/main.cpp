@@ -21,6 +21,17 @@ void setTablesToContext(QQmlContext* context)
     context->setContextProperty("arrowsModel", diary->arrowsModel());
     context->setContextProperty("bowsModel", diary->bowsModel());
     context->setContextProperty("scopesModel", diary->scopesModel());
+
+    context->setContextProperty("trainingModel", diary->trainingModel());
+    context->setContextProperty("recordModel", diary->recordModel());
+    context->setContextProperty("trainingStandardModel", diary->trainingStandardModel());
+    context->setContextProperty("shotModel", diary->shotModel());
+
+    context->setContextProperty("standardModel", diary->standardModel());
+    context->setContextProperty("standardExcerciseModel", diary->standardExcersiceModel());
+    context->setContextProperty("excerciseModel", diary->excersiceModel());
+    context->setContextProperty("targetModel", diary->targetModel());
+
 }
 
 int main(int argc, char *argv[])
