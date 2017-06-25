@@ -20,7 +20,7 @@ void BowsTableModel::setArcherId(ID archerId)
     if( m_archerId != FAKE_ID )
         setFilter(QString("Archer=%0").arg(m_archerId));
     else
-        setFilter(QString(""));
+        resetFilter();
 }
 
 bool BowsTableModel::addBow(const QString &name, const QString &handle, const QString &limbs, int length, double weight, double base)

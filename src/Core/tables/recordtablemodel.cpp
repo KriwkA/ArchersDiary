@@ -30,7 +30,7 @@ void RecordTableModel::setTrainingID(ID trainingId)
     if(m_trainingId >= 0)
         setFilter(QString("Training=%0").arg(m_trainingId));
     else
-        setFilter(QString(""));
+        resetFilter();
 }
 
 bool RecordTableModel::addRecord(const QString& record)

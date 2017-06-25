@@ -48,7 +48,7 @@ void ArrowsTableModel::setArcherId(ID archerId)
     if( m_archerId != FAKE_ID )
         setFilter(QString("Archer=%0").arg(m_archerId));
     else
-        setFilter(QString(""));
+        resetFilter();
 }
 
 bool ArrowsTableModel::addArrow(const QString &name, double spine, double length, double diameter)

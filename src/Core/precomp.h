@@ -8,6 +8,7 @@
 #include <QDebug>
 
 #include "database/sqlfield.h"
+#include "database/sqltablemodel.h"
 #include "diarytables.h"
 
 #endif // PRECOMP_H

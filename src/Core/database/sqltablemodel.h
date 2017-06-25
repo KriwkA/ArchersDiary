@@ -57,6 +57,7 @@ public:
 
     bool init(QString& error);
     virtual SqlColumns getColumns() const = 0;
+    void resetFilter();
 
 protected:
     inline QSqlDatabase* getDataBase() const { return m_db; }

@@ -31,7 +31,9 @@ SOURCES += \
     tables/targetmodel.cpp \
     tables/standardmodel.cpp \
     tables/standardexcercisemodel.cpp \
-    tables/excercisemodel.cpp
+    tables/excercisemodel.cpp \
+    tables/trainingstandardmodel.cpp \
+    tables/shotmodel.cpp
 
 
 HEADERS += \
@@ -51,7 +53,9 @@ HEADERS += \
     tables/targetmodel.h \
     tables/standardmodel.h \
     tables/excercisemodel.h \
-    tables/standardexcercisemodel.h
+    tables/standardexcercisemodel.h \
+    tables/trainingstandardmodel.h \
+    tables/shotmodel.h
 
 PRECOMPILED_HEADER += precomp.h
 

@@ -5,7 +5,7 @@
 
 DiaryTables::DiaryTables()
     : QObject( nullptr )
-    , d(new DiaryTablesPrivate(this))
+    , d( new DiaryTablesPrivate( this ) )
 {    
 }
 
@@ -117,63 +117,83 @@ DiaryTablesPrivate::DiaryTablesPrivate(DiaryTables *qPtr)
     throw;
 }
 
-ArchersTableModel *DiaryTablesPrivate::initArchersTable()
+Q_ALWAYS_INLINE ArchersTableModel *DiaryTablesPrivate::initArchersTable()
 {        
     return initTable( m_archers );
 }
 
-ArrowsTableModel *DiaryTablesPrivate::initArrowsTable()
+Q_ALWAYS_INLINE ArrowsTableModel *DiaryTablesPrivate::initArrowsTable()
 {
     return initTable( m_arrows );
 }
 
-BowsTableModel *DiaryTablesPrivate::initBowsTable()
+Q_ALWAYS_INLINE BowsTableModel *DiaryTablesPrivate::initBowsTable()
 {
     return initTable( m_bows );
 }
 
-ScopesTableModel *DiaryTablesPrivate::initScopesTableModel()
+Q_ALWAYS_INLINE ScopesTableModel *DiaryTablesPrivate::initScopesTableModel()
 {
     return initTable( m_scopes );
 }
 
-TrainingTableModel *DiaryTablesPrivate::initTrainingModel()
+Q_ALWAYS_INLINE TrainingTableModel *DiaryTablesPrivate::initTrainingModel()
 {
     return initTable( m_trainings );
 }
 
-RecordTableModel *DiaryTablesPrivate::initRecordModel()
+Q_ALWAYS_INLINE RecordTableModel *DiaryTablesPrivate::initRecordModel()
 {
     return initTable( m_records );
 }
 
-TrainingStandardModel *DiaryTablesPrivate::initTrainingStandardModel()
+Q_ALWAYS_INLINE TrainingStandardModel *DiaryTablesPrivate::initTrainingStandardModel()
 {
-    return nullptr;
+    return initTable( m_trainingStandards );
 }
 
-StandardModel *DiaryTablesPrivate::initStandardModel()
+Q_ALWAYS_INLINE StandardModel *DiaryTablesPrivate::initStandardModel()
 {
     return initTable( m_standards );
 }
 
-StandardExcerciseModel *DiaryTablesPrivate::initStandardExcersiceModel()
+Q_ALWAYS_INLINE StandardExcerciseModel *DiaryTablesPrivate::initStandardExcersiceModel()
 {
     return initTable( m_standardExcersices );
 }
 
-ExcerciseModel *DiaryTablesPrivate::initExcersiceModel()
+Q_ALWAYS_INLINE ExcerciseModel *DiaryTablesPrivate::initExcersiceModel()
 {
     return initTable( m_excersices );
 }
 
-TargetModel *DiaryTablesPrivate::initTargetModel()
+Q_ALWAYS_INLINE TargetModel *DiaryTablesPrivate::initTargetModel()
 {
     return initTable( m_targets );
 }
 
-ShotModel *DiaryTablesPrivate::initShotModel()
+Q_ALWAYS_INLINE ShotModel *DiaryTablesPrivate::initShotModel()
 {
-    return nullptr;
+    return initTable( m_shots );
+}
+
+template<typename TablePtr>
+Q_ALWAYS_INLINE TablePtr *DiaryTablesPrivate::initTable(TablePtr *&dest)
+{
+    if( dest != nullptr ) {
+        return dest;
+    }
+
+    dest = new TablePtr( m_db.data(), q );
+
+    if( dest != nullptr ) {
+        QString error;
+        if( dest->init( error ) )
+            return dest;
+        emit q->databaseError( error );
+        delete dest;
+    }
+
+    return dest = nullptr;
 }
 

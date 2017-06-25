@@ -32,7 +32,7 @@ void TrainingTableModel::setArcherId(ID archerId)
     if(m_archerId >= 0)
         setFilter(QString("Archer=%0").arg(m_archerId));
     else
-        setFilter(QString(""));
+        resetFilter();
 }
 
 bool TrainingTableModel::addTraining()

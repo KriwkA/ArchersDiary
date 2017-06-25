@@ -44,24 +44,7 @@ private:
 
 
     template<typename TablePtr>
-    Q_ALWAYS_INLINE TablePtr* initTable(TablePtr* &dest)
-    {
-        if( dest != nullptr ) {
-            return dest;
-        }
-
-        dest = new TablePtr( m_db.data(), q );
-
-        if( dest != nullptr ) {
-            QString error;
-            if( dest->init( error ) )
-                return dest;
-            emit q->databaseError( error );
-            delete dest;
-        }                
-
-        return dest = nullptr;
-    }
+    TablePtr* initTable(TablePtr* &dest);
 
     ArchersTableModel* m_archers = nullptr;
     ArrowsTableModel* m_arrows = nullptr;

@@ -11,5 +11,7 @@
 #include "targetmodel.h"
 #include "excercisemodel.h"
 #include "standardexcercisemodel.h"
+#include "trainingstandardmodel.h"
+#include "shotmodel.h"
 
 #endif // ALLTABLES_H

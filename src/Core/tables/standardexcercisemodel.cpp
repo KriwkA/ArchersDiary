@@ -26,7 +26,7 @@ void StandardExcerciseModel::setStandardID(ID standardID)
     if( m_standardID != FAKE_ID )
         setFilter( QString("Standard=%0").arg( m_standardID ));
     else
-        setFilter( "" );
+        resetFilter();
 }
 
 bool StandardExcerciseModel::addExcercise(ID excerciseID)

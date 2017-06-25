@@ -45,7 +45,7 @@ void ExcerciseModel::setTargetID(ID targetID)
     if( m_targetID != FAKE_ID )
         setFilter( QString("Target=%0").arg(m_targetID) );
     else
-        setFilter( "" );
+        resetFilter();
 }
 
 bool ExcerciseModel::addExcercise(const QString &name, int distance, int shotsPerSerie, int seriesCount)

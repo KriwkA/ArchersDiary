@@ -20,6 +20,11 @@ bool SqlTableModel::init(QString &error)
     return false;
 }
 
+void SqlTableModel::resetFilter()
+{
+    setFilter( "" );
+}
+
 bool SqlTableModel::insertValues(const QStringList &fieldNames, const QVariantList &values)
 {
     const int valuesCount = values.size();
