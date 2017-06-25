@@ -64,9 +64,6 @@ bool SqlTableModel::insertValues(const SqlFieldList &fields)
 
 bool SqlTableModel::createTable(QString &error)
 {
-    QString queryString = QString("CREATE TABLE IF NOT EXISTS %0").arg( tableName() );
-    queryString.reserve( queryString.length() * (m_columns.count() + 1) * 2 );
-
     QStringList fields;
     m_roles.clear();
 
@@ -95,6 +92,13 @@ bool SqlTableModel::createTable(QString &error)
         fields.append(fieldStr);
         m_roles.insert(Qt::UserRole + m_roles.size() + 1, col.name.toLatin1());
     }
+
+    if( m_db->tables().contains( tableName() ) )
+        return true;
+
+    QString queryString = QString("CREATE TABLE IF NOT EXISTS %0").arg( tableName() );
+    queryString.reserve( queryString.length() * (m_columns.count() + 1) * 2 );
+
     if(fields.size())
         queryString.append(QString(" ( %0 )").arg(fields.join(", ")));
 

@@ -55,7 +55,7 @@ public:
     explicit SqlTableModel(QSqlDatabase *db, QObject *parent = nullptr);
     virtual ~SqlTableModel();
 
-    bool init(QString& error);
+    virtual bool init(QString& error);
     virtual SqlColumns getColumns() const = 0;
     void resetFilter();
 
