@@ -2,7 +2,8 @@ QT += qml quick sql quickcontrols2
 
 CONFIG += c++11 qtquickcompiler
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    targetview.cpp
 
 RESOURCES += \
     qml.qrc
@@ -38,3 +39,6 @@ DISTFILES += \
     android/gradlew.bat
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+HEADERS += \
+    targetview.h

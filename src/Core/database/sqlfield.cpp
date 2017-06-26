@@ -1,3 +1,4 @@
+#include "precomp.h"
 #include "sqlfield.h"
 
 SqlField::SqlField()

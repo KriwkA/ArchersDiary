@@ -1,9 +1,10 @@
 #ifndef SQLFIELD_H
 #define SQLFIELD_H
 
+#include <core_global.h>
 #include <QSqlField>
 
-class SqlField : public QSqlField
+class CORESHARED_EXPORT SqlField : public QSqlField
 {
 public:
     using QSqlField::QSqlField;

@@ -55,7 +55,8 @@ public:
     explicit SqlTableModel(QSqlDatabase *db, QObject *parent = nullptr);
     virtual ~SqlTableModel();
 
-    virtual bool init(QString& error);
+    bool exist() const;
+    bool init(QString& error);
     virtual SqlColumns getColumns() const = 0;
     void resetFilter();
 
@@ -65,12 +66,14 @@ protected:
     bool insertValues(const QVariantList& values);
     bool insertValues(const SqlFieldList& fields);
 
+    virtual bool createTable(QString& error);
+
 private:
     SqlColumns m_columns;
     QSqlDatabase* m_db;
     QHash<int, QByteArray> m_roles;
 
-    bool createTable(QString& error);
+    void initRoles();
     bool openDatabase(QString& error);
     bool execQuery(const QString& queryString, QString &error);
 

@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import "../elements"
+import "../dialogs"
 
 Page {
 
@@ -16,7 +17,9 @@ Page {
             width: bowList.width
             highlighted: ListView.isCurrentItem
 
-            text: "None"
+            text: Name + "\n" +
+                  "Handle: " + Handle + "\n" +
+                  "Limbs: " + Limbs;
 
             onClicked: {
                 bowList.currentIndex = index;
@@ -31,12 +34,18 @@ Page {
             ImageButton {
                 id: addBow
                 onClicked: {
-
+                    createBowDialog.open();
                 }
                 imgSrc: "img/images/plus.png"
             }
         }
 
         model: bowsModel
+    }
+
+    BowEditDialog {
+        id: createBowDialog
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
     }
 }

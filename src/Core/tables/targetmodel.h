@@ -3,6 +3,18 @@
 
 #include <database/sqltablemodel.h>
 
+struct CORESHARED_EXPORT Target
+{
+    int circleCount;
+    QString name;
+    QList<int> scores;
+    QList<double> radiuses;
+    QList<int> colors;
+
+    static Target getFitaTarget( double tenSize, int circleCount );
+    static int getFitaColor( int score );
+};
+
 class CORESHARED_EXPORT TargetModel : public SqlTableModel
 {
     Q_OBJECT
@@ -10,7 +22,12 @@ public:
     explicit TargetModel( QSqlDatabase* db, QObject* parent);
     virtual SqlColumns getColumns() const override;
 
-    Q_INVOKABLE bool addTarget(int circleCount, int growingRadius, const QList<int>& circleColors );
+    Q_INVOKABLE bool addTarget( const Target& target );
+
+protected:
+    virtual bool createTable(QString &error) override;
 };
+
+
 
 #endif // TARGETMODEL_H

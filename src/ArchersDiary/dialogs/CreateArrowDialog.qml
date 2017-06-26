@@ -68,14 +68,14 @@ Dialog {
                 highlighted: true
                 enabled: arrowName.length !== 0
                 text: "Ok"
-                onClicked: createArrowDialog.accept()
+                onClicked: accept()
                 Layout.fillWidth: true
             }
 
             Button {
                 highlighted: true
                 text: "Cancel"
-                onClicked: createArrowDialog.reject()
+                onClicked: reject()
                 Layout.fillWidth: true
             }
         }

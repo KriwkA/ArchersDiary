@@ -37,6 +37,7 @@ Drawer {
                 archerList.currentIndex = index
                 editButton.name = Name
                 arrowsModel.archerID = Id
+                bowsModel.archerID = Id
             }
             onDoubleClicked: {
                 archerListDrawer.close();
