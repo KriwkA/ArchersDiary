@@ -5,18 +5,19 @@
 
 class ShotModel;
 
-class Shot
-{
+class Shot : private QObject
+{    
+    Q_OBJECT
     Q_PROPERTY(double length READ length WRITE setLength)
     Q_PROPERTY(double alpha READ alpha WRITE setAlpha)
 public:
     double length() const;
     void setLength(double length);
-    double aplha() const;
-    void setAplha(double aplha);
+    double alpha() const;
+    void setAlpha(double alpha);
 private:
     double m_length;
-    double m_aplha;
+    double m_alpha;
 };
 
 class TargetView : public QQuickPaintedItem
@@ -31,7 +32,7 @@ public:
         NewShot,
         ShotModel,
     };
-    Q_DECLARE_METATYPE( ShowType )
+
 
     explicit TargetView( QQuickItem* parent = nullptr );
 
@@ -44,5 +45,7 @@ private:
     ShowType m_showType;
 
 };
+
+Q_DECLARE_METATYPE( TargetView::ShowType )
 
 #endif // TARGETVIEW_H

@@ -6,7 +6,7 @@ TargetView::TargetView(QQuickItem *parent)
 
 }
 
-ShowType TargetView::showType() const
+TargetView::ShowType TargetView::showType() const
 {
     return m_showType;
 }
@@ -26,21 +26,12 @@ void Shot::setLength(double length)
     m_length = length;
 }
 
-double Shot::aplha() const
+double Shot::alpha() const
 {
-    return m_aplha;
+    return m_alpha;
 }
 
-void Shot::setAplha(double aplha)
+void Shot::setAlpha(double aplha)
 {
-    m_aplha = aplha;
-}
-
-
-void TargetView::touchEvent(QTouchEvent *event)
-{
-}
-
-void TargetView::paint(QPainter *painter)
-{
+    m_alpha = aplha;
 }
