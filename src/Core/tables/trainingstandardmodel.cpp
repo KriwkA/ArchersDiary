@@ -25,11 +25,15 @@ SqlTableModel::SqlColumns TrainingStandardModel::getColumns() const
 
 void TrainingStandardModel::setTrainingID(ID trainingID)
 {
-    m_trainingID = trainingID;
-    if( m_trainingID != FAKE_ID )
-        setFilter( QString("Training=%0").arg( m_trainingID ) );
-    else
-        resetFilter();
+    if( m_trainingID != trainingID )
+    {
+        m_trainingID = trainingID;
+        if( m_trainingID != FAKE_ID )
+            setFilter( QString("Training=%0").arg( m_trainingID ) );
+        else
+            resetFilter();
+        emit trainingIDChanged( m_trainingID );
+    }
 }
 
 bool TrainingStandardModel::addStandard(ID standardID)

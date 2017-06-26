@@ -38,11 +38,15 @@ SqlTableModel::SqlColumns ShotModel::getColumns() const
 
 void ShotModel::setTrainingStandardID(const ID &trainingStandardID)
 {
-    m_trainingStandardID = trainingStandardID;
-    if( m_trainingStandardID != FAKE_ID )
-        setFilter( "TrainingStandard=%0" );
-    else
-        resetFilter();
+    if( m_trainingStandardID != trainingStandardID )
+    {
+        m_trainingStandardID = trainingStandardID;
+        if( m_trainingStandardID != FAKE_ID )
+            setFilter( "TrainingStandard=%0" );
+        else
+            resetFilter();
+        emit trainingStandardIDChanged( m_trainingStandardID );
+    }
 }
 
 bool ShotModel::addShot(int number, double radius, double alpha, double arrowDiameter)

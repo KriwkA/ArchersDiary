@@ -6,19 +6,22 @@
 class CORESHARED_EXPORT TrainingTableModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(ID archerID READ getArcherId WRITE setArcherId)
+    Q_PROPERTY(ID archerID READ archerID WRITE setArcherID NOTIFY archerIDChanged)
 public:
     explicit TrainingTableModel(QSqlDatabase* db, QObject* parent = nullptr);
 
     virtual SqlColumns getColumns() const override;
 
-    inline ID getArcherId() const { return m_archerId; }
-    void setArcherId(ID archerId);
+    Q_ALWAYS_INLINE ID archerID() const { return m_archerID; }
+    void setArcherID(ID archerID);
 
     Q_INVOKABLE bool addTraining();
 
+signals:
+    void archerIDChanged( ID id );
+
 private:
-    ID m_archerId;
+    ID m_archerID;
 };
 
 #endif // TRAININGTABLEMODEL_H

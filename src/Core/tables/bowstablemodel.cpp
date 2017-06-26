@@ -16,11 +16,15 @@ ID BowsTableModel::getArcherId() const
 
 void BowsTableModel::setArcherId(ID archerId)
 {
-    m_archerId = archerId;
-    if( m_archerId != FAKE_ID )
-        setFilter(QString("Archer=%0").arg(m_archerId));
-    else
-        resetFilter();
+    if( m_archerId != archerId )
+    {
+        m_archerId = archerId;
+        if( m_archerId != FAKE_ID )
+            setFilter(QString("Archer=%0").arg(m_archerId));
+        else
+            resetFilter();
+        emit archerIdChanged( m_archerId );
+    }
 }
 
 bool BowsTableModel::addBow(const QString &name, const QString &handle, const QString &limbs /*, int length, double weight, double base */ )

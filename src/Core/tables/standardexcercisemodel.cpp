@@ -22,11 +22,15 @@ SqlTableModel::SqlColumns StandardExcerciseModel::getColumns() const
 
 void StandardExcerciseModel::setStandardID(ID standardID)
 {
-    m_standardID = standardID;
-    if( m_standardID != FAKE_ID )
-        setFilter( QString("Standard=%0").arg( m_standardID ));
-    else
-        resetFilter();
+    if( m_standardID != standardID )
+    {
+        m_standardID = standardID;
+        if( m_standardID != FAKE_ID )
+            setFilter( QString("Standard=%0").arg( m_standardID ));
+        else
+            resetFilter();
+        emit standardIDChanged( m_standardID );
+    }
 }
 
 bool StandardExcerciseModel::addExcercise(ID excerciseID)

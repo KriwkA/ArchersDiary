@@ -82,7 +82,7 @@ Dialog {
     }
 
     onOpened: {
-        if(editRowInView < 0) {
+        if( editRowInView < 0 ) {
             title = "Create Arrow";
             arrowName.text = "";
             spineSpinBox.value = (spineSpinBox.from + spineSpinBox.to) / 2
@@ -93,7 +93,7 @@ Dialog {
             spineSpinBox.value = spine
             lengthSpinBox.realValue = length
             diameterSpinBox.realValue = diameter
-        }
+        }        
     }
 
     onClosed: {

@@ -41,11 +41,15 @@ SqlTableModel::SqlColumns ExcerciseModel::getColumns() const
 
 void ExcerciseModel::setTargetID(ID targetID)
 {
-    m_targetID = targetID;
-    if( m_targetID != FAKE_ID )
-        setFilter( QString("Target=%0").arg(m_targetID) );
-    else
-        resetFilter();
+    if( m_targetID != targetID )
+    {
+        m_targetID = targetID;
+        if( m_targetID != FAKE_ID )
+            setFilter( QString("Target=%0").arg(m_targetID) );
+        else
+            resetFilter();
+        emit targetIDChanged( m_targetID );
+    }
 }
 
 bool ExcerciseModel::addExcercise(const QString &name, int distance, int shotsPerSerie, int seriesCount)

@@ -6,7 +6,7 @@
 class CORESHARED_EXPORT StandardExcerciseModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(ID standardID READ standardID WRITE setStandardID)
+    Q_PROPERTY(ID standardID READ standardID WRITE setStandardID NOTIFY standardIDChanged)
 public:
     explicit StandardExcerciseModel( QSqlDatabase* db, QObject* parent = nullptr );
     virtual SqlColumns getColumns() const override;
@@ -15,6 +15,9 @@ public:
     void setStandardID(ID standardID);
 
     Q_INVOKABLE bool addExcercise( ID excerciseID );
+
+signals:
+    void standardIDChanged( ID id );
 
 private:
     ID m_standardID;

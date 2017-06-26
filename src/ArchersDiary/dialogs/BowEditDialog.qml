@@ -73,7 +73,7 @@ Dialog {
             bowName.text = name;
             bowHandle.text = handle;
             bowLimbs.text = limbs;
-        }
+        }        
     }
 
     onClosed: {

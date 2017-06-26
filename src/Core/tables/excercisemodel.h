@@ -6,7 +6,7 @@
 class CORESHARED_EXPORT ExcerciseModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(ID targetID READ targetID WRITE setTargetID)
+    Q_PROPERTY(ID targetID READ targetID WRITE setTargetID NOTIFY targetIDChanged )
 public:
     explicit ExcerciseModel( QSqlDatabase* db, QObject* parent );
     virtual SqlColumns getColumns() const override;
@@ -15,6 +15,9 @@ public:
     void setTargetID( ID targetID );
 
     Q_INVOKABLE bool addExcercise( const QString& name, int distance, int shotsPerSerie, int seriesCount );
+
+signals:
+    void targetIDChanged( ID id );
 
 private:
     ID m_targetID;

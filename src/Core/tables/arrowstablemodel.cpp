@@ -4,7 +4,7 @@
 
 ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_archerId( FAKE_ID )
+    , m_archerID( FAKE_ID )
 {
     setTable( "Arrow" );
 }
@@ -37,24 +37,23 @@ SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
     return SqlColumns();
 }
 
-ID ArrowsTableModel::getArcherId() const
+void ArrowsTableModel::setArcherID(ID archerID)
 {
-    return m_archerId;
-}
-
-void ArrowsTableModel::setArcherId(ID archerId)
-{
-    m_archerId = archerId;
-    if( m_archerId != FAKE_ID )
-        setFilter(QString("Archer=%0").arg(m_archerId));
-    else
-        resetFilter();
+    if( m_archerID != archerID )
+    {
+        m_archerID = archerID;
+        if( m_archerID != FAKE_ID )
+            setFilter(QString("Archer=%0").arg(m_archerID));
+        else
+            resetFilter();
+        emit archerIDChanged( m_archerID );
+    }
 }
 
 bool ArrowsTableModel::addArrow(const QString &name, double spine, double length, double diameter)
 {
-    if( m_archerId != FAKE_ID )
-        return insertValues({ m_archerId, name, spine, length, diameter });
+    if( m_archerID != FAKE_ID )
+        return insertValues({ m_archerID, name, spine, length, diameter });
     qDebug() << "Invalid archer Id";
     return false;
 }

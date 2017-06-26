@@ -5,7 +5,7 @@
 
 TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_archerId( FAKE_ID )
+    , m_archerID( FAKE_ID )
 {
     setTable("Training");
 }
@@ -26,19 +26,23 @@ SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
     return SqlColumns();
 }
 
-void TrainingTableModel::setArcherId(ID archerId)
+void TrainingTableModel::setArcherID(ID archerID)
 {
-    m_archerId = archerId;
-    if(m_archerId >= 0)
-        setFilter(QString("Archer=%0").arg(m_archerId));
-    else
-        resetFilter();
+    if( m_archerID != archerID )
+    {
+        m_archerID = archerID;
+        if(m_archerID >= 0)
+            setFilter(QString("Archer=%0").arg(m_archerID));
+        else
+            resetFilter();
+        emit archerIDChanged( m_archerID );
+    }
 }
 
 bool TrainingTableModel::addTraining()
 {
-    if(m_archerId >= 0)
-        return insertValues({ m_archerId, QDateTime::currentDateTime().toSecsSinceEpoch() });
+    if(m_archerID >= 0)
+        return insertValues({ m_archerID, QDateTime::currentDateTime().toSecsSinceEpoch() });
     qWarning() << "Invalid archer Id";
     return false;
 }

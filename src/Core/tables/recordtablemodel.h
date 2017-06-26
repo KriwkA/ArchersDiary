@@ -6,18 +6,21 @@
 class CORESHARED_EXPORT RecordTableModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(ID trainingID READ getTrainingId WRITE setTrainingID)
+    Q_PROPERTY(ID trainingID READ trainingID WRITE setTrainingID)
 public:
     explicit RecordTableModel(QSqlDatabase* db, QObject* parent = nullptr);
     virtual SqlColumns getColumns() const override;
 
-    inline ID getTrainingId() const { return m_trainingId; }
-    void setTrainingID( ID trainingId );
+    void setTrainingID(ID trainingID );
+    Q_ALWAYS_INLINE ID trainingID() const { return m_trainingID; }
 
     Q_INVOKABLE bool addRecord(const QString& record);
 
+signals:
+    void trainingIDChanged( ID id );
+
 private:
-    ID m_trainingId;
+    ID m_trainingID;
 };
 
 #endif // RECORDTABLEMODEL_H

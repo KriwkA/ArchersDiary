@@ -4,28 +4,31 @@
 
 ScopesTableModel::ScopesTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_bowId( FAKE_ID )
+    , m_bowID( FAKE_ID )
 {
     setTable( "Scope" );
 }
 
-void ScopesTableModel::setBowId(ID bowId)
+void ScopesTableModel::setBowID(ID bowID)
 {
-    m_bowId = bowId;
-    if( m_bowId >= 0 )
-        setFilter(QString( "Bow=%0" ).arg(m_bowId));
-    else
-        setFilter(QString( "" ));
+    if( m_bowID != bowID )
+    {
+        m_bowID = bowID;
+        if( m_bowID >= 0 )
+            setFilter(QString( "Bow=%0" ).arg(m_bowID));
+        else
+            setFilter(QString( "" ));
+        emit bowIDChanged( m_bowID );
+    }
 }
 
 bool ScopesTableModel::addScope(int distance, double vertical, double horizontal)
 {
-    if(m_bowId >= 0)
-        return insertValues( { m_bowId, distance, vertical, horizontal } );
+    if(m_bowID >= 0)
+        return insertValues( { m_bowID, distance, vertical, horizontal } );
     qWarning() << "Invalid bow Id";
     return false;
 }
-
 
 SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
 {

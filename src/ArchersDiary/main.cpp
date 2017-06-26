@@ -34,6 +34,10 @@ void setTablesToContext(QQmlContext* context)
 
 }
 
+void registerTypes()
+{
+}
+
 int main(int argc, char *argv[])
 {    
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -41,6 +45,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    registerTypes();
     setStylesToContext(engine.rootContext());
     setTablesToContext(engine.rootContext());
 

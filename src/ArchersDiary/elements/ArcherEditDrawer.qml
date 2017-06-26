@@ -13,6 +13,12 @@ Drawer {
         currentIndex: -1
         anchors.fill: parent
 
+        function setArcherToModels( id ) {
+            bowsModel.archerID = id;
+            arrowsModel.archerID = id;
+            trainingModel.archerID = id;
+        }
+
         header: ToolBar {
 
             width: parent.width
@@ -36,8 +42,7 @@ Drawer {
             onClicked: {
                 archerList.currentIndex = index
                 editButton.name = Name
-                arrowsModel.archerID = Id
-                bowsModel.archerID = Id
+                archerList.setArcherToModels( Id );
             }
             onDoubleClicked: {
                 archerListDrawer.close();
@@ -70,7 +75,7 @@ Drawer {
                 onClicked: {                    
                     if( archersModel.removeRow( archerList.currentIndex ) ) {
                         archerList.currentIndex = -1;
-                        arrowsModel.archerID = -1;
+                        archerList.setArcherToModels( -1 );
                     }
                 }
                 visible: archerList.currentIndex !== -1

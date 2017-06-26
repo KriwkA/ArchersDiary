@@ -11,8 +11,6 @@ import Qt.labs.settings 1.0
 import "elements"
 import "dialogs"
 
-
-
 ApplicationWindow {    
     property string title_DEFAULT_TEXT : "Diary";
 
@@ -86,6 +84,7 @@ ApplicationWindow {
     StackView {
         id: pages
         anchors.fill: parent
+        property bool bowModelValid: true;
 
         initialItem: ListView {
             id: menu
@@ -93,32 +92,33 @@ ApplicationWindow {
             delegate: ItemDelegate {
                 width: menu.width
                 text: model.title
+                enabled: {
+                    var enable = false;
+                    switch( title ) {
+                    case "Bows" : enable = bowsModel.archerID !== -1; break;
+                    case "Arrows" : enable = arrowsModel.archerID !== -1; break;
+                    case "Scopes" : enable = scopesModel.bowID !== -1; break;
+                    case "Trainings" : enable = trainingModel.archerID !== -1; break;
+                    }
+                    enable;
+                }
+
                 onClicked: {
-                    var canOpenPage = false;
-
-                    if( model.title === "Arrows" || model.title === "Bows" ) {
-                        if( arrowsModel.archerID >= 0 ) {
-                            arrowsModel.select();
-                            canOpenPage = true;
-                        } else {
-                            archerListDrawer.open();
-                        }                        
+                    switch( title ) {
+                    case "Bows" : bowsModel.select(); break;
+                    case "Arrows" : arrowsModel.select(); break;
+                    case "Scopes" : scopesModel.select(); break;
+                    case "Trainings" : trainingModel.select(); break;
                     }
-
-                    if( canOpenPage ) {
-                        titleLabel.text = model.title;
-                        pages.push( model.source );
-                    }
+                    pages.push( model.source );
                 }
             }
 
             model: ListModel {
-                ListElement { title: "Bows"; source: "pages/Bows.qml" }
-                ListElement { title: "Arrows"; source: "pages/Arrows.qml" }
-                ListElement { title: "Scopes"; }
-                ListElement { title: "Trainings"; }
-                ListElement { title: "Records"; }
-                ListElement { title: "Stats"; }
+                ListElement { title: "Bows"; source: "pages/Bows.qml"; }
+                ListElement { title: "Arrows"; source: "pages/Arrows.qml"; }
+                ListElement { title: "Scopes"; valid: false }
+                ListElement { title: "Trainings"; valid: false  }
             }
         }
 

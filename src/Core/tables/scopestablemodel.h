@@ -6,18 +6,21 @@
 class CORESHARED_EXPORT ScopesTableModel : public SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(ID bowId READ getBowId WRITE setBowId)
+    Q_PROPERTY(ID bowID READ getBowID WRITE setBowID NOTIFY bowIDChanged)
 public:
     explicit ScopesTableModel(QSqlDatabase* db, QObject* parent = nullptr);
     virtual SqlColumns getColumns() const override;
 
-    inline ID getBowId() const { return m_bowId; }
-    void setBowId(ID bowId );
+    Q_ALWAYS_INLINE ID getBowID() const { return m_bowID; }
+    void setBowID(ID bowID );
 
     Q_INVOKABLE bool addScope(int distance, double vertical, double horizontal );
 
+signals:
+    void bowIDChanged( ID id );
+
 private:
-    ID m_bowId;
+    ID m_bowID;
 
 };
 

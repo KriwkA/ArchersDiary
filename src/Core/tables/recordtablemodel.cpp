@@ -4,7 +4,7 @@
 
 RecordTableModel::RecordTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel( db, parent )
-    , m_trainingId( FAKE_ID )
+    , m_trainingID( FAKE_ID )
 {
     setTable("Record");
 }
@@ -24,19 +24,23 @@ SqlTableModel::SqlColumns RecordTableModel::getColumns() const
     return SqlColumns();
 }
 
-void RecordTableModel::setTrainingID(ID trainingId)
+void RecordTableModel::setTrainingID(ID trainingID )
 {
-    m_trainingId = trainingId;
-    if(m_trainingId >= 0)
-        setFilter(QString("Training=%0").arg(m_trainingId));
-    else
-        resetFilter();
+    if( trainingID != m_trainingID )
+    {
+        m_trainingID = trainingID;
+        if(m_trainingID >= 0)
+            setFilter(QString("Training=%0").arg(m_trainingID));
+        else
+            resetFilter();
+        emit trainingIDChanged( m_trainingID );
+    }
 }
 
 bool RecordTableModel::addRecord(const QString& record)
 {
-    if(m_trainingId >= 0)
-        return insertValues({ m_trainingId, record });
+    if(m_trainingID >= 0)
+        return insertValues({ m_trainingID, record });
     qDebug() << "Invalid archer Id";
     return false;
 }
