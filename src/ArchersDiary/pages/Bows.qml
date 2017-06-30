@@ -12,6 +12,10 @@ Page {
         anchors.fill: parent
         currentIndex: -1
 
+        function setBowIdToModels( id ) {
+            scopesModel.bowID = id;
+        }
+
         delegate: ItemDelegate {
             id: bowDelegate
             width: bowList.width
@@ -23,6 +27,7 @@ Page {
 
             onClicked: {
                 bowList.currentIndex = index;
+                bowList.setBowIdToModels( Id );
             }
         }
 
