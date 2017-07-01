@@ -6,19 +6,6 @@
 
 class DiaryTables;
 
-class ArchersTableModel;
-class ArrowsTableModel;
-class BowsTableModel;
-class ScopesTableModel;
-class TrainingTableModel;
-class RecordTableModel;
-class TrainingStandardModel;
-class StandardModel;
-class StandardExcerciseModel;
-class ExcerciseModel;
-class TargetModel;
-class ShotModel;
-
 enum class TableType;
 
 class DiaryTablesPrivate
