@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "shotmodel.h"
+#include "diarytables.h"
 
 ShotModel::ShotModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel( db, parent )
@@ -10,7 +11,7 @@ ShotModel::ShotModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns ShotModel::getColumns() const
 {
-    auto trainingStandardModel = reinterpret_cast< SqlTableModel* >( DiaryTables::getObject()->trainingStandardModel() );
+    auto trainingStandardModel = DiaryTables::getTableModel( TableType::TrainingStandards );
     if( trainingStandardModel != nullptr )
     {
         SqlColumn trainingStandard = SqlColumn::createForeign( trainingStandardModel );

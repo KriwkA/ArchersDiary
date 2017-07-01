@@ -19,6 +19,8 @@ class ExcerciseModel;
 class TargetModel;
 class ShotModel;
 
+enum class TableType;
+
 class DiaryTablesPrivate
 {
     friend class DiaryTables;
@@ -27,24 +29,10 @@ class DiaryTablesPrivate
 private:
     DiaryTablesPrivate(DiaryTables* qPtr);
 
-    ArchersTableModel* initArchersTable();
-    ArrowsTableModel* initArrowsTable();
-    BowsTableModel* initBowsTable();
-    ScopesTableModel* initScopesTableModel();
-
-
-    TrainingTableModel* initTrainingModel();
-    RecordTableModel* initRecordModel();
-    TrainingStandardModel* initTrainingStandardModel();
-    StandardModel* initStandardModel();
-    StandardExcerciseModel* initStandardExcersiceModel();
-    ExcerciseModel* initExcersiceModel();
-    TargetModel* initTargetModel();
-    ShotModel* initShotModel();
-
+    SqlTableModel* initTable(TableType tableType );
 
     template<typename TablePtr>
-    TablePtr* initTable(TablePtr* &dest);
+    SqlTableModel* initTable(TablePtr* &dest);
 
     ArchersTableModel* m_archers = nullptr;
     ArrowsTableModel* m_arrows = nullptr;

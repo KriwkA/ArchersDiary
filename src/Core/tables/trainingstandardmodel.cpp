@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "trainingstandardmodel.h"
+#include "diarytables.h"
 
 TrainingStandardModel::TrainingStandardModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel( db, parent )
@@ -10,9 +11,8 @@ TrainingStandardModel::TrainingStandardModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns TrainingStandardModel::getColumns() const
 {
-    auto trainingModel = reinterpret_cast<SqlTableModel*>( DiaryTables::getObject()->trainingModel() );
-    auto standardModel = reinterpret_cast<SqlTableModel*>( DiaryTables::getObject()->standardModel() );
-
+    auto trainingModel = DiaryTables::getTableModel( TableType::Trainings );
+    auto standardModel = DiaryTables::getTableModel( TableType::Standards );
     if( trainingModel != nullptr && standardModel != nullptr )
     {
         SqlColumn id = SqlColumn::createPrimaryKey();

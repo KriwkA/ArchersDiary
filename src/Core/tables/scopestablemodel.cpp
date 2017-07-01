@@ -32,7 +32,7 @@ bool ScopesTableModel::addScope(int distance, double vertical, double horizontal
 
 SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
 {
-    auto bowsModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->bowsModel());
+    auto bowsModel = DiaryTables::getTableModel( TableType::Bows );
     if( bowsModel != nullptr )
     {
         SqlTableModel::SqlColumn bow = SqlColumn::createForeign( bowsModel );

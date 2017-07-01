@@ -14,24 +14,21 @@ void setStylesToContext(QQmlContext* context)
 }
 
 void setTablesToContext(QQmlContext* context)
-{
-    auto diary = DiaryTables::getObject();
-    context->setContextProperty("diaryTables", diary);
-    context->setContextProperty("archersModel", diary->archersModel());
-    context->setContextProperty("arrowsModel", diary->arrowsModel());
-    context->setContextProperty("bowsModel", diary->bowsModel());
-    context->setContextProperty("scopesModel", diary->scopesModel());
+{        
+    context->setContextProperty("archersModel", DiaryTables::getTableModel( TableType::Archrers ) );
+    context->setContextProperty("arrowsModel", DiaryTables::getTableModel( TableType::Arrows ) );
+    context->setContextProperty("bowsModel", DiaryTables::getTableModel( TableType::Bows ) );
+    context->setContextProperty("scopesModel", DiaryTables::getTableModel( TableType::Scopes) );
 
-    context->setContextProperty("trainingModel", diary->trainingModel());
-    context->setContextProperty("recordModel", diary->recordModel());
-    context->setContextProperty("trainingStandardModel", diary->trainingStandardModel());
-    context->setContextProperty("shotModel", diary->shotModel());
+    context->setContextProperty("trainingModel", DiaryTables::getTableModel( TableType::Trainings) );
+    context->setContextProperty("recordModel", DiaryTables::getTableModel( TableType::Records) );
+    context->setContextProperty("trainingStandardModel", DiaryTables::getTableModel( TableType::TrainingStandards) );
+    context->setContextProperty("shotModel", DiaryTables::getTableModel( TableType::Shots) );
 
-    context->setContextProperty("standardModel", diary->standardModel());
-    context->setContextProperty("standardExcerciseModel", diary->standardExcersiceModel());
-    context->setContextProperty("excerciseModel", diary->excersiceModel());
-    context->setContextProperty("targetModel", diary->targetModel());
-
+    context->setContextProperty("standardModel", DiaryTables::getTableModel( TableType::Standards ) );
+    context->setContextProperty("standardExcerciseModel", DiaryTables::getTableModel( TableType::StandardExcersices ) );
+    context->setContextProperty("excerciseModel", DiaryTables::getTableModel( TableType::Excercises ) );
+    context->setContextProperty("targetModel", DiaryTables::getTableModel( TableType::Targets ) );
 }
 
 void registerTypes()

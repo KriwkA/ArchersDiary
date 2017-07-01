@@ -38,8 +38,8 @@ bool BowsTableModel::addBow(const QString &name, const QString &handle, const QS
 
 
 SqlTableModel::SqlColumns BowsTableModel::getColumns() const
-{
-    auto archersModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
+{    
+    auto archersModel = DiaryTables::getTableModel( TableType::Archrers );
     if( archersModel != nullptr )
     {
         SqlColumn id = SqlColumn::createPrimaryKey();
@@ -58,18 +58,18 @@ SqlTableModel::SqlColumns BowsTableModel::getColumns() const
         limbs.name = "Limbs";
         limbs.dataType = "TEXT";
 
-//        SqlColumn length;
-//        length.name = "Length";
-//        length.dataType = "INTEGER";
+        //        SqlColumn length;
+        //        length.name = "Length";
+        //        length.dataType = "INTEGER";
 
-//        SqlColumn weight;
-//        weight.name = "Weight";
-//        weight.dataType = "REAL";
+        //        SqlColumn weight;
+        //        weight.name = "Weight";
+        //        weight.dataType = "REAL";
 
-//        SqlColumn base;
-//        base.name = "Base";
-//        base.dataType = "REAL";
+        //        SqlColumn base;
+        //        base.name = "Base";
+        //        base.dataType = "REAL";
         return { id, archer, name, handle, limbs, /* length, weight, base */ };
-    }    
+    }
     return SqlColumns();
 }

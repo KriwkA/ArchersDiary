@@ -12,7 +12,7 @@ TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
 {    
-    auto archerModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
+    auto archerModel = DiaryTables::getTableModel( TableType::Archrers );
     if( archerModel != nullptr )
     {
 

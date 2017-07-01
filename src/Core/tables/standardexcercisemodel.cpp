@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "standardexcercisemodel.h"
+#include "diarytables.h"
 
 StandardExcerciseModel::StandardExcerciseModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel( db, parent )
@@ -10,8 +11,8 @@ StandardExcerciseModel::StandardExcerciseModel(QSqlDatabase *db, QObject *parent
 
 SqlTableModel::SqlColumns StandardExcerciseModel::getColumns() const
 {
-    auto standards = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->standardModel());
-    auto excercises = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->excersiceModel());
+    auto standards = DiaryTables::getTableModel( TableType::Standards );
+    auto excercises = DiaryTables::getTableModel( TableType::Excercises );
     if( standards != nullptr && excercises != nullptr ) {
         SqlColumn standard = SqlColumn::createForeign( standards );
         SqlColumn excersice = SqlColumn::createForeign( excercises );

@@ -11,7 +11,7 @@ ExcerciseModel::ExcerciseModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns ExcerciseModel::getColumns() const
 {
-    auto targetsModel = reinterpret_cast<SqlTableModel*>( DiaryTables::getObject()->targetModel() );
+    auto targetsModel = DiaryTables::getTableModel( TableType::Targets );
     if( targetsModel != nullptr )
     {
         SqlColumn id = SqlColumn::createPrimaryKey();

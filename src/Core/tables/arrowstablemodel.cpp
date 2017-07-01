@@ -11,7 +11,7 @@ ArrowsTableModel::ArrowsTableModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
 {            
-    auto archersModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->archersModel());
+    auto archersModel = DiaryTables::getTableModel( TableType::Archrers );
     if( archersModel != nullptr )
     {
         SqlColumn archer = SqlColumn::createForeign( archersModel );

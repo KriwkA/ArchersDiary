@@ -11,7 +11,7 @@ RecordTableModel::RecordTableModel(QSqlDatabase *db, QObject *parent)
 
 SqlTableModel::SqlColumns RecordTableModel::getColumns() const
 {
-    auto trainingModel = reinterpret_cast<SqlTableModel*>(DiaryTables::getObject()->trainingModel());
+    auto trainingModel = DiaryTables::getTableModel( TableType::Trainings );
     if( trainingModel != nullptr )
     {
         SqlTableModel::SqlColumn training = SqlColumn::createForeign( trainingModel );

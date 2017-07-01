@@ -5,49 +5,38 @@
 #include <QObject>
 
 class DiaryTablesPrivate;
+class SqlTableModel;
 
-class ArchersTableModel;
-class ArrowsTableModel;
-class BowsTableModel;
-class ScopesTableModel;
-class TrainingTableModel;
-class RecordTableModel;
-class TrainingStandardModel;
-class StandardModel;
-class StandardExcerciseModel;
-class ExcerciseModel;
-class TargetModel;
-class ShotModel;
+enum class TableType
+{
+    Archrers,
+    Arrows,
+    Bows,
+    Scopes,
+    Trainings,
+    Records,
+    Standards,
+    Targets,
+    Excercises,
+    StandardExcersices,
+    TrainingStandards,
+    Shots,
+};
 
 class CORESHARED_EXPORT DiaryTables : public QObject
 {
     Q_OBJECT
 public:
-    static DiaryTables* getObject();
-
-    DiaryTables(DiaryTables&& move);
-    void operator=(DiaryTables&& move);
     virtual ~DiaryTables();
 
-    ArchersTableModel* archersModel();
-    ArrowsTableModel* arrowsModel();
-    BowsTableModel *bowsModel();
-    ScopesTableModel *scopesModel();
-
-    TrainingTableModel* trainingModel();
-    RecordTableModel* recordModel();
-    TrainingStandardModel* trainingStandardModel();
-    StandardModel* standardModel();
-    StandardExcerciseModel* standardExcersiceModel();
-    ExcerciseModel* excersiceModel();
-    TargetModel* targetModel();
-    ShotModel* shotModel();
+    static SqlTableModel* getTableModel( TableType tableType );
 
 signals:
     void databaseError(QString error);
 
 private:
     DiaryTables();
+    static DiaryTables* getObject();
 
     Q_DISABLE_COPY( DiaryTables )
     friend class DiaryTablesPrivate;
