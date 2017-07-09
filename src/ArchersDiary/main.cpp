@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickStyle>
+#include <QFile>
+#include <QDir>
 
 #include <tables/alltables.h>
 #include <diarytables.h>
@@ -35,10 +37,31 @@ void registerTypes()
 {
 }
 
+bool prepareDb()
+{
+    QFile db("diary.db");
+    if( db.exists() )
+        return true;
+
+    QFile nullDb( ":/db/diary.db");
+    if( nullDb.open( QFile::ReadOnly ) && db.open( QFile::WriteOnly ) )
+    {
+        db.write( nullDb.readAll() );
+        db.close();
+        nullDb.close();
+        return true;
+    }
+
+    return false;
+}
+
 int main(int argc, char *argv[])
 {    
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+
+    if( !prepareDb() )
+        return -1;
 
     QQmlApplicationEngine engine;
 

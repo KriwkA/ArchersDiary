@@ -34,24 +34,34 @@ SqlTableModel::SqlColumns TargetModel::getColumns() const
     return { id, name, circleCount, scores, radiuses, colors };
 }
 
-template< typename T >
-static QVariantList fromList( const QList< T >& list)
+bool TargetModel::init( QString &error )
 {
-    QVariantList res;
-    for( const T& val : list )
-        res.append( val );
-    return res;
+    if( SqlTableModel::init( error ) )
+    {
+        if( rowCount() != 0 )
+            return true;
+
+        return addTarget( Target::getFitaTarget( 4.0, 10 ) ) &&
+               addTarget( Target::getFitaTarget( 4.0, 5 ) ) &&
+               addTarget( Target::getFitaTarget( 8.0, 10 ) ) &&
+               addTarget( Target::getFitaTarget( 8.0, 6 ) ) &&
+               addTarget( Target::getFitaTarget( 12.2, 10 ) );
+    }
+    return false;
 }
 
 bool TargetModel::addTarget(const Target &target)
 {
     int count = target.circleCount;
-    QVariantList s = fromList( target.scores );
-    QVariantList r = fromList( target.radiuses );
-    QVariantList c = fromList( target.colors );
 
-    if( count == r.size() && count == c.size() && count == s.size())
+
+    if( count == target.scores.size() && count == target.radiuses.size() && count == target.colors.size() )
+    {
+        auto s = Serilization::serialize( target.scores );
+        auto r = Serilization::serialize( target.radiuses );
+        auto c = Serilization::serialize( target.colors );
         return insertValues( { target.name, count, r, c, s } );
+    }
 
     return false;
 }
@@ -90,18 +100,4 @@ int Target::getFitaColor(int score)
     case 10: return 0xFFFF00;
     }
     return 0;
-}
-
-bool TargetModel::createTable(QString &error)
-{
-    if( SqlTableModel::createTable( error ) )
-    {
-        addTarget( Target::getFitaTarget( 4.0, 10 ) );
-        addTarget( Target::getFitaTarget( 4.0, 5 ) );
-        addTarget( Target::getFitaTarget( 8.0, 10 ) );
-        addTarget( Target::getFitaTarget( 8.0, 6 ) );
-        addTarget( Target::getFitaTarget( 12.2, 10 ) );
-        return true;
-    }
-    return false;
 }

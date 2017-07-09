@@ -80,4 +80,7 @@
         <file>images/+material/settings@x4.png</file>
         <file>images/archery.png</file>
     </qresource>
+    <qresource prefix="/db">
+        <file alias="diary.db">db/diary.db</file>
+    </qresource>
 </RCC>
