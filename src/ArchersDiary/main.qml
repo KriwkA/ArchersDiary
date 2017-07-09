@@ -117,7 +117,7 @@ ApplicationWindow {
             model: ListModel {
                 ListElement { title: "Bows"; source: "pages/Bows.qml"; }
                 ListElement { title: "Arrows"; source: "pages/Arrows.qml"; }
-                ListElement { title: "Scopes"; valid: false }
+                ListElement { title: "Scopes"; source: "pages/Scopes.qml"; }
                 ListElement { title: "Trainings"; valid: false  }
             }
         }
