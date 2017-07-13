@@ -40,7 +40,7 @@ ApplicationWindow {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: pages.depth > 1 ? "img/images/back.png" : "img/images/menu.png"
+                    source: pages.depth > 1 ? BackImage : MenuImage
                 }
 
                 onClicked: {        
@@ -68,7 +68,7 @@ ApplicationWindow {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "img/images/settings.png"
+                    source: SettingsImage;
                 }                
             }
 

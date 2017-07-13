@@ -9,6 +9,26 @@
 #include <diarytables.h>
 #include <QDebug>
 
+static const QString RS_IMAGES_PATH    = "img/images/";
+static const QString RS_MENU_IMAGE     = RS_IMAGES_PATH + "menu.png";
+static const QString RS_BACK_IMAGE     = RS_IMAGES_PATH + "back.png";
+static const QString RS_ARCHER_IMAGE   = RS_IMAGES_PATH + "menu.png";
+static const QString RS_ADD_IMAGE      = RS_IMAGES_PATH + "plus.png";
+static const QString RS_REMOVE_IMAGE   = RS_IMAGES_PATH + "remove.png";
+static const QString RS_EDIT_IMAGE     = RS_IMAGES_PATH + "edit.png";
+static const QString RS_SETTINGS_IMAGE = RS_IMAGES_PATH + "settings.png";
+
+void setImagePathsToContext(QQmlContext* context)
+{
+    context->setContextProperty( "MenuImage", RS_MENU_IMAGE );
+    context->setContextProperty( "BackImage", RS_BACK_IMAGE );
+    context->setContextProperty( "ArcherImage", RS_ARCHER_IMAGE );
+    context->setContextProperty( "AddImage", RS_ADD_IMAGE );
+    context->setContextProperty( "RemoveImage", RS_REMOVE_IMAGE );
+    context->setContextProperty( "EditImage", RS_EDIT_IMAGE );
+    context->setContextProperty( "SettingsImage", RS_SETTINGS_IMAGE );
+}
+
 void setStylesToContext(QQmlContext* context)
 {
     QQuickStyle::setStyle("Material");
@@ -66,8 +86,10 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     registerTypes();
-    setStylesToContext(engine.rootContext());
-    setTablesToContext(engine.rootContext());
+    auto context = engine.rootContext();
+    setImagePathsToContext( context );
+    setStylesToContext( context );
+    setTablesToContext( context );
 
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
     return app.exec();

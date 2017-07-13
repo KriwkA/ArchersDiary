@@ -13,6 +13,9 @@
         <file>dialogs/BowEditDialog.qml</file>
         <file>pages/Scopes.qml</file>
         <file>dialogs/ScopeEditDialog.qml</file>
+        <file>elements/AddButton.qml</file>
+        <file>elements/RemoveButton.qml</file>
+        <file>elements/EditButton.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>images/accept.png</file>

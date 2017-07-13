@@ -12,6 +12,7 @@ Drawer {
         onModelChanged: model.select();
         currentIndex: -1
         anchors.fill: parent
+        property bool recordSelected: currentIndex !== -1
 
         function setArcherToModels( id ) {
             bowsModel.archerID = id;
@@ -54,38 +55,29 @@ Drawer {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
 
-            ImageButton {
+            EditButton {
                 property string name;
-                id: editButton;
-                imgSrc: "img/images/edit.png"
-
+                id: editButton
+                visible: archerList.recordSelected;
                 onClicked: {
                     archerEditDialog.currentArcher = archerList.currentIndex;
                     archerEditDialog.name = name;
                     archerEditDialog.open()
                 }
 
-                highlighted: true
-                visible: archerList.currentIndex !== -1
+
             }
-            ImageButton {
-                id: removeButton;
-                imgSrc: "img/images/remove.png"
-                highlighted: true
+            RemoveButton {
+                visible: archerList.recordSelected;
                 onClicked: {                    
                     if( archersModel.removeRow( archerList.currentIndex ) ) {
                         archerList.currentIndex = -1;
                         archerList.setArcherToModels( -1 );
                     }
                 }
-                visible: archerList.currentIndex !== -1
             }
-            ImageButton {
-                id: addArcherButton
-                onClicked: {
-                    archerEditDialog.open()
-                }
-                imgSrc: "img/images/plus.png"
+            AddButton {
+                onClicked: archerEditDialog.open();
             }
         }
 
