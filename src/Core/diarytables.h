@@ -21,6 +21,7 @@ enum class TableType
     StandardExcersices,
     TrainingStandards,
     Shots,
+    SimpleShot
 };
 
 class CORESHARED_EXPORT DiaryTables : public QObject

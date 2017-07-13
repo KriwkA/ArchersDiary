@@ -33,6 +33,7 @@ private:
     ExcerciseModel* m_excersices = nullptr;
     TargetModel* m_targets = nullptr;
     ShotModel* m_shots = nullptr;
+    SimpleShotModel* m_simpleShots = nullptr;
 
     QScopedPointer< QSqlDatabase > m_db;
 

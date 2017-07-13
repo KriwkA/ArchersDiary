@@ -1,6 +1,11 @@
 #include "precomp.h"
 #include "sqltablemodel.h"
 
+const char ftINTEGER[] = "INTEGER";
+const char ftREAL[] = "REAL";
+const char ftTEXT[] = "TEXT";
+const char ftBLOB[] = "BLOB";
+
 SqlTableModel::SqlTableModel(QSqlDatabase *db, QObject *parent)
     : QSqlTableModel(parent)   
     , m_db( db )

@@ -39,15 +39,15 @@ SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
 
         SqlTableModel::SqlColumn distance;
         distance.name = "Distance";
-        distance.dataType = "INTEGER";
+        distance.dataType = ftINTEGER;
 
         SqlTableModel::SqlColumn vertical;
         vertical.name = "Vertical";
-        vertical.dataType = "REAL";
+        vertical.dataType = ftREAL;
 
         SqlTableModel::SqlColumn horizontal;
         horizontal.name = "Horizontal";
-        horizontal.dataType = "REAL";
+        horizontal.dataType = ftREAL;
 
         return { bow, distance, vertical, horizontal };
     }   

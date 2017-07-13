@@ -18,6 +18,11 @@ Q_DECLARE_METATYPE( ID )
 static const ID FAKE_ID = -1;
 static const int APPEND_INDEX = -1;
 
+extern const char ftINTEGER[];
+extern const char ftREAL[];
+extern const char ftTEXT[];
+extern const char ftBLOB[];
+
 class CORESHARED_EXPORT SqlTableModel : public QSqlTableModel
 {
     Q_OBJECT
@@ -46,8 +51,8 @@ public:
         QString foreingField;
         bool unique = false;
 
-        static SqlColumn createPrimaryKey( const QString name = "Id", const QString dataType = "INTEGER" );
-        static SqlColumn createForeign( const QString& foreignTableName, QString datatype = "INTEGER", QString foreignField = "Id", ForeignFlags foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade) );
+        static SqlColumn createPrimaryKey( const QString name = "Id", const QString dataType = ftINTEGER );
+        static SqlColumn createForeign( const QString& foreignTableName, QString datatype = ftINTEGER, QString foreignField = "Id", ForeignFlags foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade) );
         static SqlColumn createForeign( SqlTableModel* foreignTable, QString foreignField = "Id", ForeignFlags foreignFlags = ForeignFlags(OnDeleteCascade | OnUpdateCascade) );
     };
 

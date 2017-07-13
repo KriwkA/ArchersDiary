@@ -13,7 +13,7 @@ SqlTableModel::SqlColumns StandardModel::getColumns() const
 
     SqlColumn name;
     name.name = "Name";
-    name.dataType = "TEXT";
+    name.dataType = ftTEXT;
 
     return { id, name };
 }

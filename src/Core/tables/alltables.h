@@ -13,5 +13,6 @@
 #include "standardexcercisemodel.h"
 #include "trainingstandardmodel.h"
 #include "shotmodel.h"
+#include "simpleshotmodel.h"
 
 #endif // ALLTABLES_H

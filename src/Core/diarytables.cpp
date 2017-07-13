@@ -64,6 +64,7 @@ SqlTableModel *DiaryTablesPrivate::initTable( TableType tableType )
         case TableType::StandardExcersices: return initTable( m_standardExcersices );
         case TableType::TrainingStandards:  return initTable( m_trainingStandards );
         case TableType::Shots:              return initTable( m_shots );
+        case TableType::SimpleShot:         return initTable( m_simpleShots );
     }
     return nullptr;
 }

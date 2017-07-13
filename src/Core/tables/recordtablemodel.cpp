@@ -18,7 +18,7 @@ SqlTableModel::SqlColumns RecordTableModel::getColumns() const
 
         SqlColumn record;
         record.name = "Record";
-        record.dataType = "TEXT";
+        record.dataType = ftTEXT;
         return { training, record };
     }
     return SqlColumns();

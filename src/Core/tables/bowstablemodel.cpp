@@ -48,27 +48,27 @@ SqlTableModel::SqlColumns BowsTableModel::getColumns() const
 
         SqlColumn name;
         name.name = "Name";
-        name.dataType = "TEXT";
+        name.dataType = ftTEXT;
 
         SqlColumn handle;
         handle.name = "Handle";
-        handle.dataType = "TEXT";
+        handle.dataType = ftTEXT;
 
         SqlColumn limbs;
         limbs.name = "Limbs";
-        limbs.dataType = "TEXT";
+        limbs.dataType = ftTEXT;
 
         //        SqlColumn length;
         //        length.name = "Length";
-        //        length.dataType = "INTEGER";
+        //        length.dataType = ftINTEGER;
 
         //        SqlColumn weight;
         //        weight.name = "Weight";
-        //        weight.dataType = "REAL";
+        //        weight.dataType = ftREAL;
 
         //        SqlColumn base;
         //        base.name = "Base";
-        //        base.dataType = "REAL";
+        //        base.dataType = ftREAL;
         return { id, archer, name, handle, limbs, /* length, weight, base */ };
     }
     return SqlColumns();

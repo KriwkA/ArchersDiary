@@ -18,7 +18,7 @@ SqlTableModel::SqlColumns ArchersTableModel::getColumns() const
 
     SqlTableModel::SqlColumn name;
     name.name = "Name";
-    name.dataType = "TEXT";
+    name.dataType = ftTEXT;
 
     return { id, name };
 }

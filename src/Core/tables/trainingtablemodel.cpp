@@ -20,7 +20,7 @@ SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
 
         SqlTableModel::SqlColumn date;
         date.name = "Date";
-        date.dataType = "INTEGER";
+        date.dataType = ftINTEGER;
         return { archer, date };
     }    
     return SqlColumns();

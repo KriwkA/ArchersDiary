@@ -20,19 +20,19 @@ SqlTableModel::SqlColumns ExcerciseModel::getColumns() const
 
         SqlColumn name;
         name.name = "Name";
-        name.dataType = "TEXT";
+        name.dataType = ftTEXT;
 
         SqlColumn distance;
         distance.name = "Distance";
-        distance.dataType = "INTEGER";
+        distance.dataType = ftINTEGER;
 
         SqlColumn shotsPerSerie;
         shotsPerSerie.name = "ShotsPerSerie";
-        shotsPerSerie.dataType = "INTEGER";
+        shotsPerSerie.dataType = ftINTEGER;
 
         SqlColumn seriesCount;
         seriesCount.name = "SeriesCount";
-        seriesCount.dataType = "INTEGER";
+        seriesCount.dataType = ftINTEGER;
 
         return { id, target, name, distance, shotsPerSerie, seriesCount };
     }

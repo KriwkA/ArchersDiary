@@ -18,19 +18,19 @@ SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
 
         SqlColumn name;
         name.name = "Name";
-        name.dataType = "TEXT";
+        name.dataType = ftTEXT;
 
         SqlColumn spine;
         spine.name = "Spine";
-        spine.dataType = "REAL";
+        spine.dataType = ftREAL;
 
         SqlColumn length;
         length.name = "Length";
-        length.dataType = "REAL";
+        length.dataType = ftREAL;
 
         SqlColumn diameter;
         diameter.name = "Diameter";
-        diameter.dataType = "REAL";
+        diameter.dataType = ftREAL;
 
         return { archer, name, spine, length, diameter };
     }    

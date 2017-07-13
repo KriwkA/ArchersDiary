@@ -1,15 +1,16 @@
 #include "precomp.h"
-#include "shotmodel.h"
+#include "simpleshotmodel.h"
 #include "diarytables.h"
 
-ShotModel::ShotModel(QSqlDatabase *db, QObject *parent)
+SimpleShotModel::SimpleShotModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel( db, parent )
     , m_trainingStandardID( FAKE_ID )
 {
-    setTable( "ShotModel" );
+    setTable( "SimpleShotModel" );
 }
 
-SqlTableModel::SqlColumns ShotModel::getColumns() const
+
+SqlTableModel::SqlColumns SimpleShotModel::getColumns() const
 {
     auto trainingStandardModel = DiaryTables::getTableModel( TableType::TrainingStandards );
     if( trainingStandardModel != nullptr )
@@ -20,41 +21,31 @@ SqlTableModel::SqlColumns ShotModel::getColumns() const
         number.name = "Number";
         number.dataType = ftINTEGER;
 
-        SqlColumn radius;
-        radius.name = "Radius";
-        radius.dataType = ftREAL;
+        SqlColumn score;
+        number.name = "SCORE";
+        number.dataType = ftINTEGER;
 
-        SqlColumn alpha;
-        alpha.name = "Alpha";
-        alpha.dataType = ftREAL;
-
-        SqlColumn arrowDiameter;
-        arrowDiameter.name = "ArrowDiameter";
-        arrowDiameter.dataType = ftREAL;
-
-        return { trainingStandard, number, radius, alpha, arrowDiameter };
+        return { trainingStandard, number, score };
     }
     return SqlColumns();
 }
 
-void ShotModel::setTrainingStandardID(const ID &trainingStandardID)
+void SimpleShotModel::setTrainingStandardID(const ID &trainingStandardID)
 {
     if( m_trainingStandardID != trainingStandardID )
     {
         m_trainingStandardID = trainingStandardID;
         if( m_trainingStandardID != FAKE_ID )
-            setFilter( "TrainingStandard=%0" );
+            setFilter( QString("TrainingStandard=%0").arg( m_trainingStandardID ));
         else
             resetFilter();
         emit trainingStandardIDChanged( m_trainingStandardID );
     }
 }
 
-bool ShotModel::addShot(int number, double radius, double alpha, double arrowDiameter)
+bool SimpleShotModel::addShot(int number, int score)
 {
     if( m_trainingStandardID != FAKE_ID )
-        return insertValues( { number, radius, alpha, arrowDiameter } );
+        return insertValues( { number, score } );
     return false;
 }
-
-

@@ -13,23 +13,23 @@ SqlTableModel::SqlColumns TargetModel::getColumns() const
 
     SqlColumn name;
     name.name = "Name";
-    name.dataType = "TEXT";
+    name.dataType = ftTEXT;
 
     SqlColumn circleCount;
     circleCount.name = "CircleCount";
-    circleCount.dataType = "INTEGER";
+    circleCount.dataType = ftINTEGER;
 
     SqlColumn scores;
     scores.name = "Scores";
-    scores.dataType = "BLOB";
+    scores.dataType = ftBLOB;
 
     SqlColumn radiuses;
     radiuses.name = "Radiuses";
-    radiuses.dataType = "BLOB";
+    radiuses.dataType = ftBLOB;
 
     SqlColumn colors;
     colors.name = "Colors";
-    colors.dataType = "BLOB";
+    colors.dataType = ftBLOB;
 
     return { id, name, circleCount, scores, radiuses, colors };
 }
