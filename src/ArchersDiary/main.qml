@@ -118,7 +118,7 @@ ApplicationWindow {
                 ListElement { title: "Bows"; source: "pages/Bows.qml"; }
                 ListElement { title: "Arrows"; source: "pages/Arrows.qml"; }
                 ListElement { title: "Scopes"; source: "pages/Scopes.qml"; }
-                ListElement { title: "Trainings"; valid: false  }
+                ListElement { title: "Trainings"; source: "pages/Trainings.qml"; }
             }
         }
 

@@ -21,7 +21,7 @@ class CORESHARED_EXPORT TargetModel : public SqlTableModel
 public:
     explicit TargetModel( QSqlDatabase* db, QObject* parent);
     virtual SqlColumns getColumns() const override;
-    virtual bool init( QString& error ) override;
+    virtual bool createTable( QString& error ) override;
 
     Q_INVOKABLE bool addTarget( const Target& target );
 };

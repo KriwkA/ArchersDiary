@@ -15,13 +15,13 @@ SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
     auto archerModel = DiaryTables::getTableModel( TableType::Archrers );
     if( archerModel != nullptr )
     {
-
+        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
         SqlTableModel::SqlColumn archer = SqlColumn::createForeign( archerModel );
 
         SqlTableModel::SqlColumn date;
         date.name = "Date";
         date.dataType = ftINTEGER;
-        return { archer, date };
+        return { id, archer, date };
     }    
     return SqlColumns();
 }

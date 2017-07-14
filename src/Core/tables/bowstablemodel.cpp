@@ -43,7 +43,6 @@ SqlTableModel::SqlColumns BowsTableModel::getColumns() const
     if( archersModel != nullptr )
     {
         SqlColumn id = SqlColumn::createPrimaryKey();
-
         SqlColumn archer = SqlColumn::createForeign( archersModel );
 
         SqlColumn name;

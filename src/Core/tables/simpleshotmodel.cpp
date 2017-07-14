@@ -15,6 +15,8 @@ SqlTableModel::SqlColumns SimpleShotModel::getColumns() const
     auto trainingStandardModel = DiaryTables::getTableModel( TableType::TrainingStandards );
     if( trainingStandardModel != nullptr )
     {
+        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
+
         SqlColumn trainingStandard = SqlColumn::createForeign( trainingStandardModel );
 
         SqlColumn number;
@@ -25,7 +27,7 @@ SqlTableModel::SqlColumns SimpleShotModel::getColumns() const
         number.name = "SCORE";
         number.dataType = ftINTEGER;
 
-        return { trainingStandard, number, score };
+        return { id, trainingStandard, number, score };
     }
     return SqlColumns();
 }

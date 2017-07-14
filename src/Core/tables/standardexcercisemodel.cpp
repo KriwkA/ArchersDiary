@@ -14,9 +14,10 @@ SqlTableModel::SqlColumns StandardExcerciseModel::getColumns() const
     auto standards = DiaryTables::getTableModel( TableType::Standards );
     auto excercises = DiaryTables::getTableModel( TableType::Excercises );
     if( standards != nullptr && excercises != nullptr ) {
+        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
         SqlColumn standard = SqlColumn::createForeign( standards );
         SqlColumn excersice = SqlColumn::createForeign( excercises );
-        return { standard, excersice };
+        return { id, standard, excersice };
     }
     return SqlColumns();
 }

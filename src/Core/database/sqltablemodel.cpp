@@ -104,13 +104,20 @@ bool SqlTableModel::createTable(QString &error)
         fields.append(fieldStr);
     }
 
-    QString queryString = QString("CREATE TABLE IF NOT EXISTS %0").arg( tableName() );
+    const QString& name = tableName();
+
+    QString queryString = QString("CREATE TABLE IF NOT EXISTS %0").arg( name );
     queryString.reserve( queryString.length() * (m_columns.count() + 1) * 2 );
 
     if(fields.size())
         queryString.append(QString(" ( %0 )").arg(fields.join(", ")));
 
-    return execQuery(queryString, error);
+    if( execQuery(queryString, error) ) {
+        setTable( name );
+        return true;
+    }
+
+    return false;
 }
 
 void SqlTableModel::initRoles()

@@ -55,12 +55,11 @@ Page {
                 highlighted: true
                 visible: arrowList.currentIndex !== -1
             }
-            ImageButton {
+            RemoveButton {
                 id: removeButton;
-                imgSrc: "img/images/remove.png"
                 highlighted: true
                 onClicked: {
-                    if( arrowsModel.removeRows(arrowList.currentIndex, 1) )
+                    if( arrowsModel.removeRow( arrowList.currentIndex ) )
                         arrowList.currentIndex = -1;
                 }
                 visible: arrowList.currentIndex !== -1

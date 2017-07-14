@@ -34,13 +34,10 @@ SqlTableModel::SqlColumns TargetModel::getColumns() const
     return { id, name, circleCount, scores, radiuses, colors };
 }
 
-bool TargetModel::init( QString &error )
+bool TargetModel::createTable( QString &error )
 {
-    if( SqlTableModel::init( error ) )
+    if( SqlTableModel::createTable( error ) )
     {
-        if( rowCount() != 0 )
-            return true;
-
         return addTarget( Target::getFitaTarget( 4.0, 10 ) ) &&
                addTarget( Target::getFitaTarget( 4.0, 5 ) ) &&
                addTarget( Target::getFitaTarget( 8.0, 10 ) ) &&

@@ -14,12 +14,14 @@ SqlTableModel::SqlColumns RecordTableModel::getColumns() const
     auto trainingModel = DiaryTables::getTableModel( TableType::Trainings );
     if( trainingModel != nullptr )
     {
+        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
+
         SqlTableModel::SqlColumn training = SqlColumn::createForeign( trainingModel );
 
         SqlColumn record;
         record.name = "Record";
         record.dataType = ftTEXT;
-        return { training, record };
+        return { id, training, record };
     }
     return SqlColumns();
 }

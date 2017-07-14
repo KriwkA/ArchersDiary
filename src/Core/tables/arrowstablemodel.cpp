@@ -14,6 +14,7 @@ SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
     auto archersModel = DiaryTables::getTableModel( TableType::Archrers );
     if( archersModel != nullptr )
     {
+        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
         SqlColumn archer = SqlColumn::createForeign( archersModel );
 
         SqlColumn name;
@@ -32,7 +33,7 @@ SqlTableModel::SqlColumns ArrowsTableModel::getColumns() const
         diameter.name = "Diameter";
         diameter.dataType = ftREAL;
 
-        return { archer, name, spine, length, diameter };
+        return { id, archer, name, spine, length, diameter };
     }    
     return SqlColumns();
 }

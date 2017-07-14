@@ -14,6 +14,8 @@ SqlTableModel::SqlColumns ShotModel::getColumns() const
     auto trainingStandardModel = DiaryTables::getTableModel( TableType::TrainingStandards );
     if( trainingStandardModel != nullptr )
     {
+        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
+
         SqlColumn trainingStandard = SqlColumn::createForeign( trainingStandardModel );
 
         SqlColumn number;
@@ -32,7 +34,7 @@ SqlTableModel::SqlColumns ShotModel::getColumns() const
         arrowDiameter.name = "ArrowDiameter";
         arrowDiameter.dataType = ftREAL;
 
-        return { trainingStandard, number, radius, alpha, arrowDiameter };
+        return { id, trainingStandard, number, radius, alpha, arrowDiameter };
     }
     return SqlColumns();
 }

@@ -32,12 +32,11 @@ Page {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
 
-            ImageButton {
+            AddButton {
                 id: addScope
                 onClicked: {
                     scopeEditDialog.open();
                 }
-                imgSrc: "img/images/plus.png"
             }
 
         }

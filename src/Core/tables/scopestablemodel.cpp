@@ -35,6 +35,8 @@ SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
     auto bowsModel = DiaryTables::getTableModel( TableType::Bows );
     if( bowsModel != nullptr )
     {
+        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
+
         SqlTableModel::SqlColumn bow = SqlColumn::createForeign( bowsModel );
 
         SqlTableModel::SqlColumn distance;
@@ -49,7 +51,7 @@ SqlTableModel::SqlColumns ScopesTableModel::getColumns() const
         horizontal.name = "Horizontal";
         horizontal.dataType = ftREAL;
 
-        return { bow, distance, vertical, horizontal };
+        return { id, bow, distance, vertical, horizontal };
     }   
     return SqlColumns();
 }

@@ -61,7 +61,7 @@ public:
     virtual ~SqlTableModel();
 
     bool exist() const;
-    virtual bool init( QString& error );
+    bool init( QString& error );
     virtual SqlColumns getColumns() const = 0;
     void resetFilter();
 
