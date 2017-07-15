@@ -15,8 +15,8 @@ typedef QList<SqlField> SqlFieldList;
 typedef long long ID;
 Q_DECLARE_METATYPE( ID )
 
-static const ID FAKE_ID = -1;
-static const int APPEND_INDEX = -1;
+extern const ID FAKE_ID;
+extern const int APPEND_INDEX;
 
 extern const char ftINTEGER[];
 extern const char ftREAL[];

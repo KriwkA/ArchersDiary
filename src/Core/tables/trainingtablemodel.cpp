@@ -23,8 +23,8 @@ SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
         date.dataType = ftINTEGER;
 
         SqlTableModel::SqlColumn simpleShots;
-        date.name = "SimpleShots";
-        date.dataType = ftINTEGER;
+        simpleShots.name = "SimpleShots";
+        simpleShots.dataType = ftINTEGER;
 
         return { id, archer, date, simpleShots };
     }    
@@ -59,7 +59,7 @@ int TrainingTableModel::shotCount() const
 {
     auto modelIndex = indexFromArcherID( m_archerID );
     if( modelIndex.isValid() ) {
-        return data( modelIndex, roleFromRoleName( "Id" ) ).toInt();
+        return data( modelIndex, roleFromRoleName( "SimpleShots" ) ).toInt();
     }
     return 0;
 }
@@ -68,15 +68,15 @@ void TrainingTableModel::setShotCount(int shotCount)
 {
     if( shotCount != this->shotCount() ) {
         auto modelIndex = indexFromArcherID( m_archerID );
-        if( modelIndex.isValid() && setData( modelIndex.row(), shotCount, roleFromRoleName( "Id" ) ) )
-            emit shotCountChanged( shotCount );
+        if( modelIndex.isValid() && setData( modelIndex.row(), shotCount, roleFromRoleName( "SimpleShots" ) ) )
+            emit shotCountChanged( shotCount );        
     }
 }
 
 bool TrainingTableModel::addTraining()
 {
     if(m_archerID >= 0)
-        return insertValues({ m_archerID, QDateTime::currentDateTime().toSecsSinceEpoch() });
+        return insertValues({ m_archerID, QDateTime::currentDateTime().toSecsSinceEpoch(), 0 });
     qWarning() << "Invalid archer Id";
     return false;
 }

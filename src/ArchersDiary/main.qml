@@ -36,10 +36,10 @@ ApplicationWindow {
             anchors.fill: parent                      
 
             HeaderToolButton {
-                source: "../" + ( pages.depth > 1 ? BackImage : MenuImage );
+                source: "../" + ( mainWindowPages.depth > 1 ? BackImage : MenuImage );
                 onClicked: {        
-                    if( pages.depth > 1 )
-                        pages.pop()
+                    if( mainWindowPages.depth > 1 )
+                        mainWindowPages.pop()
                     else
                         archerListDrawer.open()                    
                 }
@@ -47,7 +47,7 @@ ApplicationWindow {
 
             HeaderLabel {
                 id: titleLabel
-                text: title_DEFAULT_TEXT                
+                text: mainWindowPages.title
             }
 
             HeaderToolButton {
@@ -59,13 +59,13 @@ ApplicationWindow {
 
     ArcherEditDrawer {
         id: archerListDrawer
-        dragMargin: pages.depth === 1 ? Qt.styleHints.startDragDistance : 0
+        dragMargin: mainWindowPages.depth === 1 ? Qt.styleHints.startDragDistance : 0
         width: Math.min(window.width, window.height) / 3 * 2
         height: parent.height        
     }
 
-    StackView {
-        id: pages
+    TitleStackView {
+        id: mainWindowPages
         anchors.fill: parent        
 
         initialItem: ListView {
@@ -74,7 +74,7 @@ ApplicationWindow {
             delegate: ItemDelegate {                
                 width: menu.width
                 text: title
-                enabled: {
+                enabled: {                    
                     switch( text ) {
                     case "Bows" : bowsModel.archerID !== -1; break;
                     case "Arrows" : arrowsModel.archerID !== -1; break;
@@ -90,7 +90,8 @@ ApplicationWindow {
                     case "Scopes" : scopesModel.select(); break;
                     case "Trainings" : trainingModel.select(); break;
                     }                    
-                    pages.push( model.source );
+                    mainWindowPages.title = text;
+                    mainWindowPages.push( model.source );
                 }
             }
 
@@ -103,8 +104,8 @@ ApplicationWindow {
         }
 
         onDepthChanged: {
-            // FIXME
-            titleLabel.text = title_DEFAULT_TEXT;
+            if( mainWindowPages.depth === 1 )
+                title = title_DEFAULT_TEXT;
         }
 
     }

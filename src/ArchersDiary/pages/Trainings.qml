@@ -7,7 +7,7 @@ import QtQuick.Layouts 1.1
 import "../elements"
 import "../dialogs"
 
-Page {
+StackPage {
     title: "Training"    
 
     ListView {
@@ -34,9 +34,9 @@ Page {
 
             onClicked: {
                 trainingListView.currentIndex = index;
-                trainingListView.setTrainingIdToModels( Id );
-                window.header.visible = false;
-                trainingDialog.open();
+                trainingListView.setTrainingIdToModels( Id );                                
+                stackView.title = "Training";
+                stackView.push( "Training.qml" );
             }
         }
 
@@ -61,14 +61,5 @@ Page {
         }
 
         model: trainingModel
-    }
-
-    Training {
-        id: trainingDialog;
-        width:  window.width;
-        height: window.height;
-        onClosed: {
-            window.header.visible = true;
-        }
     }
 }

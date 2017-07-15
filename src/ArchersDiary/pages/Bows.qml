@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.1
 import "../elements"
 import "../dialogs"
 
-Page {
+StackPage {
     id: bowsPage
     title: "Bows"
     ListView {

@@ -1,6 +1,9 @@
 #include "precomp.h"
 #include "sqltablemodel.h"
 
+const ID FAKE_ID = -1;
+const int APPEND_INDEX = -1;
+
 const char ftINTEGER[] = "INTEGER";
 const char ftREAL[] = "REAL";
 const char ftTEXT[] = "TEXT";
@@ -10,7 +13,7 @@ SqlTableModel::SqlTableModel(QSqlDatabase *db, QObject *parent)
     : QSqlTableModel(parent)   
     , m_db( db )
 {
-    setEditStrategy( QSqlTableModel::OnRowChange );
+    setEditStrategy( QSqlTableModel::OnFieldChange );
 }
 
 SqlTableModel::~SqlTableModel()
