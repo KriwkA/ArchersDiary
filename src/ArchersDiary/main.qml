@@ -75,25 +75,22 @@ ApplicationWindow {
                 width: menu.width
                 text: title
                 enabled: {
-                    var enable = false;                    
                     switch( text ) {
-                    case "Bows" : enable = bowsModel.archerID !== -1; break;
-                    case "Arrows" : enable = arrowsModel.archerID !== -1; break;
-                    case "Scopes" : enable = scopesModel.bowID !== -1; break;
-                    case "Trainings" : enable = trainingModel.archerID !== -1; break;
+                    case "Bows" : bowsModel.archerID !== -1; break;
+                    case "Arrows" : arrowsModel.archerID !== -1; break;
+                    case "Scopes" : scopesModel.bowID !== -1; break;
+                    case "Trainings" : trainingModel.archerID !== -1; break;
                     }
-                    enable;
                 }
 
                 onClicked: {
-                    pages.push( model.source );                    
                     switch( text ) {
                     case "Bows" : bowsModel.select(); break;
                     case "Arrows" : arrowsModel.select(); break;
                     case "Scopes" : scopesModel.select(); break;
                     case "Trainings" : trainingModel.select(); break;
-                    }
-                    titleLabel.text = text;
+                    }                    
+                    pages.push( model.source );
                 }
             }
 
@@ -106,8 +103,8 @@ ApplicationWindow {
         }
 
         onDepthChanged: {
-            if(pages.depth === 1)
-                titleLabel.text = title_DEFAULT_TEXT;
+            // FIXME
+            titleLabel.text = title_DEFAULT_TEXT;
         }
 
     }

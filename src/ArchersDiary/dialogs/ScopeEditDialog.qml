@@ -77,10 +77,6 @@ Dialog {
         }
     }
 
-    onClosed: {
-        editRowInView = -1;
-    }
-
     onAccepted: {
         if(editRowInView < 0) {
             scopesModel.addScope( distanceSpinBox.value, verticalSpinBox.realValue, horisontalSpinBox.realValue );

@@ -25,17 +25,41 @@ Page {
 
             onClicked: {
                 scopeList.currentIndex = index;
+                scopeEditDialog.distance = Distance;
+                scopeEditDialog.vertical = Vertical;
+                scopeEditDialog.horisontal = Horizontal;
             }
+
         }
 
 
         ColumnLayout {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
+            property bool isItemSelected: scopeList.currentIndex >= 0
 
-            AddButton {
-                id: addScope
+            EditButton {
+                id: scopeEditButton
+                visible: parent.isItemSelected
                 onClicked: {
+                    scopeEditDialog.editRowInView = scopeList.currentIndex;
+                    scopeEditDialog.open();
+                }
+            }
+
+            RemoveButton {
+                visible: parent.isItemSelected
+                onClicked: {
+                    var oldIndex = scopeList.currentIndex;
+                    if( scopesModel.removeRow( oldIndex ) ) {
+                        scopeList.currentIndex = oldIndex - 1;
+                    }
+                }
+            }
+
+            AddButton {                
+                onClicked: {
+                    scopeEditDialog.editRowInView = -1;
                     scopeEditDialog.open();
                 }
             }
@@ -43,6 +67,11 @@ Page {
         }
 
         model: scopesModel
+
+        onCurrentIndexChanged: {
+            scopeEditDialog.editRowInView = currentIndex;
+        }
+
     }
 
     ScopeEditDialog {
@@ -50,4 +79,6 @@ Page {
         x: (window.width - width) / 2
         y: (window.height - height) / 2
     }
+
+
 }

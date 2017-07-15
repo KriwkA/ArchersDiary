@@ -23,41 +23,27 @@ Page {
                   "Diameter: " + Diameter + " mm.";
 
             onClicked: {
-                arrowList.currentIndex = index;
-                editButton.name = Name;
-                editButton.spine = Spine;
-                editButton.length = Length;
-                editButton.diameter = Diameter;
+                arrowList.currentIndex = index;                 
+                createArrowDialog.name = Name;
+                createArrowDialog.spine = Spine;
+                createArrowDialog.length = Length;
+                createArrowDialog.diameter = Diameter;
             }
         }
-
 
         ColumnLayout {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
 
-            ImageButton {
-                property string name;
-                property double spine;
-                property double length;
-                property double diameter;
-
-                id: editButton;
-                imgSrc: "img/images/edit.png"
-
+            EditButton {
                 onClicked: {
-                    createArrowDialog.editRowInView = arrowList.currentIndex;
-                    createArrowDialog.name = name;
-                    createArrowDialog.spine = spine;
-                    createArrowDialog.length = length;
-                    createArrowDialog.diameter = diameter;
+                    createArrowDialog.editRowInView = arrowList.currentIndex
                     createArrowDialog.open()
                 }
                 highlighted: true
                 visible: arrowList.currentIndex !== -1
             }
-            RemoveButton {
-                id: removeButton;
+            RemoveButton {                
                 highlighted: true
                 onClicked: {
                     if( arrowsModel.removeRow( arrowList.currentIndex ) )
@@ -65,12 +51,10 @@ Page {
                 }
                 visible: arrowList.currentIndex !== -1
             }
-            ImageButton {
-                id: addArrowButton
+            AddButton {
                 onClicked: {
                     createArrowDialog.open()
-                }
-                imgSrc: "img/images/plus.png"
+                }                
             }
         }
 
@@ -81,5 +65,6 @@ Page {
         id: createArrowDialog
         x: (window.width - width) / 2
         y: (window.height - height) / 2
+
     }
 }
