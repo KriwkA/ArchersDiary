@@ -59,8 +59,9 @@ ApplicationWindow {
 
     ArcherEditDrawer {
         id: archerListDrawer
+        dragMargin: pages.depth === 1 ? Qt.styleHints.startDragDistance : 0
         width: Math.min(window.width, window.height) / 3 * 2
-        height: parent.height
+        height: parent.height        
     }
 
     StackView {
