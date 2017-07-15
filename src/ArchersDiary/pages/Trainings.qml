@@ -8,7 +8,7 @@ import "../elements"
 import "../dialogs"
 
 Page {
-    title: "Training"
+    title: "Training"    
 
     ListView {
         id: trainingListView
@@ -22,7 +22,8 @@ Page {
         }
 
         function setTrainingIdToModels( id ) {
-
+            recordModel.trainingID = id;
+            trainingStandardModel.trainingID = id;
         }
 
         delegate: ItemDelegate {

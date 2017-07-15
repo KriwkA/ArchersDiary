@@ -38,4 +38,12 @@ Dialog {
         }
     }   
 
+    SpinBox {
+        value: trainingModel.shotCount;
+        left: 0;
+        right: 5000;
+        stepSize: 1;
+        onValueChanged: trainingModel.shotCount = value;
+    }
+
 }
