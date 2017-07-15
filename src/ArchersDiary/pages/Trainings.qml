@@ -8,6 +8,8 @@ import "../elements"
 import "../dialogs"
 
 Page {
+    title: "Training"
+
     ListView {
         id: trainingListView
         anchors.fill: parent

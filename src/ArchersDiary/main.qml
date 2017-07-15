@@ -35,41 +35,23 @@ ApplicationWindow {
             spacing: 20
             anchors.fill: parent                      
 
-            ToolButton {
-                contentItem: Image {
-                    fillMode: Image.Pad
-                    horizontalAlignment: Image.AlignHCenter
-                    verticalAlignment: Image.AlignVCenter
-                    source: pages.depth > 1 ? BackImage : MenuImage
-                }
-
+            HeaderToolButton {
+                source: "../" + ( pages.depth > 1 ? BackImage : MenuImage );
                 onClicked: {        
-                    if( pages.depth > 1 ){
+                    if( pages.depth > 1 )
                         pages.pop()
-                    } else {
-                        archerListDrawer.open()
-                    }
+                    else
+                        archerListDrawer.open()                    
                 }
             }
 
-            Label {
-                Material.foreground: "white"
+            HeaderLabel {
                 id: titleLabel
-                text: title_DEFAULT_TEXT
-                font.pixelSize: 20
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
+                text: title_DEFAULT_TEXT                
             }
 
-            ToolButton {
-                contentItem: Image {
-                    fillMode: Image.Pad
-                    horizontalAlignment: Image.AlignHCenter
-                    verticalAlignment: Image.AlignVCenter
-                    source: SettingsImage;
-                }                
+            HeaderToolButton {
+                source: "../" + SettingsImage;
             }
 
         }
@@ -83,18 +65,17 @@ ApplicationWindow {
 
     StackView {
         id: pages
-        anchors.fill: parent
-        property bool bowModelValid: true;
+        anchors.fill: parent        
 
         initialItem: ListView {
             id: menu
 
-            delegate: ItemDelegate {
+            delegate: ItemDelegate {                
                 width: menu.width
-                text: model.title
+                text: title
                 enabled: {
-                    var enable = false;
-                    switch( title ) {
+                    var enable = false;                    
+                    switch( text ) {
                     case "Bows" : enable = bowsModel.archerID !== -1; break;
                     case "Arrows" : enable = arrowsModel.archerID !== -1; break;
                     case "Scopes" : enable = scopesModel.bowID !== -1; break;
@@ -104,13 +85,14 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                    switch( title ) {
+                    pages.push( model.source );                    
+                    switch( text ) {
                     case "Bows" : bowsModel.select(); break;
                     case "Arrows" : arrowsModel.select(); break;
                     case "Scopes" : scopesModel.select(); break;
                     case "Trainings" : trainingModel.select(); break;
                     }
-                    pages.push( model.source );
+                    titleLabel.text = text;
                 }
             }
 

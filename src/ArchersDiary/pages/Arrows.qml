@@ -6,6 +6,7 @@ import "../dialogs"
 
 Page {
     id: arrowsPage
+    title: "Arrows"
     ListView {
         id: arrowList
         anchors.fill: parent

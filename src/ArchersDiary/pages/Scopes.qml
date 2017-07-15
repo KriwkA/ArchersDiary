@@ -8,6 +8,7 @@ import "../dialogs"
 Page {
 
     id: scopePage
+    title: "Scopes"
     ListView {
         id: scopeList
         anchors.fill: parent

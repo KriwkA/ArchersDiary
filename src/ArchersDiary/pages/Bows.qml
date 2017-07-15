@@ -5,8 +5,8 @@ import "../elements"
 import "../dialogs"
 
 Page {
-
     id: bowsPage
+    title: "Bows"
     ListView {
         id: bowList
         anchors.fill: parent

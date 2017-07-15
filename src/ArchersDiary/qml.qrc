@@ -17,6 +17,9 @@
         <file>elements/RemoveButton.qml</file>
         <file>elements/EditButton.qml</file>
         <file>pages/Trainings.qml</file>
+        <file>dialogs/Training.qml</file>
+        <file>elements/HeaderToolButton.qml</file>
+        <file>elements/HeaderLabel.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>images/accept.png</file>
