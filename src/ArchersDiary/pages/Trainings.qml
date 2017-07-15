@@ -18,21 +18,26 @@ Page {
         function toDateString( value ) {
             var date = new Date( 0 );
             date.setUTCSeconds( value );
-            return Qt.formatDateTime( date, "dd.MM.yyyy hh:mm:ss");
+            return Qt.formatDateTime( date, "dd.MM.yyyy hh:mm:ss" );
+        }
+
+        function setTrainingIdToModels( id ) {
+
         }
 
         delegate: ItemDelegate {
             width: trainingListView.width
             highlighted: ListView.isCurrentItem
 
-            text:  trainingListView.toDateString( model.Date );
-
+            text: trainingListView.toDateString( model.Date );
 
             onClicked: {
                 trainingListView.currentIndex = index;
+                trainingListView.setTrainingIdToModels( Id );
+                window.header.visible = false;
+                trainingDialog.open();
             }
         }
-
 
         ColumnLayout {
             anchors.bottom: parent.bottom
@@ -55,5 +60,14 @@ Page {
         }
 
         model: trainingModel
+    }
+
+    Training {
+        id: trainingDialog;
+        width:  window.width;
+        height: window.height;
+        onClosed: {
+            window.header.visible = true;
+        }
     }
 }

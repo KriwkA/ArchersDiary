@@ -31,12 +31,11 @@ Dialog {
                 text: "Training"
             }
 
-            HeaderToolButton {
-                visible: false;
+            HeaderToolButton {                
                 enabled: false;
             }
 
         }
-    }
+    }   
 
 }
