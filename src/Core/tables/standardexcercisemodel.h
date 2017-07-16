@@ -3,6 +3,9 @@
 
 #include <database/sqltablemodel.h>
 
+class StandardModel;
+class ExcerciseModel;
+
 class CORESHARED_EXPORT StandardExcerciseModel : public SqlTableModel
 {
     Q_OBJECT
@@ -14,12 +17,18 @@ public:
     Q_ALWAYS_INLINE ID standardID() const { return m_standardID; }
     void setStandardID(ID standardID);
 
-    Q_INVOKABLE bool addExcercise( ID excerciseID );
+    Q_INVOKABLE bool addExcercise( ID standardID, ID excerciseID, int count = 1 );
+    virtual bool createTable(QString &error) override;
 
 signals:
     void standardIDChanged( ID id );
 
 private:
+    bool addExcercise(const QString& standardName, const QString &excerciseName, int count = 1);
+    StandardModel* standards() const;
+    ExcerciseModel* excercises() const;
+
+
     ID m_standardID;
 };
 

@@ -3,6 +3,8 @@
 
 #include <database/sqltablemodel.h>
 
+class TargetModel;
+
 class CORESHARED_EXPORT ExcerciseModel : public SqlTableModel
 {
     Q_OBJECT
@@ -16,11 +18,23 @@ public:
 
     Q_INVOKABLE bool addExcercise( const QString& name, int distance, int shotsPerSerie, int seriesCount );
 
+    int excerciseID( const QString& name ) const;
+
+protected:
+    virtual bool createTable(QString &error) override;
+
 signals:
     void targetIDChanged( ID id );
 
 private:
+    bool addExcercise( const QString& targetName, const QString& excersiceName, int distance, int shotsPerSerie, int seriesCount );
+    bool addExcercise( ID targetID, const QString& excersiceName, int distance, int shotsPerSerie, int seriesCount );
+
+    TargetModel* targetModel() const;
+
     ID m_targetID;
+
+
 };
 
 #endif // EXCERSICEMODEL_H

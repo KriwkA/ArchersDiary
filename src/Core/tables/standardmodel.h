@@ -11,6 +11,11 @@ public:
     virtual SqlColumns getColumns() const override;
 
     Q_INVOKABLE bool addStandard( const QString& name );
+
+    int standardId( const QString& name );
+
+protected:
+    virtual bool createTable( QString &error ) override;
 };
 
 #endif // STANDARD_H

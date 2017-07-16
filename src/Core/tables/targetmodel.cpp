@@ -51,23 +51,41 @@ bool TargetModel::addTarget(const Target &target)
 {
     int count = target.circleCount;
 
-
     if( count == target.scores.size() && count == target.radiuses.size() && count == target.colors.size() )
     {
-        auto s = Serilization::serialize( target.scores );
-        auto r = Serilization::serialize( target.radiuses );
-        auto c = Serilization::serialize( target.colors );
-        return insertValues( { target.name, count, r, c, s } );
+        return insertValues( {
+                    target.name, count,
+                    Serilization::serialize( target.scores ),
+                    Serilization::serialize( target.radiuses ),
+                    Serilization::serialize( target.colors )
+               } );
     }
 
     return false;
 }
 
+int TargetModel::fitaTargetId(const QString &name)
+{
+    int rows = rowCount();
+    QSqlRecord rec;
+    for(int i = 0; i < rows; ++i) {
+        rec = record(i);
+        if( rec.field("Name").value().toString() == name )
+            return rec.field("Id").value().toInt();
+    }
+    return FAKE_ID;
+}
+
+
+QString Target::getFitaTargetName(double tenSize, int circleCount)
+{
+    return QString( "FITA %0cm, %1 circles" ).arg( tenSize * 10.0 ).arg( circleCount );
+}
 
 Target Target::getFitaTarget(double tenSize, int circleCount)
 {
     Target target;
-    target.name = QString( "FITA %0cm, %1 circles" ).arg( tenSize * 10.0 ).arg( circleCount );
+    target.name = getFitaTargetName( tenSize, circleCount );
     target.circleCount = circleCount;
     double radius = tenSize;
     for(int i = 0, score = 10;

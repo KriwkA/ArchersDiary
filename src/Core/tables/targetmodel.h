@@ -11,6 +11,7 @@ struct CORESHARED_EXPORT Target
     QList<double> radiuses;
     QList<int> colors;
 
+    static QString getFitaTargetName( double tenSize, int circleCount );
     static Target getFitaTarget( double tenSize, int circleCount );
     static int getFitaColor( int score );
 };
@@ -24,6 +25,7 @@ public:
     virtual bool createTable( QString& error ) override;
 
     Q_INVOKABLE bool addTarget( const Target& target );
+    int fitaTargetId( const QString& name );
 };
 
 
