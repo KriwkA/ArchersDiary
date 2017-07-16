@@ -123,6 +123,20 @@ bool SqlTableModel::createTable(QString &error)
     return false;
 }
 
+QSqlRecord SqlTableModel::recordById(ID id) const
+{
+    int rows = rowCount();
+    QSqlRecord rec;
+    bool goodCast = false;
+    for(int i = 0; i < rows; ++i) {
+        rec = record(i);
+        if( rec.field("Id").value().toInt( &goodCast ) == id && goodCast )
+            return rec;
+    }
+
+    return QSqlRecord();
+}
+
 void SqlTableModel::initRoles()
 {
     m_roles.clear();

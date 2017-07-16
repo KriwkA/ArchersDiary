@@ -11,6 +11,7 @@ public:
     virtual SqlColumns getColumns() const override;
 
     Q_INVOKABLE bool addStandard( const QString& name );
+    Q_INVOKABLE QString standardName( ID standardId );
 
     int standardId( const QString& name );
 

@@ -20,6 +20,9 @@ public:
     Q_INVOKABLE bool addExcercise( ID standardID, ID excerciseID, int count = 1 );
     virtual bool createTable(QString &error) override;
 
+    Q_INVOKABLE int excerciseCount() const;
+    Q_INVOKABLE int excerciseId( int excersiceNumber ) const;
+
 signals:
     void standardIDChanged( ID id );
 

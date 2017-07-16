@@ -19,6 +19,9 @@ public:
     Q_INVOKABLE bool addExcercise( const QString& name, int distance, int shotsPerSerie, int seriesCount );
 
     int excerciseID( const QString& name ) const;
+    Q_INVOKABLE QString excerciseName( ID excersiceID ) const;
+    Q_INVOKABLE int shotPerSerie( ID excersiceID ) const;
+    Q_INVOKABLE int seriesCount( ID excersiceID ) const;
 
 protected:
     virtual bool createTable(QString &error) override;

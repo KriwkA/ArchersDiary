@@ -24,6 +24,9 @@
         <file>dialogs/RecordEditDialog.qml</file>
         <file>elements/TitleStackView.qml</file>
         <file>pages/StackPage.qml</file>
+        <file>elements/StandardsDrawer.qml</file>
+        <file>pages/StandardPage.qml</file>
+        <file>elements/ShotTableView.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>images/accept.png</file>

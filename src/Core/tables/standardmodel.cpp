@@ -23,6 +23,20 @@ bool StandardModel::addStandard(const QString &name)
     return insertValues( { name } );
 }
 
+QString StandardModel::standardName(ID standardId)
+{
+    int rows = rowCount();
+    QSqlRecord rec;
+    bool goodCast = false;
+    for(int i = 0; i < rows; ++i) {
+        rec = record(i);
+        ID id = rec.field("Id").value().toInt( &goodCast );
+        if( goodCast && id == standardId )
+            return rec.field("Name").value().toString();
+    }
+    return "Unknown standard";
+}
+
 int StandardModel::standardId( const QString &name )
 {
     int rows = rowCount();

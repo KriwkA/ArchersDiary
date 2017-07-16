@@ -86,6 +86,22 @@ bool StandardExcerciseModel::createTable(QString &error)
     return false;
 }
 
+int StandardExcerciseModel::excerciseCount() const
+{
+    return rowCount();
+}
+
+int StandardExcerciseModel::excerciseId(int excersiceNumber) const
+{
+    if( excersiceNumber < excerciseCount() ) {
+        bool goodCast;
+        ID id = data( index( excersiceNumber, 0 ), roleFromRoleName( "Excersice" ) ).toInt(&goodCast);
+        if( goodCast )
+            return id;
+    }
+    return FAKE_ID;
+}
+
 bool StandardExcerciseModel::addExcercise(const QString &standardName, const QString& excerciseName, int count )
 {
     auto standards = this->standards();

@@ -72,6 +72,32 @@ int ExcerciseModel::excerciseID(const QString& name) const
     return FAKE_ID;
 }
 
+QString ExcerciseModel::excerciseName(ID excersiceID) const
+{
+    QSqlRecord rec = recordById( excersiceID );
+    if( rec.contains( "Name"))
+        return rec.field("Name").value().toString();
+    return "Unknown excercise";
+}
+
+int ExcerciseModel::shotPerSerie(ID excersiceID) const
+{
+    QSqlRecord rec = recordById( excersiceID );
+    if( rec.contains( "ShotsPerSerie") ) {
+        return rec.field("ShotsPerSerie").value().toInt();
+    }
+    return 0;
+}
+
+int ExcerciseModel::seriesCount(ID excersiceID) const
+{
+    QSqlRecord rec = recordById( excersiceID );
+    if( rec.contains( "SeriesCount") ) {
+        return rec.field("SeriesCount").value().toInt();
+    }
+    return 0;
+}
+
 bool ExcerciseModel::createTable(QString &error)
 {
     if( SqlTableModel::createTable( error ) ) {

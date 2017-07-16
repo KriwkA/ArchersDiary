@@ -73,6 +73,8 @@ protected:
 
     virtual bool createTable(QString& error);
 
+    QSqlRecord recordById( ID id ) const;
+
 private:
     SqlColumns m_columns;
     QSqlDatabase* m_db;
