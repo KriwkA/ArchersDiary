@@ -3,7 +3,8 @@ QT += qml quick sql quickcontrols2
 CONFIG += c++11 qtquickcompiler
 
 SOURCES += main.cpp \
-    targetview.cpp
+    targetview.cpp \
+    shottablemodel.cpp
 
 RESOURCES += \
     qml.qrc
@@ -41,4 +42,5 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
-    targetview.h
+    targetview.h \
+    shottablemodel.h

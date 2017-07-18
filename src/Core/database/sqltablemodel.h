@@ -43,6 +43,9 @@ public:
 
     struct SqlColumn
     {
+        SqlColumn() {}
+        SqlColumn( const QString& colName, const QString& colDataType ) : name( colName ), dataType( colDataType ) {}
+
         QString name;
         QString dataType;
         Type type = NONE;

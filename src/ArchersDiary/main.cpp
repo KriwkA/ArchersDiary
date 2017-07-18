@@ -9,6 +9,8 @@
 #include <diarytables.h>
 #include <QDebug>
 
+#include "shottablemodel.h"
+
 static const QString RS_IMAGES_PATH    = "img/images/";
 static const QString RS_MENU_IMAGE     = RS_IMAGES_PATH + "menu.png";
 static const QString RS_BACK_IMAGE     = RS_IMAGES_PATH + "back.png";
@@ -36,7 +38,7 @@ void setStylesToContext(QQmlContext* context)
 }
 
 void setTablesToContext(QQmlContext* context)
-{        
+{
     context->setContextProperty("archersModel", DiaryTables::getTableModel( TableType::Archrers ) );
     context->setContextProperty("arrowsModel", DiaryTables::getTableModel( TableType::Arrows ) );
     context->setContextProperty("bowsModel", DiaryTables::getTableModel( TableType::Bows ) );
@@ -56,6 +58,7 @@ void setTablesToContext(QQmlContext* context)
 
 void registerTypes()
 {
+    qmlRegisterType<ShotTableModel>("com.archersdiary.models", 1, 0, "ShotTableModel");
 }
 
 int main(int argc, char *argv[])

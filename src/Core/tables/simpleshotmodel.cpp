@@ -18,16 +18,11 @@ SqlTableModel::SqlColumns SimpleShotModel::getColumns() const
         SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
 
         SqlColumn trainingStandard = SqlColumn::createForeign( trainingStandardModel );
+        SqlColumn number( "Number", ftINTEGER );
+        SqlColumn round( "Round", ftINTEGER );
+        SqlColumn score( "Score", ftINTEGER );
 
-        SqlColumn number;
-        number.name = "Number";
-        number.dataType = ftINTEGER;
-
-        SqlColumn score;
-        number.name = "SCORE";
-        number.dataType = ftINTEGER;
-
-        return { id, trainingStandard, number, score };
+        return { id, trainingStandard, number, round, score };
     }
     return SqlColumns();
 }

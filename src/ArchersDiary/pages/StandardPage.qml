@@ -35,7 +35,6 @@ StackPage {
                         return excerciseModel.seriesCount( excerciseId() );
                     }
 
-
                     ColumnLayout {
                         anchors.fill: parent
                         spacing: 10;
@@ -45,16 +44,12 @@ StackPage {
                             text: shotTablePage.excerciseName();
                         }
 
-
-                        Frame {
+                        ShotTableView {
                             Layout.fillHeight: true;
                             Layout.fillWidth: true;
-
-                            ShotTableView {
-                                anchors.fill: parent
-                                rowCount: shotTablePage.seriesCount();
-                                colCount: shotTablePage.shotsPerSerie();
-                            }
+                            anchors.fill: parent;
+                            rowCount: shotTablePage.seriesCount();
+                            colCount: shotTablePage.shotsPerSerie();
                         }
                     }
                 }

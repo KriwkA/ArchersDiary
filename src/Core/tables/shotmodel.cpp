@@ -15,26 +15,14 @@ SqlTableModel::SqlColumns ShotModel::getColumns() const
     if( trainingStandardModel != nullptr )
     {
         SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
-
         SqlColumn trainingStandard = SqlColumn::createForeign( trainingStandardModel );
+        SqlColumn number( "Number", ftINTEGER );
+        SqlColumn round( "Round", ftINTEGER );
+        SqlColumn radius( "Radius", ftREAL );
+        SqlColumn alpha( "Alpha", ftREAL );
+        SqlColumn arrowDiameter( "ArrowDiameter", ftREAL );
 
-        SqlColumn number;
-        number.name = "Number";
-        number.dataType = ftINTEGER;
-
-        SqlColumn radius;
-        radius.name = "Radius";
-        radius.dataType = ftREAL;
-
-        SqlColumn alpha;
-        alpha.name = "Alpha";
-        alpha.dataType = ftREAL;
-
-        SqlColumn arrowDiameter;
-        arrowDiameter.name = "ArrowDiameter";
-        arrowDiameter.dataType = ftREAL;
-
-        return { id, trainingStandard, number, radius, alpha, arrowDiameter };
+        return { id, trainingStandard, number, round,  radius, alpha, arrowDiameter };
     }
     return SqlColumns();
 }
