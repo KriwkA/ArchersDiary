@@ -34,17 +34,10 @@ public:
 
     virtual QHash<int, QByteArray> roleNames() const override;
 
-    Q_ALWAYS_INLINE int round() const { return m_round; }
+    int round() const;
 
 public slots:
-    Q_ALWAYS_INLINE void setRound(int round)
-    {
-        if (m_round == round)
-            return;
-
-        m_round = round;
-        emit roundChanged(m_round);
-    }
+    void setRound(int round);
 
 signals:
     void roundChanged(int round);
@@ -59,8 +52,10 @@ private:
 
     int m_series[10][6];
 
-    int m_round = 0;
-
 };
+
+
+
+
 
 #endif // SHOTTABLEMODEL_H

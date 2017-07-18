@@ -13,14 +13,14 @@ ShotTableModel::ShotTableModel(QObject *parent)
 int ShotTableModel::rowCount(const QModelIndex &parent) const
 {
     if( !parent.isValid() )
-        return excercises()->seriesCount( standardExcercises()->excerciseId( m_round ) );
+        return excercises()->seriesCount( standardExcercises()->excerciseId( round() ) );
     return 0;
 }
 
 int ShotTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED( parent )
-    return excercises()->shotPerSerie( standardExcercises()->excerciseId( m_round ) );
+    return excercises()->shotPerSerie( standardExcercises()->excerciseId( round() ) );
 }
 
 QVariant ShotTableModel::data(const QModelIndex &index, int role) const
@@ -119,4 +119,17 @@ int ShotTableModel::calcSummForShot(int row) const
         }
     }
     return summ;
+}
+int ShotTableModel::round() const
+{
+    return shots() != nullptr ? shots()->round() : 0;
+}
+
+void ShotTableModel::setRound(int round)
+{
+    if (shots() == nullptr || shots()->round() == round)
+        return;
+
+    shots()->setRound( round );
+    emit roundChanged( shots()->round() );
 }

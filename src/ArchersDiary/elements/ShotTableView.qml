@@ -4,6 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 import com.archersdiary.models 1.0
+import "../dialogs"
 
 Rectangle {
     id: shotTableView;
@@ -28,9 +29,21 @@ Rectangle {
         }
 
         itemDelegate: MouseArea {
-            onClicked: console.log( styleData.row + ' ' + styleData.column );
+            id: mouseArea
             Text {
+                id: scoreVal
                 text: shotTableModel.shotScore( styleData.row, styleData.column );
+            }
+
+            ShotScoreEditDialog {
+                id: shotEditDialog
+                score: scoreVal.text.length !== 0 ? (scoreVal.text !== "M" ? scoreVal.text : 0) : -1;
+                y: parent.bottom
+            }
+
+            onClicked: {
+                console.log( styleData.row + ' ' + styleData.column );
+                shotEditDialog.open();
             }
         }
     }
