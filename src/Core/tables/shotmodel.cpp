@@ -3,8 +3,7 @@
 #include "diarytables.h"
 
 ShotModel::ShotModel(QSqlDatabase *db, QObject *parent)
-    : SqlTableModel( db, parent )
-    , m_trainingStandardID( FAKE_ID )
+    : BaseShotModel( db, parent )
 {
     setTable( "ShotModel" );
 }
@@ -27,23 +26,10 @@ SqlTableModel::SqlColumns ShotModel::getColumns() const
     return SqlColumns();
 }
 
-void ShotModel::setTrainingStandardID(const ID &trainingStandardID)
-{
-    if( m_trainingStandardID != trainingStandardID )
-    {
-        m_trainingStandardID = trainingStandardID;
-        if( m_trainingStandardID != FAKE_ID )
-            setFilter( "TrainingStandard=%0" );
-        else
-            resetFilter();
-        emit trainingStandardIDChanged( m_trainingStandardID );
-    }
-}
-
 bool ShotModel::addShot(int number, double radius, double alpha, double arrowDiameter)
 {
-    if( m_trainingStandardID != FAKE_ID )
-        return insertValues( { number, radius, alpha, arrowDiameter } );
+    if( trainingStandardID() != FAKE_ID )
+        return insertValues( { number, round(), radius, alpha, arrowDiameter } );
     return false;
 }
 

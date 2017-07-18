@@ -66,7 +66,7 @@ public:
     bool exist() const;
     bool init( QString& error );
     virtual SqlColumns getColumns() const = 0;
-    void resetFilter();
+
 
 protected:
     inline QSqlDatabase* getDataBase() const { return m_db; }
@@ -75,6 +75,7 @@ protected:
     bool insertValues(const SqlFieldList& fields);
 
     virtual bool createTable(QString& error);
+    virtual void resetFilter();
 
     QSqlRecord recordById( ID id ) const;
 
