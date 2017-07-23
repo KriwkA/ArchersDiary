@@ -31,7 +31,6 @@ private:
     StandardModel* standards() const;
     ExcerciseModel* excercises() const;
 
-
     ID m_standardID;
 };
 

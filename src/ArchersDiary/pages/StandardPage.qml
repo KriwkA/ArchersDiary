@@ -49,7 +49,7 @@ StackPage {
                             Layout.fillWidth: true;
                             anchors.fill: parent;
                             rowCount: shotTablePage.seriesCount();
-                            colCount: shotTablePage.shotsPerSerie();
+                            colCount: shotTablePage.shotsPerSerie() + 1;
                         }
                     }
                 }
@@ -62,5 +62,6 @@ StackPage {
         currentIndex: standardPages.currentIndex
         anchors.bottom: standardPages.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+        visible: standardPages.count > 1
     }
 }

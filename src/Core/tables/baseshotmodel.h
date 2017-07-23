@@ -17,7 +17,7 @@ public:
 
 public slots:
     void setTrainingStandardID( const ID &trainingStandardID );
-    void setRound(int round);
+    void setRound(int round);    
 
 signals:
     void trainingStandardIDChanged( ID id );

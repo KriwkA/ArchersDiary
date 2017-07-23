@@ -10,6 +10,7 @@ public:
     explicit ShotModel( QSqlDatabase* db, QObject* parent = nullptr );
     virtual SqlColumns getColumns() const override;
     Q_INVOKABLE bool addShot(int number, double radius, double alpha, double arrowDiameter );
+
 };
 
 #endif // SHOTMODEL_H

@@ -37,6 +37,8 @@ StackPage {
                     onClicked: {
                         standardList.currentIndex = index;
                         excerciseModel.select();
+                        simpleShotModel.trainingStandardID = Id;
+                        shotModel.trainingStandardID = Id;
                         standardExcerciseModel.standardID = Standard;
                         standardExcerciseModel.select();
                         stackView.title = "Standard";

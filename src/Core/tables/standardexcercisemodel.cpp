@@ -33,6 +33,7 @@ void StandardExcerciseModel::setStandardID(ID standardID)
             setFilter( QString("Standard=%0").arg( m_standardID ));
         else
             resetFilter();
+        select();
         emit standardIDChanged( m_standardID );
     }
 }
@@ -61,11 +62,18 @@ bool StandardExcerciseModel::createTable(QString &error)
                 addExcercise( "90m (36 shots)", "90m (36 shots)" ) &&
 
                 addExcercise( "12m (60 shots)", "12m (30 shots)" ) &&
+                addExcercise( "12m (60 shots)", "12m (30 shots)" ) &&
+                addExcercise( "18m (60 shots)", "18m (30 shots)" ) &&
                 addExcercise( "18m (60 shots)", "18m (30 shots)" ) &&
                 addExcercise( "30m (72 shots)", "30m (36 shots)" ) &&
+                addExcercise( "30m (72 shots)", "30m (36 shots)" ) &&
+                addExcercise( "50m (72 shots)", "50m (36 shots)" ) &&
                 addExcercise( "50m (72 shots)", "50m (36 shots)" ) &&
                 addExcercise( "60m (72 shots)", "60m (36 shots)" ) &&
+                addExcercise( "60m (72 shots)", "60m (36 shots)" ) &&
                 addExcercise( "70m (72 shots)", "70m (36 shots)" ) &&
+                addExcercise( "70m (72 shots)", "70m (36 shots)" ) &&
+                addExcercise( "90m (72 shots)", "90m (36 shots)" ) &&
                 addExcercise( "90m (72 shots)", "90m (36 shots)" ) &&
 
                 addExcercise( juniorsM1Name, "60m (36 shots)" ) &&

@@ -5,7 +5,7 @@
 
 class ExcerciseModel;
 class StandardExcerciseModel;
-class ShotModel;
+class SimpleShotModel;
 
 class ShotTableModel : public QAbstractTableModel
 {
@@ -30,6 +30,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
+    Q_INVOKABLE bool setShotScore(int row, int col, int score);
     Q_INVOKABLE QVariant shotScore(int row, int col) const;
 
     virtual QHash<int, QByteArray> roleNames() const override;
@@ -39,18 +40,21 @@ public:
 public slots:
     void setRound(int round);
 
-signals:
-    void roundChanged(int round);
+private slots:
+    void onShotsModelDataChanged( const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles );
 
 private:
     static ExcerciseModel* excercises();
     static StandardExcerciseModel* standardExcercises();
-    static ShotModel* shots();
-    void notifyScoreChenging( int row, int shotNumber );
+    static SimpleShotModel* shotModel();
+    int shotNumber(int row, int col) const;
+    static int shotNumber(int row, int col, int colCount);
+    void notifyScoreChanging(int shotNumber );
 
     int calcSummForShot( int row ) const;
 
-    int m_series[10][6];
+signals:
+    void roundChanged(int round);
 
 };
 

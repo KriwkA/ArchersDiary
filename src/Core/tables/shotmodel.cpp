@@ -29,8 +29,6 @@ SqlTableModel::SqlColumns ShotModel::getColumns() const
 bool ShotModel::addShot(int number, double radius, double alpha, double arrowDiameter)
 {
     if( trainingStandardID() != FAKE_ID )
-        return insertValues( { number, round(), radius, alpha, arrowDiameter } );
+        return insertValues( { trainingStandardID(), number, round(), radius, alpha, arrowDiameter } );
     return false;
 }
-
-

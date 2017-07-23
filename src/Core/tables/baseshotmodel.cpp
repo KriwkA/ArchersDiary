@@ -14,6 +14,7 @@ void BaseShotModel::setTrainingStandardID(const ID &trainingStandardID)
         m_trainingStandardID = trainingStandardID;
         updateFilter();
         emit trainingStandardIDChanged( m_trainingStandardID );
+        select();
     }
 }
 
@@ -24,6 +25,7 @@ void BaseShotModel::setRound(int round)
 
     m_round = round;
     updateFilter();
+    select();
     emit roundChanged(m_round);
 }
 
@@ -34,9 +36,8 @@ void BaseShotModel::resetFilter()
 
 void BaseShotModel::updateFilter()
 {
-    if( m_trainingStandardID = FAKE_ID ) {
-        if( m_trainingStandardID != FAKE_ID )
-            setFilter( QString("TrainingStandard=%0 AND Round=%1").arg( m_trainingStandardID ).arg(m_round) );
+    if( m_trainingStandardID != FAKE_ID ) {
+        setFilter( QString("TrainingStandard=%0 AND Round=%1").arg( m_trainingStandardID ).arg(m_round) );
     }
     else
         resetFilter();

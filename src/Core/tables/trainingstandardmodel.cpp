@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "trainingstandardmodel.h"
+#include "shotmodel.h"
 #include "diarytables.h"
 
 TrainingStandardModel::TrainingStandardModel(QSqlDatabase *db, QObject *parent)
@@ -38,7 +39,9 @@ void TrainingStandardModel::setTrainingID(ID trainingID)
 
 bool TrainingStandardModel::addStandard(ID standardID)
 {
-    if( m_trainingID != FAKE_ID )
+    auto shots = DiaryTables::getTableModel( TableType::Shots );
+    if( !( shots == nullptr || m_trainingID == FAKE_ID ) ) {
         return insertValues( { m_trainingID, standardID } );
+    }
     return false;
 }
