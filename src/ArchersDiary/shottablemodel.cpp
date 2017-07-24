@@ -8,9 +8,15 @@
 ShotTableModel::ShotTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    if( shotModel() != nullptr )
-        connect( shotModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
+    auto shots = shotModel();
+    if( shots != nullptr ) {
+        connect( shots, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
                  this, SLOT(onShotsModelDataChanged(QModelIndex,QModelIndex,QVector<int>)));
+        connect( shots, SIGNAL(modelAboutToBeReset()),
+                 this, SIGNAL(modelAboutToBeReset()));
+        connect( shots, SIGNAL(modelReset()),
+                 this, SIGNAL(modelReset()));
+    }
 }
 
 int ShotTableModel::rowCount(const QModelIndex &parent) const
@@ -28,9 +34,20 @@ int ShotTableModel::columnCount(const QModelIndex &parent) const
 
 QVariant ShotTableModel::data(const QModelIndex &index, int role) const
 {
-    if( Qt::UserRole <= role && role <= SeriesResult && index.isValid() )
+    if( index.isValid() )
     {
-        return shotScore(index.row(), role - Qt::UserRole );
+        switch (role) {
+        case FirstArrow:
+        case SecondArrow:
+        case ThirdArrow:
+        case FourthArrow:
+        case FifthArrow:
+        case SixthArrow:
+            return shotScore(index.row(), role - Qt::UserRole );
+        case SerieResult:
+            return serieScore( index.row() );
+        }
+
     }
     return QVariant();
 }
@@ -38,7 +55,7 @@ QVariant ShotTableModel::data(const QModelIndex &index, int role) const
 bool ShotTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
 
-    if( index.isValid() && Qt::UserRole <= role && role < SeriesResult && value.type() == QVariant::Int )
+    if( index.isValid() && FirstArrow <= role && role <= SixthArrow && value.type() == QVariant::Int )
     {
         bool goodCast;
         int score = value.toInt( &goodCast );
@@ -51,24 +68,51 @@ bool ShotTableModel::setData(const QModelIndex &index, const QVariant &value, in
 
 bool ShotTableModel::setShotScore(int row, int col, int score)
 {
-    int colCount = columnCount();
-    int shotNumber = colCount * row + col;
-    shotModel()->setShot( shotNumber, score );
-    return true;
+    if( shotModel()->setShot( shotNumber( row, col ), score ) )
+    {
+        auto idx = index( row, columnCount() - 1 );
+        emit dataChanged( idx, idx );
+        return true;
+    }
+    return false;
 }
 
 
 QVariant ShotTableModel::shotScore(int row, int col) const
 {
     auto shots = shotModel();
-    if( shots != nullptr ) {
-        if( col == 6 )
-            return calcSummForShot( row );
+    if( shots != nullptr ) {        
         int score = shots->shot( shotNumber( row, col ) );
         if(score != -1)
             return score != 0 ? QVariant( score ) : QVariant( "M" );
     }
     return "";
+}
+
+int ShotTableModel::serieScore(int serie) const
+{
+    int total = 0;
+    auto shots = shotModel();
+    if( shots != nullptr && serie < rowCount() ) {
+        int cols = columnCount() - 1;
+        int shot;
+        for(int j = 0; j < cols; ++j) {
+            shot = shots->shot( shotNumber( serie, j, cols ) );
+            if( shot != -1 )
+                total += shot;
+        }
+    }
+
+    return total;
+}
+
+int ShotTableModel::totalScore() const
+{
+    int serieCount = rowCount();
+    int result = 0;
+    for(int i = 0; i < serieCount; ++i)
+        result += serieScore(i);
+    return result;
 }
 
 
@@ -81,60 +125,22 @@ QHash<int, QByteArray> ShotTableModel::roleNames() const
         { FourthArrow, "FourthArrow" },
         { FifthArrow, "FifthArrow" },
         { SixthArrow, "SixthArrow" },
-        { SeriesResult, "SeriesResult" }
+        { SerieResult, "SerieResult" }
     };
     return roleNames;
 }
 
-Q_ALWAYS_INLINE int ShotTableModel::shotNumber( int row, int col ) const
-{
-    return shotNumber( row, col, columnCount() );
-}
-
-Q_ALWAYS_INLINE int ShotTableModel::shotNumber(int row, int col, int colCount)
-{
-    return row * colCount + col;
-}
-
 void ShotTableModel::notifyScoreChanging(int shotNumber)
 {
-    emit dataChanged( index(0, 0), index( rowCount(), columnCount()), {
-                          FirstArrow ,
-                          SecondArrow,
-                          ThirdArrow,
-                          FourthArrow,
-                          FifthArrow,
-                          SixthArrow,
-                          SeriesResult
-                      } );
-    return;
-
     int colCount = columnCount();
     int row = shotNumber / colCount;
     int col = shotNumber % colCount;
-    QModelIndex shotIndex = index( row, col );
-    QModelIndex totalIndex = index( row, 6 );
-    emit dataChanged( shotIndex, shotIndex, { Qt::DisplayRole, col + Qt::UserRole } );
-    emit dataChanged( totalIndex, totalIndex, { Qt::DisplayRole, SeriesResult } );
-
+    QModelIndex shotIndex = index( row, col );    
+    QModelIndex serieScoreIndex = index( row, colCount - 1 );
+    emit dataChanged( shotIndex, shotIndex );
+    emit dataChanged( serieScoreIndex, serieScoreIndex );
 }
 
-int ShotTableModel::calcSummForShot(int row) const
-{
-    int summ = 0;
-    auto shots = shotModel();
-    if( shots != nullptr ) {
-
-        int val;
-        int colCount = columnCount();
-        for(int i = 0; i < colCount; ++i ) {
-            val = shots->shot( shotNumber( row, i, colCount ) );
-            if( val != -1 )
-                summ += val;
-        }
-    }
-    return summ;
-}
 int ShotTableModel::round() const
 {
     return shotModel() != nullptr ? shotModel()->round() : 0;
@@ -152,6 +158,7 @@ void ShotTableModel::setRound(int round)
 
 void ShotTableModel::onShotsModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
+    Q_UNUSED(roles);
     if( topLeft.column() == 4 )
     {
         for( int i = topLeft.row(); i <= bottomRight.row(); ++i )
@@ -161,6 +168,16 @@ void ShotTableModel::onShotsModelDataChanged(const QModelIndex &topLeft, const Q
                 notifyScoreChanging( rec.value("Number").toInt() );
         }
     }
+}
+
+Q_ALWAYS_INLINE int ShotTableModel::shotNumber( int row, int col ) const
+{
+    return shotNumber( row, col, columnCount() - 1 );
+}
+
+Q_ALWAYS_INLINE int ShotTableModel::shotNumber(int row, int col, int colCount)
+{
+    return row * colCount + col;
 }
 
 ExcerciseModel *ShotTableModel::excercises()

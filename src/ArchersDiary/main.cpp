@@ -14,6 +14,7 @@
 static const QString RS_IMAGES_PATH    = "img/images/";
 static const QString RS_MENU_IMAGE     = RS_IMAGES_PATH + "menu.png";
 static const QString RS_BACK_IMAGE     = RS_IMAGES_PATH + "back.png";
+static const QString RS_FORWARD_IMAGE  = RS_IMAGES_PATH + "forward.png";
 static const QString RS_ARCHER_IMAGE   = RS_IMAGES_PATH + "menu.png";
 static const QString RS_ADD_IMAGE      = RS_IMAGES_PATH + "plus.png";
 static const QString RS_REMOVE_IMAGE   = RS_IMAGES_PATH + "remove.png";
@@ -24,6 +25,7 @@ void setImagePathsToContext(QQmlContext* context)
 {
     context->setContextProperty( "MenuImage", RS_MENU_IMAGE );
     context->setContextProperty( "BackImage", RS_BACK_IMAGE );
+    context->setContextProperty( "ForwardImage", RS_FORWARD_IMAGE );
     context->setContextProperty( "ArcherImage", RS_ARCHER_IMAGE );
     context->setContextProperty( "AddImage", RS_ADD_IMAGE );
     context->setContextProperty( "RemoveImage", RS_REMOVE_IMAGE );
@@ -39,21 +41,21 @@ void setStylesToContext(QQmlContext* context)
 
 void setTablesToContext(QQmlContext* context)
 {
-    context->setContextProperty("archersModel", DiaryTables::getTableModel( TableType::Archrers ) );
-    context->setContextProperty("arrowsModel", DiaryTables::getTableModel( TableType::Arrows ) );
-    context->setContextProperty("bowsModel", DiaryTables::getTableModel( TableType::Bows ) );
-    context->setContextProperty("scopesModel", DiaryTables::getTableModel( TableType::Scopes ) );
+    context->setContextProperty("archersModel", (ArchersTableModel*)DiaryTables::getTableModel( TableType::Archrers ) );
+    context->setContextProperty("arrowsModel", (ArrowsTableModel*)DiaryTables::getTableModel( TableType::Arrows ) );
+    context->setContextProperty("bowsModel", (BowsTableModel*)DiaryTables::getTableModel( TableType::Bows ) );
+    context->setContextProperty("scopesModel", (ScopesTableModel*)DiaryTables::getTableModel( TableType::Scopes ) );
 
-    context->setContextProperty("trainingModel", DiaryTables::getTableModel( TableType::Trainings ) );
-    context->setContextProperty("recordModel", DiaryTables::getTableModel( TableType::Records ) );
-    context->setContextProperty("trainingStandardModel", DiaryTables::getTableModel( TableType::TrainingStandards ) );
-    context->setContextProperty("shotModel", DiaryTables::getTableModel( TableType::Shots ) );
-    context->setContextProperty("simpleShotModel", DiaryTables::getTableModel( TableType::SimpleShots ) );
+    context->setContextProperty("trainingModel", (TrainingTableModel*)DiaryTables::getTableModel( TableType::Trainings ) );
+    context->setContextProperty("recordModel", (RecordTableModel*)DiaryTables::getTableModel( TableType::Records ) );
+    context->setContextProperty("trainingStandardModel", (TrainingStandardModel*)DiaryTables::getTableModel( TableType::TrainingStandards ) );
+    context->setContextProperty("shotModel", (ShotModel*)DiaryTables::getTableModel( TableType::Shots ) );
+    context->setContextProperty("simpleShotModel", (SimpleShotModel*)DiaryTables::getTableModel( TableType::SimpleShots ) );
 
-    context->setContextProperty("standardModel", DiaryTables::getTableModel( TableType::Standards ) );
-    context->setContextProperty("standardExcerciseModel", DiaryTables::getTableModel( TableType::StandardExcersices ) );
-    context->setContextProperty("excerciseModel", DiaryTables::getTableModel( TableType::Excercises ) );
-    context->setContextProperty("targetModel", DiaryTables::getTableModel( TableType::Targets ) );
+    context->setContextProperty("standardModel", (StandardModel*)DiaryTables::getTableModel( TableType::Standards ) );
+    context->setContextProperty("standardExcerciseModel", (StandardExcerciseModel*)DiaryTables::getTableModel( TableType::StandardExcersices ) );
+    context->setContextProperty("excerciseModel", (ExcerciseModel*)DiaryTables::getTableModel( TableType::Excercises ) );
+    context->setContextProperty("targetModel", (TargetModel*)DiaryTables::getTableModel( TableType::Targets ) );
 }
 
 void registerTypes()

@@ -21,7 +21,7 @@ public:
         FourthArrow,
         FifthArrow,
         SixthArrow,
-        SeriesResult,
+        SerieResult
     };
 
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -32,6 +32,8 @@ public:
 
     Q_INVOKABLE bool setShotScore(int row, int col, int score);
     Q_INVOKABLE QVariant shotScore(int row, int col) const;
+    Q_INVOKABLE int serieScore( int serie ) const;
+    Q_INVOKABLE int totalScore() const;
 
     virtual QHash<int, QByteArray> roleNames() const override;
 
@@ -48,10 +50,8 @@ private:
     static StandardExcerciseModel* standardExcercises();
     static SimpleShotModel* shotModel();
     int shotNumber(int row, int col) const;
-    static int shotNumber(int row, int col, int colCount);
-    void notifyScoreChanging(int shotNumber );
-
-    int calcSummForShot( int row ) const;
+    static int shotNumber( int row, int col, int colCount);
+    void notifyScoreChanging( int shotNumber );
 
 signals:
     void roundChanged(int round);

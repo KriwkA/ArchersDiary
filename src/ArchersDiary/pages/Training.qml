@@ -39,8 +39,7 @@ StackPage {
                         excerciseModel.select();
                         simpleShotModel.trainingStandardID = Id;
                         shotModel.trainingStandardID = Id;
-                        standardExcerciseModel.standardID = Standard;
-                        standardExcerciseModel.select();
+                        standardExcerciseModel.standardID = Standard;                        
                         stackView.title = "Standard";
                         stackView.push( "StandardPage.qml" );
                     }

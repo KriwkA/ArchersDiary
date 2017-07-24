@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.2
 
 Rectangle {
     property string value;
@@ -9,17 +10,11 @@ Rectangle {
         anchors.fill: parent
         anchors.rightMargin: 1;
         anchors.bottomMargin: 1;
-        Text {           
+        Label {
             anchors.fill: parent
             text: value;
-            horizontalAlignment: Qt.AlignCenter
-            verticalAlignment: Qt.AlignCenter
-            onTextChanged: {
-                console.log( "Text: " + text );
-            }
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
         }
-    }
-    onValueChanged: {
-        console.log( "Value: " + value);
     }
 }

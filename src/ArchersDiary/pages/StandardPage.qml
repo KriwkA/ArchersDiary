@@ -7,61 +7,81 @@ import "../elements"
 import "../dialogs"
 
 StackPage {
+    id: standardPage
     property int trainingStandardID;
+    property int roundNumber: 0;
+    property int roundCount: standardExcerciseModel.excerciseCount();
 
-    SwipeView {
-        id: standardPages;
+    function excerciseId() {
+        return standardExcerciseModel.excerciseId( roundNumber );
+    }
+
+    function excerciseName() {
+        return excerciseModel.excerciseName( excerciseId() );
+    }
+
+    function shotsPerSerie() {
+        return excerciseModel.shotPerSerie( excerciseId() );
+    }
+
+    function seriesCount() {
+        return excerciseModel.seriesCount( excerciseId() );
+    }
+
+    ColumnLayout {
         anchors.fill: parent
-        Repeater {
-            model: standardExcerciseModel.excerciseCount()
-            Loader {
-                active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
-                sourceComponent: Page {
-                    id: shotTablePage;
+        spacing: 10;
 
-                    function excerciseId() {
-                        return standardExcerciseModel.excerciseId( standardPages.currentIndex );
-                    }
+        ShotTableView {
+            id: shotTableView;
+            Layout.fillHeight: true;
+            Layout.fillWidth: true;
+            rowCount: seriesCount();
+            colCount: shotsPerSerie();
+            round: roundNumber;
+        }
 
-                    function excerciseName() {
-                        return excerciseModel.excerciseName( excerciseId() );
-                    }
 
-                    function shotsPerSerie() {
-                        return excerciseModel.shotPerSerie( excerciseId() );
-                    }
+        Label {
+            id: totalScoreText;
+            Layout.fillWidth: true;
+            height: 32
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
+            text: "Total: " + shotTableView.totalScore;
+        }
 
-                    function seriesCount() {
-                        return excerciseModel.seriesCount( excerciseId() );
-                    }
+        RowLayout {
+            Layout.fillWidth: true
 
-                    ColumnLayout {
-                        anchors.fill: parent
-                        spacing: 10;
-                        Label {
-                            Layout.fillWidth: true;
-                            height: 32;
-                            text: shotTablePage.excerciseName();
-                        }
-
-                        ShotTableView {
-                            Layout.fillHeight: true;
-                            Layout.fillWidth: true;
-                            anchors.fill: parent;
-                            rowCount: shotTablePage.seriesCount();
-                            colCount: shotTablePage.shotsPerSerie() + 1;
-                        }
-                    }
+            ImageButton {
+                anchors.verticalCenter: parent.verticalCenter
+                enabled: roundNumber > 0;
+                imgSrc: BackImage;
+                onClicked: {
+                    roundNumber--;
                 }
             }
+
+            Label {
+                Layout.fillWidth: true;
+                height: 32;
+                text: excerciseName();
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+            }
+
+            ImageButton {
+                anchors.verticalCenter: parent.verticalCenter
+                enabled: roundNumber < roundCount - 1;
+                imgSrc: ForwardImage;
+                onClicked: {
+                    roundNumber++;
+                }
+            }
+
         }
+
     }
 
-    PageIndicator {
-        count: standardPages.count
-        currentIndex: standardPages.currentIndex
-        anchors.bottom: standardPages.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        visible: standardPages.count > 1
-    }
 }

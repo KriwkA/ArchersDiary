@@ -64,11 +64,9 @@ bool SimpleShotModel::updateShot(int number, int score)
     int row;
     QSqlRecord shotRec = recByShotNumber( number, &row );
 
-    if( !shotRec.isEmpty() )
-    {
-        shotRec.setValue( "Score", score );
-        return setRecord( row, record() );
-    }
+    if( !shotRec.isEmpty() )    
+        return setData( row, score, roleFromRoleName( "Score" ) );
+
     return false;
 }
 

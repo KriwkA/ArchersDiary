@@ -15,12 +15,13 @@ Rectangle {
 
     property int lastSelectedRow;
     property int lastSelectedCol;
+    property int totalScore: shotTableModel.totalScore();
 
     TableView {
         id: table;
         anchors.fill: parent
         alternatingRowColors: false;
-        property int colWidth: ( width / ( shotTableView.colCount ) );
+        property int colWidth: ( width / ( shotTableView.colCount + 1 ) );
         property int rowHeight: ( width / 7.0 ) * 2.0 / 3.0;
 
         TableViewColumn { role: "FirstArrow";   title: "1";     visible: colCount > 0; width: table.colWidth  }
@@ -29,20 +30,26 @@ Rectangle {
         TableViewColumn { role: "FourthArrow";  title: "4";     visible: colCount > 3; width: table.colWidth  }
         TableViewColumn { role: "FifthArrow";   title: "5";     visible: colCount > 4; width: table.colWidth  }
         TableViewColumn { role: "SixthArrow";   title: "6";     visible: colCount > 5; width: table.colWidth  }
-        TableViewColumn { role: "SeriesScore";  title: "Total"; visible: colCount > 0; width: table.colWidth  }
+        TableViewColumn { role: "SerieResult";  title: "Total"; visible: colCount > 0; width: table.colWidth  }
 
         model: ShotTableModel {
             id: shotTableModel;
-            round: shotTableView.round;            
+            round: shotTableView.round;
+            onDataChanged: {
+                shotTableView.totalScore = shotTableModel.totalScore();
+            }
+            onModelReset: {
+                shotTableView.totalScore = shotTableModel.totalScore();
+            }
         }
 
         itemDelegate: MouseArea {
-            id: mouseArea
+            id: mouseArea            
 
             ShotTableCell {
                 id: cell
                 anchors.fill: parent;
-                value: styleData.value
+                value: styleData.value;
             }                                  
 
             onClicked: {
@@ -55,7 +62,7 @@ Rectangle {
                 }
             }            
 
-        }                
+        }
 
         rowDelegate: Rectangle {
             height: table.rowHeight;
