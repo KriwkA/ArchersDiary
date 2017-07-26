@@ -82,11 +82,9 @@ QVariant ShotTableModel::shotScore(int row, int col) const
 {
     auto shots = shotModel();
     if( shots != nullptr ) {        
-        int score = shots->shot( shotNumber( row, col ) );
-        if(score != -1)
-            return score != 0 ? QVariant( score ) : QVariant( "M" );
+        return shots->shot( shotNumber( row, col ) );
     }
-    return "";
+    return -1;
 }
 
 int ShotTableModel::serieScore(int serie) const

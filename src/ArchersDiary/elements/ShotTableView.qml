@@ -49,19 +49,18 @@ Rectangle {
             ShotTableCell {
                 id: cell
                 anchors.fill: parent;
-                value: styleData.value;
+                score: styleData.value;
+                total: styleData.column === colCount;
             }                                  
 
             onClicked: {
-                if( styleData.column < table.columnCount - 1 ) {
-                    var scoreVal = cell.value;
+                if( styleData.column < table.columnCount - 1 ) {                    
                     lastSelectedRow = styleData.row;
                     lastSelectedCol = styleData.column;
-                    shotEditDialog.score = scoreVal.length !== 0 ? (scoreVal !== "M" ? scoreVal : 0) : -1;
+                    shotEditDialog.score = cell.score;
                     shotEditDialog.open();
                 }
             }            
-
         }
 
         rowDelegate: Rectangle {
@@ -71,9 +70,10 @@ Rectangle {
 
     ShotScoreEditDialog {
         id: shotEditDialog
-        x: (window.width - width) / 2.0;
-        y: (window.height - height) / 2.0;
-        height:  window.height * 2.0 / 3.0;
+        width: Math.min( window.width, window.height ) * 3 / 4;
+        height: width;
+        x: (window.width - width) / 2;
+        y: (window.width - width) / 2;
         onAccepted: {
             shotTableModel.setShotScore( lastSelectedRow, lastSelectedCol, score );
         }

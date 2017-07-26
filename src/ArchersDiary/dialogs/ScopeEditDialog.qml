@@ -11,6 +11,7 @@ Dialog {
     property int distance: distanceSpinBox.value;
     property double vertical: verticalSpinBox.realValue;
     property double horisontal: horisontalSpinBox.realValue;
+    padding: 0
 
     ColumnLayout {
         spacing: 20
