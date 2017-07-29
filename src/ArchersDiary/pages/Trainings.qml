@@ -22,6 +22,7 @@ StackPage {
         function setTrainingIdToModels( id ) {
             recordModel.trainingID = id;
             trainingStandardModel.trainingID = id;
+            trainingModel.currentTrainingID = id;
         }
 
         delegate: ItemDelegate {

@@ -6,6 +6,7 @@
 TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
     : SqlTableModel(db, parent)
     , m_archerID( FAKE_ID )
+    , m_currentTrainingID( FAKE_ID )
 {
     setTable("Training");
 }
@@ -57,7 +58,7 @@ void TrainingTableModel::setArcherID(ID archerID)
 
 int TrainingTableModel::shotCount() const
 {
-    auto modelIndex = indexFromArcherID( m_archerID );
+    auto modelIndex = currentTrainingModelIndex();
     if( modelIndex.isValid() ) {
         return data( modelIndex, roleFromRoleName( "SimpleShots" ) ).toInt();
     }
@@ -67,10 +68,27 @@ int TrainingTableModel::shotCount() const
 void TrainingTableModel::setShotCount(int shotCount)
 {
     if( shotCount != this->shotCount() ) {
-        auto modelIndex = indexFromArcherID( m_archerID );
+        auto modelIndex = currentTrainingModelIndex();
         if( modelIndex.isValid() && setData( modelIndex.row(), shotCount, roleFromRoleName( "SimpleShots" ) ) )
             emit shotCountChanged( shotCount );        
     }
+}
+
+QModelIndex TrainingTableModel::currentTrainingModelIndex() const
+{
+    if( m_currentTrainingID != FAKE_ID )
+    {
+        int rows = rowCount();
+        QModelIndex modelIndex;
+        bool ok = false;
+        for( int i = 0; i < rows; ++i ) {
+            modelIndex = std::move( index(i, 0) );
+            if( data( modelIndex, roleFromRoleName( "Id" ) ).toInt( &ok ) == m_currentTrainingID && ok )
+                return std::move( modelIndex );
+        }
+    }
+
+    return QModelIndex();
 }
 
 bool TrainingTableModel::addTraining()
@@ -81,20 +99,3 @@ bool TrainingTableModel::addTraining()
     return false;
 }
 
-QModelIndex TrainingTableModel::indexFromArcherID(ID archerID) const
-{
-    if( archerID != FAKE_ID )
-    {
-        int rows = rowCount();
-        QModelIndex modelIndex;
-        bool ok = false;
-        for( int i = 0; i < rows; ++i ) {
-            modelIndex = index(i, 0);
-            if( data( modelIndex, roleFromRoleName( "Id" ) ).toInt( &ok ) == archerID && ok )
-                return modelIndex;
-        }
-    }
-
-
-    return QModelIndex();
-}
