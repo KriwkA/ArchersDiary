@@ -1,6 +1,6 @@
-QT += qml quick sql quickcontrols2
+QT += core qml quick sql quickcontrols2
 
-CONFIG += c++11 qtquickcompiler
+CONFIG += qtquickcompiler
 
 SOURCES += main.cpp \
     targetview.cpp \
@@ -8,12 +8,6 @@ SOURCES += main.cpp \
 
 RESOURCES += \
     qml.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
 
 DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -46,7 +40,9 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+android {
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+}
 
 HEADERS += \
     targetview.h \

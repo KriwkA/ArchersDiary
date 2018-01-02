@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
-QT       += sql
+QT       += sql core
 
 TARGET = Core
 TEMPLATE = lib
@@ -13,11 +13,8 @@ android {
     TEMPLATE = app  # for Android this is an "app"
 }
 
-CONFIG += c++11
-
 DEFINES += CORE_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     precomp.cpp \
@@ -65,11 +62,11 @@ HEADERS += \
     tables/simpleshotmodel.h \
     tables/baseshotmodel.h
 
-PRECOMPILED_HEADER += precomp.h
+#PRECOMPILED_HEADER += precomp.h
 
-precompile_header:!isEmpty(PRECOMPILED_HEADER) {
-DEFINES += USING_PCH
-}
+#precompile_header:!isEmpty(PRECOMPILED_HEADER) {
+#DEFINES += USING_PCH
+#}
 
 unix {
     target.path = /usr/lib
