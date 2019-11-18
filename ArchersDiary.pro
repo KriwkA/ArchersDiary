@@ -2,6 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     BL \
+    Core\
     ArchersDiary
 
-ArchersDiary.depends         += BL
+#BL.depends                   += Core
+#ArchersDiary.depends         += BL

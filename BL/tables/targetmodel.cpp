@@ -1,37 +1,31 @@
 #include "precomp.h"
 #include "targetmodel.h"
 
-TargetModel::TargetModel(QSqlDatabase *db, QObject *parent)
+#include <QSqlField>
+#include <serialization.h>
+
+TargetModel::TargetModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel( db, parent )
 {
     setTable( "Target" );
 }
 
-SqlTableModel::SqlColumns TargetModel::getColumns() const
-{    
-    SqlColumn id = SqlColumn::createPrimaryKey();
+const core::db::SqlColumnList& TargetModel::getColumns() const noexcept
+{
+    using SC = core::db::SqlColumn;
 
-    SqlColumn name;
-    name.name = "Name";
-    name.dataType = ftTEXT;
+    static constexpr std::array cols = {
+        SC::createPrimaryKey(FieldType::ftINTEGER),
+        SC(u"Name", FieldType::ftTEXT),
+        SC(u"CircleCount", FieldType::ftINTEGER),
+        // TODO: перегнать в один Json параметр как ftTEXT
+        SC(u"Scores", FieldType::ftBLOB),
+        SC(u"Radiuses", FieldType::ftBLOB),
+        SC(u"Colors", FieldType::ftBLOB),
+    };
 
-    SqlColumn circleCount;
-    circleCount.name = "CircleCount";
-    circleCount.dataType = ftINTEGER;
-
-    SqlColumn scores;
-    scores.name = "Scores";
-    scores.dataType = ftBLOB;
-
-    SqlColumn radiuses;
-    radiuses.name = "Radiuses";
-    radiuses.dataType = ftBLOB;
-
-    SqlColumn colors;
-    colors.name = "Colors";
-    colors.dataType = ftBLOB;
-
-    return { id, name, circleCount, scores, radiuses, colors };
+    static constexpr core::utils::ContainterViewImpl res(cols);
+    return static_cast<const core::db::SqlColumnList&>(res);
 }
 
 bool TargetModel::createTable( QString &error )
@@ -73,7 +67,7 @@ int TargetModel::fitaTargetId(const QString &name)
         if( rec.field("Name").value().toString() == name )
             return rec.field("Id").value().toInt();
     }
-    return FAKE_ID;
+    return core::db::FAKE_ID;
 }
 
 

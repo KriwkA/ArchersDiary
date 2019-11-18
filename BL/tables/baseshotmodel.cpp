@@ -1,13 +1,13 @@
 #include "baseshotmodel.h"
 
-BaseShotModel::BaseShotModel( QSqlDatabase* db, QObject* parent )
+BaseShotModel::BaseShotModel( QSqlDatabase& db, QObject* parent )
     : SqlTableModel( db, parent )
-    , m_trainingStandardID( FAKE_ID )
+    , m_trainingStandardID( core::db::FAKE_ID )
     , m_round( 0 )
 {
 }
 
-void BaseShotModel::setTrainingStandardID(const ID &trainingStandardID)
+void BaseShotModel::setTrainingStandardID(const core::db::ID &trainingStandardID)
 {
     if( m_trainingStandardID != trainingStandardID )
     {
@@ -36,7 +36,7 @@ void BaseShotModel::resetFilter()
 
 void BaseShotModel::updateFilter()
 {
-    if( m_trainingStandardID != FAKE_ID ) {
+    if( m_trainingStandardID != core::db::FAKE_ID ) {
         setFilter( QString("TrainingStandard=%0 AND Round=%1").arg( m_trainingStandardID ).arg(m_round) );
     }
     else

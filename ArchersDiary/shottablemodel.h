@@ -45,10 +45,7 @@ public slots:
 private slots:
     void onShotsModelDataChanged( const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles );
 
-private:
-    static ExcerciseModel* excercises();
-    static StandardExcerciseModel* standardExcercises();
-    static SimpleShotModel* shotModel();
+private:    
     int shotNumber(int row, int col) const;
     static int shotNumber( int row, int col, int colCount);
     void notifyScoreChanging( int shotNumber );

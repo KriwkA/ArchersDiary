@@ -1,26 +1,29 @@
 #ifndef RECORDTABLEMODEL_H
 #define RECORDTABLEMODEL_H
 
-#include <database/sqltablemodel.h>
+#include <bl_global.h>
 
-class BL_SHARED_EXPORT RecordTableModel : public SqlTableModel
+#include <db/sqltablemodel.h>
+
+class BL_SHARED_EXPORT RecordTableModel final : public core::db::SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(ID trainingID READ trainingID WRITE setTrainingID)
+    Q_PROPERTY(core::db::ID trainingID READ trainingID WRITE setTrainingID)
 public:
-    explicit RecordTableModel(QSqlDatabase* db, QObject* parent = nullptr);
-    virtual SqlColumns getColumns() const override;
+    explicit RecordTableModel(QSqlDatabase& db, QObject* parent = nullptr);    
+    const core::db::SqlColumnList& getColumns() const noexcept override;
 
-    void setTrainingID(ID trainingID );
-    Q_ALWAYS_INLINE ID trainingID() const { return m_trainingID; }
+    void setTrainingID(core::db::ID trainingID );
+    Q_ALWAYS_INLINE core::db::ID trainingID() const { return m_trainingID; }
 
     Q_INVOKABLE bool addRecord(const QString& record);
 
 signals:
-    void trainingIDChanged( ID id );
+    void trainingIDChanged( core::db::ID id );
 
 private:
-    ID m_trainingID;
+    core::db::ID m_trainingID;
+
 };
 
 #endif // RECORDTABLEMODEL_H

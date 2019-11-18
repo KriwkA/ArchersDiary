@@ -1,35 +1,52 @@
 #include "shottablemodel.h"
-#include "diarytables.h"
-#include "tables/excercisemodel.h"
-#include "tables/standardexcercisemodel.h"
-#include "tables/simpleshotmodel.h"
+
+#include <tables/dbtables.h>
+#include <tables/excercisemodel.h>
+#include <tables/standardexcercisemodel.h>
+#include <tables/simpleshotmodel.h>
+
+
 #include <QSqlRecord>
+
+namespace {
+    decltype(auto) shotModel() {
+        return bl::db::DbTables::Instance().getTable<SimpleShotModel>();
+    }
+    decltype(auto) standardExcercises() {
+        return bl::db::DbTables::Instance().getTable<StandardExcerciseModel>();
+    }
+    decltype(auto) excercises() {
+        return bl::db::DbTables::Instance().getTable<ExcerciseModel>();
+    }
+}
+
 
 ShotTableModel::ShotTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    auto shots = shotModel();
-    if( shots != nullptr ) {
-        connect( shots, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
-                 this, SLOT(onShotsModelDataChanged(QModelIndex,QModelIndex,QVector<int>)));
-        connect( shots, SIGNAL(modelAboutToBeReset()),
-                 this, SIGNAL(modelAboutToBeReset()));
-        connect( shots, SIGNAL(modelReset()),
-                 this, SIGNAL(modelReset()));
-    }
+    auto& shots = shotModel();
+
+    connect( &shots, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
+             this, SLOT(onShotsModelDataChanged(QModelIndex,QModelIndex,QVector<int>)));
+
+    connect( &shots, SIGNAL(modelAboutToBeReset()),
+             this, SIGNAL(modelAboutToBeReset()));
+
+    connect( &shots, SIGNAL(modelReset()),
+             this, SIGNAL(modelReset()));
 }
 
 int ShotTableModel::rowCount(const QModelIndex &parent) const
 {
     if( !parent.isValid() )
-        return excercises()->seriesCount( standardExcercises()->excerciseId( round() ) );
+        return excercises().seriesCount( standardExcercises().excerciseId( round() ) );
     return 0;
 }
 
 int ShotTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED( parent )
-    return excercises()->shotPerSerie( standardExcercises()->excerciseId( round() ) ) + 1;
+    return excercises().shotPerSerie( standardExcercises().excerciseId( round() ) ) + 1;
 }
 
 QVariant ShotTableModel::data(const QModelIndex &index, int role) const
@@ -68,7 +85,7 @@ bool ShotTableModel::setData(const QModelIndex &index, const QVariant &value, in
 
 bool ShotTableModel::setShotScore(int row, int col, int score)
 {
-    if( shotModel()->setShot( shotNumber( row, col ), score ) )
+    if( shotModel().setShot( shotNumber( row, col ), score ) )
     {
         auto idx = index( row, columnCount() - 1 );
         emit dataChanged( idx, idx );
@@ -80,27 +97,21 @@ bool ShotTableModel::setShotScore(int row, int col, int score)
 
 QVariant ShotTableModel::shotScore(int row, int col) const
 {
-    auto shots = shotModel();
-    if( shots != nullptr ) {        
-        return shots->shot( shotNumber( row, col ) );
-    }
-    return -1;
+    return shotModel().shot( shotNumber( row, col ) );
 }
 
 int ShotTableModel::serieScore(int serie) const
 {
     int total = 0;
-    auto shots = shotModel();
-    if( shots != nullptr && serie < rowCount() ) {
-        int cols = columnCount() - 1;
-        int shot;
-        for(int j = 0; j < cols; ++j) {
-            shot = shots->shot( shotNumber( serie, j, cols ) );
-            if( shot != -1 )
+    if( serie < rowCount() ) {
+        int cols = columnCount() - 1;        
+        auto& shots = shotModel();
+        for(int j = 0; j < cols; ++j) {            
+            if(int shot = shots.shot( shotNumber( serie, j, cols ) ); shot != -1 ) {
                 total += shot;
+            }
         }
     }
-
     return total;
 }
 
@@ -141,17 +152,15 @@ void ShotTableModel::notifyScoreChanging(int shotNumber)
 
 int ShotTableModel::round() const
 {
-    return shotModel() != nullptr ? shotModel()->round() : 0;
+    return shotModel().round();
 }
 
-void ShotTableModel::setRound(int round)
-{
-    auto shots = shotModel();
-    if (shots == nullptr || shots->round() == round)
-        return;
-
-    shots->setRound( round );
-    emit roundChanged( shots->round() );
+void ShotTableModel::setRound(int r)
+{    
+    if (round() != r) {
+        shotModel().setRound( r );
+        emit roundChanged( round() );
+    }
 }
 
 void ShotTableModel::onShotsModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
@@ -159,11 +168,13 @@ void ShotTableModel::onShotsModelDataChanged(const QModelIndex &topLeft, const Q
     Q_UNUSED(roles);
     if( topLeft.column() == 4 )
     {
+        auto& shots = shotModel();
         for( int i = topLeft.row(); i <= bottomRight.row(); ++i )
         {
-            auto rec = shotModel()->record( i );
-            if( rec.contains("Number") )
+            auto rec = shots.record( i );
+            if( rec.contains("Number") ) {
                 notifyScoreChanging( rec.value("Number").toInt() );
+            }
         }
     }
 }
@@ -176,19 +187,4 @@ Q_ALWAYS_INLINE int ShotTableModel::shotNumber( int row, int col ) const
 Q_ALWAYS_INLINE int ShotTableModel::shotNumber(int row, int col, int colCount)
 {
     return row * colCount + col;
-}
-
-ExcerciseModel *ShotTableModel::excercises()
-{
-    return static_cast< ExcerciseModel* >( DiaryTables::getTableModel( TableType::Excercises ) );
-}
-
-StandardExcerciseModel *ShotTableModel::standardExcercises()
-{
-    return static_cast< StandardExcerciseModel* >( DiaryTables::getTableModel( TableType::StandardExcersices ) );
-}
-
-SimpleShotModel *ShotTableModel::shotModel()
-{
-    return static_cast< SimpleShotModel* >( DiaryTables::getTableModel( TableType::SimpleShots ) );
 }

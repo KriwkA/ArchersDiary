@@ -1,32 +1,34 @@
 #include "precomp.h"
 #include "recordtablemodel.h"
-#include "diarytables.h"
+#include "trainingtablemodel.h"
+#include "dbtables.h"
 
-RecordTableModel::RecordTableModel(QSqlDatabase *db, QObject *parent)
+
+RecordTableModel::RecordTableModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel( db, parent )
-    , m_trainingID( FAKE_ID )
+    , m_trainingID( core::db::FAKE_ID )
 {
     setTable("Record");
 }
 
-SqlTableModel::SqlColumns RecordTableModel::getColumns() const
+const core::db::SqlColumnList& RecordTableModel::getColumns() const noexcept
 {
-    auto trainingModel = DiaryTables::getTableModel( TableType::Trainings );
-    if( trainingModel != nullptr )
-    {
-        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
+    constexpr auto init_cols = +[]{
+        using SC = core::db::SqlColumn;
+        return std::array{
+            SC::createPrimaryKey(FieldType::ftINTEGER),
+            SC::createForeign(bl::db::DbTables::Instance().getTable<TrainingTableModel>()),
+            SC(u"Record", FieldType::ftTEXT)
+        };
+    };
 
-        SqlTableModel::SqlColumn training = SqlColumn::createForeign( trainingModel );
-
-        SqlColumn record;
-        record.name = "Record";
-        record.dataType = ftTEXT;
-        return { id, training, record };
-    }
-    return SqlColumns();
+    // TODO: constexpr
+    static auto cols = init_cols();
+    static core::utils::ContainterViewImpl res(cols);
+    return res;
 }
 
-void RecordTableModel::setTrainingID(ID trainingID )
+void RecordTableModel::setTrainingID(core::db::ID trainingID )
 {
     if( trainingID != m_trainingID )
     {
@@ -43,6 +45,6 @@ bool RecordTableModel::addRecord(const QString& record)
 {
     if(m_trainingID >= 0)
         return insertValues({ m_trainingID, record });
-    qDebug() << "Invalid archer Id";
+    qDebug() << "Invalid archer core::db::ID";
     return false;
 }

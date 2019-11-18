@@ -1,35 +1,39 @@
 #include "precomp.h"
 #include "simpleshotmodel.h"
-#include "diarytables.h"
 #include "trainingstandardmodel.h"
+#include "dbtables.h"
 
-SimpleShotModel::SimpleShotModel(QSqlDatabase *db, QObject *parent)
+
+SimpleShotModel::SimpleShotModel(QSqlDatabase& db, QObject *parent)
     : BaseShotModel( db, parent )
 {
     setTable( "SimpleShotModel" );
 }
 
 
-SqlTableModel::SqlColumns SimpleShotModel::getColumns() const
+const core::db::SqlColumnList& SimpleShotModel::getColumns() const noexcept
 {
-    auto trainingStandardModel = DiaryTables::getTableModel( TableType::TrainingStandards );
-    if( trainingStandardModel != nullptr )
-    {
-        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
+    constexpr auto init_cols = +[]{
+        using SC = core::db::SqlColumn;
+        return std::array{
+                SC::createPrimaryKey(FieldType::ftINTEGER),
+                SC::createForeign(bl::db::DbTables::Instance().getTable<TrainingStandardModel>()),
+                SC(u"Number", FieldType::ftINTEGER),
+                SC(u"Round", FieldType::ftINTEGER),
+                SC(u"Score", FieldType::ftINTEGER),
+        };
+    };
 
-        SqlColumn trainingStandard = SqlColumn::createForeign( trainingStandardModel );
-        SqlColumn number( "Number", ftINTEGER );
-        SqlColumn round( "Round", ftINTEGER );
-        SqlColumn score( "Score", ftINTEGER );
-
-        return { id, trainingStandard, number, round, score };
-    }
-    return SqlColumns();
+    // TODO: constexpr
+    static auto cols = init_cols();
+    static core::utils::ContainterViewImpl res(cols);
+    return res;
 }
+
 
 bool SimpleShotModel::setShot(int number, int score)
 {
-    if( trainingStandardID() != FAKE_ID )
+    if( trainingStandardID() != core::db::FAKE_ID )
     {
         if( shotExists( number ) )
             return updateShot( number, score );
@@ -40,7 +44,7 @@ bool SimpleShotModel::setShot(int number, int score)
 
 int SimpleShotModel::shot(int number) const
 {
-    if( trainingStandardID() != FAKE_ID )
+    if( trainingStandardID() != core::db::FAKE_ID )
     {
         QSqlRecord rec = recByShotNumber( number );
         if( rec.contains( "Score" ) )

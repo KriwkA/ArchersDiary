@@ -1,41 +1,41 @@
 #include <precomp.h>
 #include "trainingtablemodel.h"
-#include "diarytables.h"
+#include "archerstablemodel.h"
+#include "dbtables.h"
+#include <array>
+
 #include <QDateTime>
 
-TrainingTableModel::TrainingTableModel(QSqlDatabase *db, QObject *parent)
+TrainingTableModel::TrainingTableModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_archerID( FAKE_ID )
-    , m_currentTrainingID( FAKE_ID )
+    , m_archerID( core::db::FAKE_ID )
+    , m_currentTrainingID( core::db::FAKE_ID )
 {
     setTable("Training");
 }
 
-SqlTableModel::SqlColumns TrainingTableModel::getColumns() const
-{    
-    auto archerModel = DiaryTables::getTableModel( TableType::Archrers );
-    if( archerModel != nullptr )
-    {
-        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
-        SqlTableModel::SqlColumn archer = SqlColumn::createForeign( archerModel );
+const core::db::SqlColumnList& TrainingTableModel::getColumns() const noexcept
+{
+    constexpr auto init_cols = +[]{
+        using SC = core::db::SqlColumn;
+        return std::array{
+                SC::createPrimaryKey(FieldType::ftINTEGER),
+                SC::createForeign(bl::db::DbTables::Instance().getTable<ArchersTableModel>()),
+                SC(u"Date", FieldType::ftDATE),
+                SC(u"SimpleShots", FieldType::ftINTEGER)
+        };
+    };
 
-        SqlTableModel::SqlColumn date;
-        date.name = "Date";
-        date.dataType = ftINTEGER;
-
-        SqlTableModel::SqlColumn simpleShots;
-        simpleShots.name = "SimpleShots";
-        simpleShots.dataType = ftINTEGER;
-
-        return { id, archer, date, simpleShots };
-    }    
-    return SqlColumns();
+    // TODO: constexpr
+    static auto cols = init_cols();
+    static core::utils::ContainterViewImpl res(cols);
+    return res;
 }
 
 bool TrainingTableModel::select()
 {
     if( SqlTableModel::select() ) {
-        if( m_archerID != FAKE_ID ) {
+        if( m_archerID != core::db::FAKE_ID ) {
             emit shotCountChanged( shotCount() );
         }
         return true;
@@ -43,12 +43,12 @@ bool TrainingTableModel::select()
     return false;
 }
 
-void TrainingTableModel::setArcherID(ID archerID)
+void TrainingTableModel::setArcherID(core::db::ID archerID)
 {
     if( m_archerID != archerID )
     {
         m_archerID = archerID;
-        if(m_archerID != FAKE_ID )
+        if(m_archerID != core::db::FAKE_ID )
             setFilter(QString("Archer=%0").arg(m_archerID));
         else
             resetFilter();
@@ -76,7 +76,7 @@ void TrainingTableModel::setShotCount(int shotCount)
 
 QModelIndex TrainingTableModel::currentTrainingModelIndex() const
 {
-    if( m_currentTrainingID != FAKE_ID )
+    if( m_currentTrainingID != core::db::FAKE_ID )
     {
         int rows = rowCount();
         QModelIndex modelIndex;
@@ -95,7 +95,7 @@ bool TrainingTableModel::addTraining()
 {
     if(m_archerID >= 0)
         return insertValues({ m_archerID, QDateTime::currentDateTime().toSecsSinceEpoch(), 0 });
-    qWarning() << "Invalid archer Id";
+    qWarning() << "Invalid archer core::db::ID";
     return false;
 }
 

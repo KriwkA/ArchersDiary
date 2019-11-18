@@ -1,35 +1,40 @@
 #include "precomp.h"
 #include "trainingstandardmodel.h"
 #include "shotmodel.h"
-#include "diarytables.h"
+#include "standardmodel.h"
+#include "trainingtablemodel.h"
+#include "dbtables.h"
 
-TrainingStandardModel::TrainingStandardModel(QSqlDatabase *db, QObject *parent)
+TrainingStandardModel::TrainingStandardModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel( db, parent )
-    , m_trainingID( FAKE_ID )
+    , m_trainingID( core::db::FAKE_ID )
 {
     setTable( "TrainingStandard" );
 }
 
-SqlTableModel::SqlColumns TrainingStandardModel::getColumns() const
+const core::db::SqlColumnList& TrainingStandardModel::getColumns() const noexcept
 {
-    auto trainingModel = DiaryTables::getTableModel( TableType::Trainings );
-    auto standardModel = DiaryTables::getTableModel( TableType::Standards );
-    if( trainingModel != nullptr && standardModel != nullptr )
-    {
-        SqlColumn id = SqlColumn::createPrimaryKey();
-        SqlColumn training = SqlColumn::createForeign( trainingModel );
-        SqlColumn standard = SqlColumn::createForeign( standardModel );
-        return { id, training, standard };
-    }
-    return SqlColumns();
+    constexpr auto init_cols = +[]{
+        using SC = core::db::SqlColumn;
+        return std::array{
+                SC::createPrimaryKey(FieldType::ftINTEGER),
+                SC::createForeign(bl::db::DbTables::Instance().getTable<TrainingTableModel>()),
+                SC::createForeign(bl::db::DbTables::Instance().getTable<StandardModel>())
+        };
+    };
+
+    // TODO: constexpr
+    static auto cols = init_cols();
+    static core::utils::ContainterViewImpl res(cols);
+    return res;
 }
 
-void TrainingStandardModel::setTrainingID(ID trainingID)
+void TrainingStandardModel::setTrainingID(core::db::ID trainingID)
 {
     if( m_trainingID != trainingID )
     {
         m_trainingID = trainingID;
-        if( m_trainingID != FAKE_ID )
+        if( m_trainingID != core::db::FAKE_ID )
             setFilter( QString("Training=%0").arg( m_trainingID ) );
         else
             resetFilter();
@@ -37,10 +42,13 @@ void TrainingStandardModel::setTrainingID(ID trainingID)
     }
 }
 
-bool TrainingStandardModel::addStandard(ID standardID)
+bool TrainingStandardModel::addStandard(core::db::ID standardID)
 {
-    auto shots = DiaryTables::getTableModel( TableType::Shots );
-    if( !( shots == nullptr || m_trainingID == FAKE_ID ) ) {
+    if(m_trainingID != core::db::FAKE_ID) {
+
+        // TODO: раньше для чего-то создавалось, нужно проверить нужно ли это вообще
+        bl::db::DbTables::Instance().getTable<ShotModel>();
+
         return insertValues( { m_trainingID, standardID } );
     }
     return false;

@@ -15,8 +15,6 @@ Drawer {
         property bool recordSelected: currentIndex !== -1
 
         function setArcherToModels( id ) {
-            bowsModel.archerID = id;
-            arrowsModel.archerID = id;
             trainingModel.archerID = id;
         }
 

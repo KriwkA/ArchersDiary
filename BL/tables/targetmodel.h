@@ -1,7 +1,9 @@
 #ifndef TARGETMODEL_H
 #define TARGETMODEL_H
 
-#include <database/sqltablemodel.h>
+#include <bl_global.h>
+
+#include <db/sqltablemodel.h>
 
 struct BL_SHARED_EXPORT Target
 {
@@ -16,12 +18,12 @@ struct BL_SHARED_EXPORT Target
     static int getFitaColor( int score );
 };
 
-class BL_SHARED_EXPORT TargetModel : public SqlTableModel
+class BL_SHARED_EXPORT TargetModel : public core::db::SqlTableModel
 {
     Q_OBJECT
 public:
-    explicit TargetModel( QSqlDatabase* db, QObject* parent);
-    virtual SqlColumns getColumns() const override;
+    explicit TargetModel( QSqlDatabase& db, QObject* parent = nullptr);
+    const core::db::SqlColumnList& getColumns() const noexcept override;
     virtual bool createTable( QString& error ) override;
 
     Q_INVOKABLE bool addTarget( const Target& target );

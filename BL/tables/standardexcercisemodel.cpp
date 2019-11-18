@@ -1,35 +1,39 @@
 #include "precomp.h"
 #include "standardexcercisemodel.h"
-#include "diarytables.h"
 #include "excercisemodel.h"
 #include "standardmodel.h"
 
-StandardExcerciseModel::StandardExcerciseModel(QSqlDatabase *db, QObject *parent)
+#include "dbtables.h"
+
+StandardExcerciseModel::StandardExcerciseModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel( db, parent )
-    , m_standardID( FAKE_ID )
 {
     setTable( "StandardExcersice" );
 }
 
-SqlTableModel::SqlColumns StandardExcerciseModel::getColumns() const
+const core::db::SqlColumnList& StandardExcerciseModel::getColumns() const noexcept
 {
-    auto standards = this->standards();
-    auto excercises = this->excercises();
-    if( !( standards == nullptr || excercises == nullptr ) ) {
-        SqlTableModel::SqlColumn id = SqlColumn::createPrimaryKey();
-        SqlColumn standard = SqlColumn::createForeign( standards );
-        SqlColumn excersice = SqlColumn::createForeign( excercises );
-        return { id, standard, excersice };
-    }
-    return SqlColumns();
+    constexpr auto init_cols = +[]{
+        using SC = core::db::SqlColumn;
+        return std::array{
+            SC::createPrimaryKey(FieldType::ftINTEGER),
+            SC::createForeign(bl::db::DbTables::Instance().getTable<StandardModel>()),
+            SC::createForeign(bl::db::DbTables::Instance().getTable<ExcerciseModel>()),
+        };
+    };
+
+    // TODO: constexpr
+    static auto cols = init_cols();
+    static core::utils::ContainterViewImpl res(cols);
+    return res;
 }
 
-void StandardExcerciseModel::setStandardID(ID standardID)
+void StandardExcerciseModel::setStandardID(core::db::ID standardID)
 {
     if( m_standardID != standardID )
     {
         m_standardID = standardID;
-        if( m_standardID != FAKE_ID )
+        if( m_standardID != core::db::FAKE_ID )
             setFilter( QString("Standard=%0").arg( m_standardID ));
         else
             resetFilter();
@@ -38,7 +42,7 @@ void StandardExcerciseModel::setStandardID(ID standardID)
     }
 }
 
-bool StandardExcerciseModel::addExcercise(ID standardID, ID excerciseID, int count)
+bool StandardExcerciseModel::addExcercise(core::db::ID standardID, core::db::ID excerciseID, int count)
 {
     for( int i = 0; i < count; ++i )
         if( !insertValues( { standardID, excerciseID } ) )
@@ -103,28 +107,15 @@ int StandardExcerciseModel::excerciseId(int excersiceNumber) const
 {
     if( excersiceNumber < excerciseCount() ) {
         bool goodCast;
-        ID id = data( index( excersiceNumber, 0 ), roleFromRoleName( "Excersice" ) ).toInt(&goodCast);
+        core::db::ID id = data( index( excersiceNumber, 0 ), roleFromRoleName( "Excersice" ) ).toInt(&goodCast);
         if( goodCast )
-            return id;
+            return static_cast<int>(id);
     }
-    return FAKE_ID;
+    return core::db::FAKE_ID;
 }
 
 bool StandardExcerciseModel::addExcercise(const QString &standardName, const QString& excerciseName, int count )
 {
-    auto standards = this->standards();
-    auto excercises = this->excercises();
-    if( !( standards == nullptr || excercises == nullptr ) )
-        return addExcercise( standards->standardId( standardName ), excercises->excerciseID( excerciseName ), count );
-    return false;
-}
-
-StandardModel *StandardExcerciseModel::standards() const
-{
-    return static_cast< StandardModel* >( DiaryTables::getTableModel( TableType::Standards ) );
-}
-
-ExcerciseModel *StandardExcerciseModel::excercises() const
-{
-    return static_cast< ExcerciseModel* >( DiaryTables::getTableModel( TableType::Excercises ) );
+    auto& tbls = bl::db::DbTables::Instance();
+    return addExcercise( tbls.getTable<StandardModel>().standardId( standardName ), tbls.getTable<ExcerciseModel>().excerciseID( excerciseName ), count );
 }

@@ -1,26 +1,28 @@
 #ifndef BASESHOTMODEL_H
 #define BASESHOTMODEL_H
 
-#include <database/sqltablemodel.h>
+#include <bl_global.h>
+#include <db/sqltablemodel.h>
 
 
-class BL_SHARED_EXPORT BaseShotModel : public SqlTableModel
+class BL_SHARED_EXPORT BaseShotModel : public core::db::SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(ID trainingStandardID READ trainingStandardID WRITE setTrainingStandardID NOTIFY trainingStandardIDChanged)
-    Q_PROPERTY(int round READ round WRITE setRound NOTIFY roundChanged)
 public:
-    explicit BaseShotModel( QSqlDatabase* db, QObject* parent = nullptr );
+    Q_PROPERTY(core::db::ID trainingStandardID READ trainingStandardID WRITE setTrainingStandardID NOTIFY trainingStandardIDChanged)
+    Q_PROPERTY(int round READ round WRITE setRound NOTIFY roundChanged)
 
-    Q_ALWAYS_INLINE ID trainingStandardID() const { return m_trainingStandardID; }
+    explicit BaseShotModel( QSqlDatabase& db, QObject* parent = nullptr );
+
+    Q_ALWAYS_INLINE core::db::ID trainingStandardID() const { return m_trainingStandardID; }
     Q_ALWAYS_INLINE int round() const { return m_round; }
 
 public slots:
-    void setTrainingStandardID( const ID &trainingStandardID );
+    void setTrainingStandardID( const core::db::ID &trainingStandardID );
     void setRound(int round);    
 
 signals:
-    void trainingStandardIDChanged( ID id );
+    void trainingStandardIDChanged( core::db::ID ID );
     void roundChanged(int round);
 
 protected:
@@ -28,7 +30,7 @@ protected:
     void updateFilter();
 
 private:
-    ID m_trainingStandardID;
+    core::db::ID m_trainingStandardID;
     int m_round;
 };
 

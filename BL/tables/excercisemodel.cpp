@@ -1,51 +1,40 @@
 #include "precomp.h"
 #include "excercisemodel.h"
-#include "diarytables.h"
 #include "targetmodel.h"
+#include "dbtables.h"
 
-ExcerciseModel::ExcerciseModel(QSqlDatabase *db, QObject *parent)
-    : SqlTableModel( db, parent )
-    , m_targetID( FAKE_ID )
+ExcerciseModel::ExcerciseModel(QSqlDatabase& db, QObject *parent)
+    : SqlTableModel( db, parent )    
 {
     setTable( "Excersice" );
 }
 
-SqlTableModel::SqlColumns ExcerciseModel::getColumns() const
+const core::db::SqlColumnList& ExcerciseModel::getColumns() const noexcept
 {
-    auto targetsModel = targetModel();
-    if( targetsModel != nullptr )
-    {
-        SqlColumn id = SqlColumn::createPrimaryKey();
+    constexpr auto init_cols = +[]{
+        using SC = core::db::SqlColumn;
+        return std::array{
+            SC::createPrimaryKey(FieldType::ftINTEGER),
+            SC::createForeign(bl::db::DbTables::Instance().getTable<TargetModel>()),
+            SC(u"Name", FieldType::ftTEXT),
+            SC(u"Distance", FieldType::ftINTEGER),
+            SC(u"ShotsPerSerie", FieldType::ftINTEGER),
+            SC(u"SeriesCount", FieldType::ftINTEGER),
+        };
+    };
 
-        SqlColumn target = SqlColumn::createForeign( targetsModel );
-
-        SqlColumn name;
-        name.name = "Name";
-        name.dataType = ftTEXT;
-
-        SqlColumn distance;
-        distance.name = "Distance";
-        distance.dataType = ftINTEGER;
-
-        SqlColumn shotsPerSerie;
-        shotsPerSerie.name = "ShotsPerSerie";
-        shotsPerSerie.dataType = ftINTEGER;
-
-        SqlColumn seriesCount;
-        seriesCount.name = "SeriesCount";
-        seriesCount.dataType = ftINTEGER;
-
-        return { id, target, name, distance, shotsPerSerie, seriesCount };
-    }
-    return SqlColumns();
+    // TODO: constexpr
+    static auto cols = init_cols();
+    static core::utils::ContainterViewImpl res(cols);
+    return res;
 }
 
-void ExcerciseModel::setTargetID(ID targetID)
+void ExcerciseModel::setTargetID(core::db::ID targetID)
 {
     if( m_targetID != targetID )
     {
         m_targetID = targetID;
-        if( m_targetID != FAKE_ID )
+        if( m_targetID != core::db::FAKE_ID )
             setFilter( QString("Target=%0").arg(m_targetID) );
         else
             resetFilter();
@@ -55,7 +44,7 @@ void ExcerciseModel::setTargetID(ID targetID)
 
 bool ExcerciseModel::addExcercise(const QString &name, int distance, int shotsPerSerie, int seriesCount)
 {
-    if( m_targetID != FAKE_ID )
+    if( m_targetID != core::db::FAKE_ID )
         return addExcercise( m_targetID, name, distance, shotsPerSerie, seriesCount );
     return false;
 }
@@ -69,10 +58,10 @@ int ExcerciseModel::excerciseID(const QString& name) const
         if( rec.field("Name").value().toString() == name )
             return rec.field("Id").value().toInt();
     }
-    return FAKE_ID;
+    return core::db::FAKE_ID;
 }
 
-QString ExcerciseModel::excerciseName(ID excersiceID) const
+QString ExcerciseModel::excerciseName(core::db::ID excersiceID) const
 {
     QSqlRecord rec = recordById( excersiceID );
     if( rec.contains( "Name"))
@@ -80,7 +69,7 @@ QString ExcerciseModel::excerciseName(ID excersiceID) const
     return "Unknown excercise";
 }
 
-int ExcerciseModel::shotPerSerie(ID excersiceID) const
+int ExcerciseModel::shotPerSerie(core::db::ID excersiceID) const
 {
     QSqlRecord rec = recordById( excersiceID );
     if( rec.contains( "ShotsPerSerie") ) {
@@ -89,7 +78,7 @@ int ExcerciseModel::shotPerSerie(ID excersiceID) const
     return 0;
 }
 
-int ExcerciseModel::seriesCount(ID excersiceID) const
+int ExcerciseModel::seriesCount(core::db::ID excersiceID) const
 {
     QSqlRecord rec = recordById( excersiceID );
     if( rec.contains( "SeriesCount") ) {
@@ -115,21 +104,14 @@ bool ExcerciseModel::createTable(QString &error)
 
 bool ExcerciseModel::addExcercise(const QString &targetName, const QString &excersiceName, int distance, int shotsPerSerie, int seriesCount)
 {
-    auto pTargets = targetModel();
-    if( pTargets != nullptr ) {
-        ID targetID = pTargets->fitaTargetId( targetName );
-        if( targetID != FAKE_ID )
-            return addExcercise( targetID, excersiceName, distance, shotsPerSerie, seriesCount );
-    }
+    auto& pTargets = bl::db::DbTables::Instance().getTable<TargetModel>();
+    core::db::ID targetID = pTargets.fitaTargetId( targetName );
+    if( targetID != core::db::FAKE_ID )
+        return addExcercise( targetID, excersiceName, distance, shotsPerSerie, seriesCount );
     return false;
 }
 
-bool ExcerciseModel::addExcercise(ID targetID, const QString &excersiceName, int distance, int shotsPerSerie, int seriesCount)
+bool ExcerciseModel::addExcercise(core::db::ID targetID, const QString &excersiceName, int distance, int shotsPerSerie, int seriesCount)
 {
     return insertValues( { targetID, excersiceName, distance, shotsPerSerie, seriesCount } );
-}
-
-TargetModel *ExcerciseModel::targetModel() const
-{
-    return static_cast< TargetModel* >( DiaryTables::getTableModel( TableType::Targets ) );
 }

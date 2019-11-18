@@ -1,21 +1,25 @@
 #include "precomp.h"
 #include "standardmodel.h"
 
-StandardModel::StandardModel(QSqlDatabase *db, QObject *parent)
+#include <QSqlField>
+
+StandardModel::StandardModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel( db, parent )
 {
     setTable( "Standard" );
 }
 
-SqlTableModel::SqlColumns StandardModel::getColumns() const
+const core::db::SqlColumnList& StandardModel::getColumns() const noexcept
 {
-    SqlColumn id = SqlColumn::createPrimaryKey();
+    using SC = core::db::SqlColumn;
 
-    SqlColumn name;
-    name.name = "Name";
-    name.dataType = ftTEXT;
+    static constexpr std::array cols = {
+        SC::createPrimaryKey(FieldType::ftINTEGER),
+        SC(u"Name", FieldType::ftTEXT)
+    };
+    static constexpr core::utils::ContainterViewImpl res(cols);
 
-    return { id, name };
+    return static_cast<const core::db::SqlColumnList&>(res);
 }
 
 bool StandardModel::addStandard(const QString &name)
@@ -23,14 +27,14 @@ bool StandardModel::addStandard(const QString &name)
     return insertValues( QVariantList{ name } );
 }
 
-QString StandardModel::standardName(ID standardId)
+QString StandardModel::standardName(core::db::ID standardId)
 {
     int rows = rowCount();
     QSqlRecord rec;
     bool goodCast = false;
     for(int i = 0; i < rows; ++i) {
         rec = record(i);
-        ID id = rec.field("Id").value().toInt( &goodCast );
+        core::db::ID id = rec.field("Id").value().toInt( &goodCast );
         if( goodCast && id == standardId )
             return rec.field("Name").value().toString();
     }
@@ -46,7 +50,7 @@ int StandardModel::standardId( const QString &name )
         if( rec.field("Name").value().toString() == name )
             return rec.field("Id").value().toInt();
     }
-    return FAKE_ID;
+    return core::db::FAKE_ID;
 }
 
 bool StandardModel::createTable(QString &error)

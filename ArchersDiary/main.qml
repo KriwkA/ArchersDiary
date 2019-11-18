@@ -76,18 +76,12 @@ ApplicationWindow {
                 text: title
                 enabled: {                    
                     switch( text ) {
-                    case "Bows" : bowsModel.archerID !== -1; break;
-                    case "Arrows" : arrowsModel.archerID !== -1; break;
-                    case "Scopes" : scopesModel.bowID !== -1; break;
                     case "Trainings" : trainingModel.archerID !== -1; break;
                     }
                 }
 
                 onClicked: {
                     switch( text ) {
-                    case "Bows" : bowsModel.select(); break;
-                    case "Arrows" : arrowsModel.select(); break;
-                    case "Scopes" : scopesModel.select(); break;
                     case "Trainings" : trainingModel.select(); break;
                     }                    
                     mainWindowPages.title = text;
@@ -96,9 +90,6 @@ ApplicationWindow {
             }
 
             model: ListModel {
-                ListElement { title: "Bows"; source: "pages/Bows.qml"; }
-                ListElement { title: "Arrows"; source: "pages/Arrows.qml"; }
-                ListElement { title: "Scopes"; source: "pages/Scopes.qml"; }
                 ListElement { title: "Trainings"; source: "pages/Trainings.qml"; }
             }
         }

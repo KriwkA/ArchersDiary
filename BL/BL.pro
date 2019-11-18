@@ -20,13 +20,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     precomp.cpp \
-    database/sqltablemodel.cpp \
     tables/archerstablemodel.cpp \
-    diarytables.cpp \
-    tables/arrowstablemodel.cpp \
-    tables/bowstablemodel.cpp \
-    tables/scopestablemodel.cpp \
-    database/sqlfield.cpp \
+    tables/dbtables.cpp \
     tables/trainingtablemodel.cpp \
     tables/recordtablemodel.cpp \
     tables/targetmodel.cpp \
@@ -43,15 +38,10 @@ SOURCES += \
 HEADERS += \
     bl_global.h \
     precomp.h \
-    database/sqltablemodel.h \
     tables/archerstablemodel.h \
-    diarytables.h \
     diarytables_p.h \
-    tables/arrowstablemodel.h \
-    tables/bowstablemodel.h \
-    tables/scopestablemodel.h \    
     tables/alltables.h \
-    database/sqlfield.h \
+    tables/dbtables.h \
     tables/trainingtablemodel.h \
     tables/recordtablemodel.h \
     tables/targetmodel.h \
@@ -74,3 +64,10 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lCore
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lCore
+else:unix: LIBS += -L$$OUT_PWD/../Core/ -lCore
+
+INCLUDEPATH += $$PWD/../Core
+DEPENDPATH += $$PWD/../Core
