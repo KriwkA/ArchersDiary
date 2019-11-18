@@ -6,7 +6,7 @@
 class StandardModel;
 class ExcerciseModel;
 
-class CORESHARED_EXPORT StandardExcerciseModel : public SqlTableModel
+class BL_SHARED_EXPORT StandardExcerciseModel : public SqlTableModel
 {
     Q_OBJECT
     Q_PROPERTY(ID standardID READ standardID WRITE setStandardID NOTIFY standardIDChanged)

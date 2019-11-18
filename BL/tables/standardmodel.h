@@ -3,7 +3,7 @@
 
 #include <database/sqltablemodel.h>
 
-class CORESHARED_EXPORT StandardModel : public SqlTableModel
+class BL_SHARED_EXPORT StandardModel : public SqlTableModel
 {
     Q_OBJECT
 public:

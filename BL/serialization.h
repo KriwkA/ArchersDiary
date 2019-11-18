@@ -1,6 +1,4 @@
-#ifndef SERIALIZATION_H
-#define SERIALIZATION_H
-
+#pragma once
 #include <QVariant>
 #include <QDataStream>
 
@@ -30,6 +28,3 @@ namespace Serilization
     }
 
 }
-
-
-#endif // SEARIALIZATION_H

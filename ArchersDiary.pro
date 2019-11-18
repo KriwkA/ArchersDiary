@@ -1,10 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Core \
+    BL \
     ArchersDiary
 
-Core.subdir             = src/Core
-ArchersDiary.subdir          = src/ArchersDiary
-
-ArchersDiary.depends         += Core
+ArchersDiary.depends         += BL

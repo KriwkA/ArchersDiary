@@ -1,6 +1,4 @@
-#ifndef MODELSWRAPPER_P_H
-#define MODELSWRAPPER_P_H
-
+#pragma once
 #include <QScopedPointer>
 #include <tables/alltables.h>
 
@@ -38,5 +36,3 @@ private:
     QScopedPointer< QSqlDatabase > m_db;
 
 };
-
-#endif // MODELSWRAPPER_P_H

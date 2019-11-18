@@ -7,13 +7,15 @@
 QT       -= gui
 QT       += sql core
 
-TARGET = Core
-TEMPLATE = lib
-android {
-    TEMPLATE = app  # for Android this is an "app"
-}
+TARGET = BL
 
-DEFINES += CORE_LIBRARY
+win32: QMAKE_CXXFLAGS += /std:c++17
+else: QMAKE_CXXFLAGS += -std=c++17
+
+android: TEMPLATE = app  # for Android this is an "app"
+else: TEMPLATE = lib
+
+DEFINES += BL_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
@@ -39,7 +41,7 @@ SOURCES += \
 
 
 HEADERS += \
-    core_global.h \
+    bl_global.h \
     precomp.h \
     database/sqltablemodel.h \
     tables/archerstablemodel.h \

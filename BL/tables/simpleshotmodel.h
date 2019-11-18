@@ -3,7 +3,7 @@
 
 #include "baseshotmodel.h"
 
-class CORESHARED_EXPORT SimpleShotModel : public BaseShotModel
+class BL_SHARED_EXPORT SimpleShotModel : public BaseShotModel
 {
     Q_OBJECT
 public:

@@ -20,7 +20,7 @@ SqlTableModel::SqlColumns StandardModel::getColumns() const
 
 bool StandardModel::addStandard(const QString &name)
 {
-    return insertValues( { name } );
+    return insertValues( QVariantList{ name } );
 }
 
 QString StandardModel::standardName(ID standardId)

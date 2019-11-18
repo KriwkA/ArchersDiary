@@ -1,3 +1,6 @@
+win32: QMAKE_CXXFLAGS += /std:c++17
+else: QMAKE_CXXFLAGS += -std=c++17
+
 QT += core qml quick sql quickcontrols2
 
 CONFIG += qtquickcompiler
@@ -12,17 +15,9 @@ RESOURCES += \
 DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lCore
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lCore
-else:unix: LIBS += -L$$OUT_PWD/../Core/ -lCore
-
-INCLUDEPATH += $$PWD/../Core
-DEPENDPATH += $$PWD/../Core
+HEADERS += \
+    targetview.h \
+    shottablemodel.h
 
 DISTFILES += \
     android/AndroidManifest.xml \
@@ -44,6 +39,12 @@ android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
 
-HEADERS += \
-    targetview.h \
-    shottablemodel.h
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../BL/release/ -lBL
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../BL/debug/ -lBL
+else:unix: LIBS += -L$$OUT_PWD/../BL/ -lBL
+
+INCLUDEPATH += $$PWD/../BL
+DEPENDPATH += $$PWD/../BL
+
+

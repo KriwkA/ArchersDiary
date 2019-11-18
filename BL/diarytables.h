@@ -1,7 +1,5 @@
-#ifndef MODELSWRAPPER_H
-#define MODELSWRAPPER_H
-
-#include <core_global.h>
+#pragma once
+#include <bl_global.h>
 #include <QObject>
 
 class DiaryTablesPrivate;
@@ -24,7 +22,7 @@ enum class TableType
     SimpleShots
 };
 
-class CORESHARED_EXPORT DiaryTables : public QObject
+class BL_SHARED_EXPORT DiaryTables : public QObject
 {
     Q_OBJECT
 public:
@@ -43,8 +41,3 @@ private:
     friend class DiaryTablesPrivate;
     DiaryTablesPrivate* d;    
 };
-
-
-
-
-#endif // MODELSWRAPPER_H

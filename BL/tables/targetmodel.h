@@ -3,7 +3,7 @@
 
 #include <database/sqltablemodel.h>
 
-struct CORESHARED_EXPORT Target
+struct BL_SHARED_EXPORT Target
 {
     int circleCount;
     QString name;
@@ -16,7 +16,7 @@ struct CORESHARED_EXPORT Target
     static int getFitaColor( int score );
 };
 
-class CORESHARED_EXPORT TargetModel : public SqlTableModel
+class BL_SHARED_EXPORT TargetModel : public SqlTableModel
 {
     Q_OBJECT
 public:

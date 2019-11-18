@@ -3,7 +3,7 @@
 
 #include <database/sqltablemodel.h>
 
-class CORESHARED_EXPORT ScopesTableModel : public SqlTableModel
+class BL_SHARED_EXPORT ScopesTableModel : public SqlTableModel
 {
     Q_OBJECT
     Q_PROPERTY(ID bowID READ getBowID WRITE setBowID NOTIFY bowIDChanged)

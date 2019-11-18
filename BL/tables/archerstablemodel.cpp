@@ -9,7 +9,7 @@ ArchersTableModel::ArchersTableModel(QSqlDatabase* db, QObject *parent)
 
 bool ArchersTableModel::addArcher(const QString &archerName)
 {    
-    return insertValues( { archerName } );
+    return insertValues( QVariantList{ archerName } );
 }
 
 SqlTableModel::SqlColumns ArchersTableModel::getColumns() const

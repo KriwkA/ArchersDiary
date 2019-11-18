@@ -4,7 +4,7 @@
 #include <database/sqltablemodel.h>
 
 
-class CORESHARED_EXPORT BaseShotModel : public SqlTableModel
+class BL_SHARED_EXPORT BaseShotModel : public SqlTableModel
 {
     Q_OBJECT
     Q_PROPERTY(ID trainingStandardID READ trainingStandardID WRITE setTrainingStandardID NOTIFY trainingStandardIDChanged)

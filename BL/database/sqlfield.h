@@ -1,14 +1,13 @@
 #ifndef SQLFIELD_H
 #define SQLFIELD_H
 
-#include <core_global.h>
+#include <bl_global.h>
 #include <QSqlField>
 
-class CORESHARED_EXPORT SqlField : public QSqlField
+class BL_SHARED_EXPORT SqlField : public QSqlField
 {
 public:
     using QSqlField::QSqlField;
-    SqlField();
     SqlField(const QString &fieldName, const QVariant& value);
 };
 

@@ -1,7 +1,7 @@
 #ifndef SQLTABLE_H
 #define SQLTABLE_H
 
-#include <core_global.h>
+#include <bl_global.h>
 
 #include <QSqlTableModel>
 
@@ -23,7 +23,7 @@ extern const char ftREAL[];
 extern const char ftTEXT[];
 extern const char ftBLOB[];
 
-class CORESHARED_EXPORT SqlTableModel : public QSqlTableModel
+class BL_SHARED_EXPORT SqlTableModel : public QSqlTableModel
 {
     Q_OBJECT
 public:

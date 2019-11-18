@@ -3,7 +3,7 @@
 
 #include <database/sqltablemodel.h>
 
-class CORESHARED_EXPORT ArchersTableModel : public SqlTableModel
+class BL_SHARED_EXPORT ArchersTableModel : public SqlTableModel
 {
     Q_OBJECT
 public:    

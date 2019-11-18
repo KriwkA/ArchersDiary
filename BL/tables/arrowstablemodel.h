@@ -3,7 +3,7 @@
 
 #include <database/sqltablemodel.h>
 
-class CORESHARED_EXPORT ArrowsTableModel : public SqlTableModel
+class BL_SHARED_EXPORT ArrowsTableModel : public SqlTableModel
 {
     Q_OBJECT
     Q_PROPERTY(ID archerID READ archerID WRITE setArcherID NOTIFY archerIDChanged)
