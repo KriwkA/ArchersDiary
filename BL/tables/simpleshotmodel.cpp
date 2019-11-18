@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include <precomp.h>
 #include "simpleshotmodel.h"
 #include "trainingstandardmodel.h"
 #include "dbtables.h"

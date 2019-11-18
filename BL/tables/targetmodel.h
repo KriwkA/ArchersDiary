@@ -1,8 +1,6 @@
-#ifndef TARGETMODEL_H
-#define TARGETMODEL_H
+#pragma once
 
 #include <bl_global.h>
-
 #include <db/sqltablemodel.h>
 
 struct BL_SHARED_EXPORT Target
@@ -29,7 +27,3 @@ public:
     Q_INVOKABLE bool addTarget( const Target& target );
     int fitaTargetId( const QString& name );
 };
-
-
-
-#endif // TARGETMODEL_H

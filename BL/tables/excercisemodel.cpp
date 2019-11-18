@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include <precomp.h>
 #include "excercisemodel.h"
 #include "targetmodel.h"
 #include "dbtables.h"

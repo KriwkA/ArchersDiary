@@ -10,6 +10,7 @@
 #include <QDebug>
 
 #include "shottablemodel.h"
+#include "calendar/trainingcalendar.h"
 
 namespace {
 
@@ -67,6 +68,7 @@ void setTablesToContext(QQmlContext* context)
 void registerTypes()
 {
     qmlRegisterType<ShotTableModel>("com.archersdiary.models", 1, 0, "ShotTableModel");
+    qmlRegisterType<TrainingCalendar>("com.archersdiary.views.training_calendar", 1, 0, "TrainingCalendar");
 }
 
 
@@ -77,6 +79,10 @@ int main(int argc, char *argv[])
 {    
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+
+    app.setOrganizationName("KriwkA");
+    app.setOrganizationDomain("kriwka.com");
+    app.setApplicationName("Archers Diary");
 
     QQmlApplicationEngine engine;
 

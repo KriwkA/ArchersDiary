@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include <precomp.h>
 #include "standardexcercisemodel.h"
 #include "excercisemodel.h"
 #include "standardmodel.h"

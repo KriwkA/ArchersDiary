@@ -1,6 +1,6 @@
+#include <precomp.h>
 #include "dbtables.h"
 #include <QSqlDatabase>
-#include <QSqlQuery>
 
 
 namespace bl::db {

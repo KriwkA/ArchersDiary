@@ -8,6 +8,8 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Controls.Universal 2.1
 import Qt.labs.settings 1.0
 
+import com.archersdiary.views.training_calendar 1.0
+
 import "elements"
 import "dialogs"
 
@@ -66,33 +68,39 @@ ApplicationWindow {
 
     TitleStackView {
         id: mainWindowPages
-        anchors.fill: parent        
+        anchors.fill: parent
 
-        initialItem: ListView {
-            id: menu
-
-            delegate: ItemDelegate {                
-                width: menu.width
-                text: title
-                enabled: {                    
-                    switch( text ) {
-                    case "Trainings" : trainingModel.archerID !== -1; break;
-                    }
-                }
-
-                onClicked: {
-                    switch( text ) {
-                    case "Trainings" : trainingModel.select(); break;
-                    }                    
-                    mainWindowPages.title = text;
-                    mainWindowPages.push( model.source );
-                }
-            }
-
-            model: ListModel {
-                ListElement { title: "Trainings"; source: "pages/Trainings.qml"; }
+        initialItem: ColumnLayout {
+            TrainingCalendar {
+                id: calendar
             }
         }
+
+//        initialItem: ListView {
+//            id: menu
+
+//            delegate: ItemDelegate {
+//                width: menu.width
+//                text: title
+//                enabled: {
+//                    switch( text ) {
+//                    case "Trainings" : trainingModel.archerID !== -1; break;
+//                    }
+//                }
+
+//                onClicked: {
+//                    switch( text ) {
+//                    case "Trainings" : trainingModel.select(); break;
+//                    }
+//                    mainWindowPages.title = text;
+//                    mainWindowPages.push( model.source );
+//                }
+//            }
+
+//            model: ListModel {
+//                ListElement { title: "Trainings"; source: "pages/Trainings.qml"; }
+//            }
+//        }
 
         onDepthChanged: {
             if( mainWindowPages.depth === 1 )

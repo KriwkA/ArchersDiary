@@ -6,6 +6,7 @@ QT += core qml quick sql quickcontrols2
 CONFIG += qtquickcompiler
 
 SOURCES += main.cpp \
+    calendar/trainingcalendar.cpp \
     targetview.cpp \
     shottablemodel.cpp
 
@@ -16,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
+    calendar/trainingcalendar.h \
     targetview.h \
     shottablemodel.h
 

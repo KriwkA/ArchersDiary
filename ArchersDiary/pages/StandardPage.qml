@@ -54,13 +54,14 @@ StackPage {
         RowLayout {
             Layout.fillWidth: true
 
-            ImageButton {
-                anchors.verticalCenter: parent.verticalCenter
+            id: bottomLayout
+
+            ImageButton {               
                 enabled: roundNumber > 0;
                 imgSrc: BackImage;
                 onClicked: {
                     roundNumber--;
-                }
+                }                
             }
 
             Label {
@@ -72,7 +73,6 @@ StackPage {
             }
 
             ImageButton {
-                anchors.verticalCenter: parent.verticalCenter
                 enabled: roundNumber < roundCount - 1;
                 imgSrc: ForwardImage;
                 onClicked: {

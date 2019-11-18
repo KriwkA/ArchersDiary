@@ -1,8 +1,6 @@
-#ifndef SIMPLESHOTMODEL_H
-#define SIMPLESHOTMODEL_H
+#pragma once
 
 #include <bl_global.h>
-
 #include "baseshotmodel.h"
 
 class BL_SHARED_EXPORT SimpleShotModel : public BaseShotModel
@@ -21,5 +19,3 @@ private:
     bool updateShot(int number, int score);
     QSqlRecord recByShotNumber( int number, int* row = nullptr ) const;
 };
-
-#endif // SIMPLESHOTMODEL_H

@@ -1,4 +1,4 @@
-#include "precomp.h"
+#include <precomp.h>
 #include "trainingstandardmodel.h"
 #include "shotmodel.h"
 #include "standardmodel.h"
@@ -14,7 +14,7 @@ TrainingStandardModel::TrainingStandardModel(QSqlDatabase& db, QObject *parent)
 
 const core::db::SqlColumnList& TrainingStandardModel::getColumns() const noexcept
 {
-    constexpr auto init_cols = +[]{
+    constexpr auto InitCols = +[]{
         using SC = core::db::SqlColumn;
         return std::array{
                 SC::createPrimaryKey(FieldType::ftINTEGER),
@@ -24,7 +24,7 @@ const core::db::SqlColumnList& TrainingStandardModel::getColumns() const noexcep
     };
 
     // TODO: constexpr
-    static auto cols = init_cols();
+    static auto cols = InitCols();
     static core::utils::ContainterViewImpl res(cols);
     return res;
 }

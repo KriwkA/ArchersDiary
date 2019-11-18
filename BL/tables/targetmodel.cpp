@@ -1,7 +1,5 @@
-#include "precomp.h"
+#include <precomp.h>
 #include "targetmodel.h"
-
-#include <QSqlField>
 #include <serialization.h>
 
 TargetModel::TargetModel(QSqlDatabase& db, QObject *parent)

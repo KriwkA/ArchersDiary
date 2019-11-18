@@ -32,7 +32,6 @@ SOURCES += \
     tables/excercisemodel.cpp \
     tables/trainingstandardmodel.cpp \
     tables/shotmodel.cpp \
-    serialization.cpp \
     tables/simpleshotmodel.cpp \
     tables/baseshotmodel.cpp
 
@@ -41,7 +40,6 @@ HEADERS += \
     bl_global.h \
     precomp.h \
     tables/archerstablemodel.h \
-    diarytables_p.h \
     tables/alltables.h \
     tables/dbtables.h \
     tables/trainingtablemodel.h \
@@ -56,11 +54,11 @@ HEADERS += \
     tables/simpleshotmodel.h \
     tables/baseshotmodel.h
 
-#PRECOMPILED_HEADER += precomp.h
+PRECOMPILED_HEADER += precomp.h
 
-#precompile_header:!isEmpty(PRECOMPILED_HEADER) {
-#DEFINES += USING_PCH
-#}
+precompile_header:!isEmpty(PRECOMPILED_HEADER) {
+DEFINES += USING_PCH
+}
 
 unix {
     target.path = /usr/lib

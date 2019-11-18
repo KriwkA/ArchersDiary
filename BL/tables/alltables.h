@@ -1,5 +1,5 @@
-#ifndef ALLTABLES_H
-#define ALLTABLES_H
+#pragma once
+#include <bl_global.h>
 
 #include "archerstablemodel.h"
 #include "trainingtablemodel.h"
@@ -11,5 +11,3 @@
 #include "trainingstandardmodel.h"
 #include "shotmodel.h"
 #include "simpleshotmodel.h"
-
-#endif // ALLTABLES_H

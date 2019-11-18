@@ -1,7 +1,5 @@
-#include "precomp.h"
+#include <precomp.h>
 #include "standardmodel.h"
-
-#include <QSqlField>
 
 StandardModel::StandardModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel( db, parent )

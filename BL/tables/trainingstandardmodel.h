@@ -1,8 +1,6 @@
-#ifndef TRAININGSTANDARDMODEL_H
-#define TRAININGSTANDARDMODEL_H
+#pragma once
 
 #include <bl_global.h>
-
 #include <db/sqltablemodel.h>
 
 class BL_SHARED_EXPORT TrainingStandardModel : public core::db::SqlTableModel
@@ -26,5 +24,3 @@ private:
     core::db::ID m_trainingID;    
 
 };
-
-#endif // TRAININGSTANDARDMODEL_H

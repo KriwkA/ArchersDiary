@@ -2,9 +2,7 @@
 #include "trainingtablemodel.h"
 #include "archerstablemodel.h"
 #include "dbtables.h"
-#include <array>
 
-#include <QDateTime>
 
 TrainingTableModel::TrainingTableModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel(db, parent)

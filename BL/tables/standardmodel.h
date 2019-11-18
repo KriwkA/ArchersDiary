@@ -1,8 +1,6 @@
-#ifndef STANDARD_H
-#define STANDARD_H
+#pragma once
 
 #include <bl_global.h>
-
 #include <db/sqltablemodel.h>
 
 class BL_SHARED_EXPORT StandardModel : public core::db::SqlTableModel
@@ -20,5 +18,3 @@ public:
 protected:
     virtual bool createTable( QString &error ) override;
 };
-
-#endif // STANDARD_H

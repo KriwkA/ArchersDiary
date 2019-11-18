@@ -1,5 +1,4 @@
-#ifndef BASESHOTMODEL_H
-#define BASESHOTMODEL_H
+#pragma once
 
 #include <bl_global.h>
 #include <db/sqltablemodel.h>
@@ -33,5 +32,3 @@ private:
     core::db::ID m_trainingStandardID;
     int m_round;
 };
-
-#endif // BASESHOTMODEL_H

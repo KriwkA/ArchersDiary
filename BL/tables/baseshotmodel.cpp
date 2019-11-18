@@ -1,3 +1,4 @@
+#include <precomp.h>
 #include "baseshotmodel.h"
 
 BaseShotModel::BaseShotModel( QSqlDatabase& db, QObject* parent )

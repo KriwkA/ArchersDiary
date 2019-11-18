@@ -1,5 +1,4 @@
-#ifndef PRECOMP_H
-#define PRECOMP_H
+#pragma once
 
 #include <QSqlTableModel>
 #include <QSqlRecord>
@@ -13,5 +12,3 @@
 #include <QStringView>
 #include <QHashFunctions>
 #include <QList>
-
-#endif // PRECOMP_H

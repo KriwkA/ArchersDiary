@@ -1,7 +1,6 @@
 #include <precomp.h>
 #include "sql_transaction.h"
 #include <mutex>
-#include <unordered_map>
 #include <utils/hash_specialization.h>
 
 #include <QSqlDatabase>

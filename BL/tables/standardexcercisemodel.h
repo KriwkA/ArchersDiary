@@ -1,8 +1,6 @@
-#ifndef STANDARDEXCERSICEMODEL_H
-#define STANDARDEXCERSICEMODEL_H
+#pragma once
 
 #include <bl_global.h>
-
 #include <db/sqltablemodel.h>
 
 class BL_SHARED_EXPORT StandardExcerciseModel : public core::db::SqlTableModel
@@ -30,5 +28,3 @@ private:
 
     core::db::ID m_standardID = core::db::FAKE_ID;
 };
-
-#endif // STANDARDEXCERSICEMODEL_H

@@ -1,5 +1,4 @@
-#ifndef ARCHERSTABLEMODEL_H
-#define ARCHERSTABLEMODEL_H
+#pragma once
 
 #include <bl_global.h>
 #include <db/sqltablemodel.h>
@@ -13,5 +12,3 @@ public:
 
     Q_INVOKABLE bool addArcher(const QString& archerName );
 };
-
-#endif // ARCHERSTABLEMODEL_H
