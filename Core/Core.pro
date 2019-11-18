@@ -12,8 +12,9 @@ TARGET = Core
 win32: QMAKE_CXXFLAGS += /std:c++17
 else: QMAKE_CXXFLAGS += -std=c++17
 
-android: TEMPLATE = app  # for Android this is an "app"
-else: TEMPLATE = lib
+#android: TEMPLATE = app  # for Android this is an "app"
+#else:
+TEMPLATE = lib
 
 
 DEFINES += CORE_LIBRARY

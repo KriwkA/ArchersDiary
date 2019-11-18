@@ -82,9 +82,9 @@ QModelIndex TrainingTableModel::currentTrainingModelIndex() const
         QModelIndex modelIndex;
         bool ok = false;
         for( int i = 0; i < rows; ++i ) {
-            modelIndex = std::move( index(i, 0) );
+            modelIndex = index(i, 0);
             if( data( modelIndex, roleFromRoleName( "Id" ) ).toInt( &ok ) == m_currentTrainingID && ok )
-                return std::move( modelIndex );
+                return modelIndex;
         }
     }
 

@@ -5,5 +5,5 @@ SUBDIRS += \
     Core\
     ArchersDiary
 
-#BL.depends                   += Core
-#ArchersDiary.depends         += BL
+BL.depends                   += Core
+ArchersDiary.depends         += BL

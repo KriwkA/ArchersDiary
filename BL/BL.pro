@@ -12,8 +12,10 @@ TARGET = BL
 win32: QMAKE_CXXFLAGS += /std:c++17
 else: QMAKE_CXXFLAGS += -std=c++17
 
-android: TEMPLATE = app  # for Android this is an "app"
-else: TEMPLATE = lib
+TEMPLATE = lib
+
+#android: TEMPLATE = app  # for Android this is an "app"
+#else: TEMPLATE = lib
 
 DEFINES += BL_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS

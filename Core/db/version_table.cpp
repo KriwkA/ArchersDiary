@@ -1,3 +1,4 @@
+#include <precomp.h>
 #include "version_table.h"
 #include <private/db/database.h>
 #include <array>

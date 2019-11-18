@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace core::utils {
 
 
@@ -140,11 +139,11 @@ public:
 
 protected:
    v_it_bin bin_begin() const noexcept override {
-      return make_v_it_bin(it_impl{m_container.begin()});
+      return base::make_v_it_bin(it_impl{m_container.begin()});
    }
 
    v_it_bin bin_end() const noexcept override {
-      return make_v_it_bin(it_impl{m_container.end()});
+      return base::make_v_it_bin(it_impl{m_container.end()});
    }
 };
 
