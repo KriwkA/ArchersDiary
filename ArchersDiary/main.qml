@@ -105,46 +105,18 @@ ApplicationWindow {
                     text: standardModel.standardName( Standard );
 
                     onClicked: {
-                        console.log(trainingModel.rowCount());
-                        trainingModel.select();
-//                        standardList.currentIndex = index;
-//                        simpleShotModel.trainingID = Id;
-//                        standardExcerciseModel.standardID = Standard;
-//                        excerciseModel.select();
-//                        mainWindowPages.title = "Standard";
-//                        mainWindowPages.push( "pages/StandardPage.qml" );
+                        standardList.currentIndex = index;
+                        simpleShotModel.trainingID = Id;
+                        standardExcerciseModel.standardID = Standard;
+                        excerciseModel.select();
+                        mainWindowPages.title = "Standard";
+                        mainWindowPages.push( "pages/StandardPage.qml" );
                     }
                 }
 
                 model: trainingModel
             }
         }
-
-//        initialItem: ListView {
-//            id: menu
-
-//            delegate: ItemDelegate {
-//                width: menu.width
-//                text: title
-//                enabled: {
-//                    switch( text ) {
-//                    case "Trainings" : trainingModel.archerID !== -1; break;
-//                    }
-//                }
-
-//                onClicked: {
-//                    switch( text ) {
-//                    case "Trainings" : trainingModel.select(); break;
-//                    }
-//                    mainWindowPages.title = text;
-//                    mainWindowPages.push( model.source );
-//                }
-//            }
-
-//            model: ListModel {
-//                ListElement { title: "Trainings"; source: "pages/Trainings.qml"; }
-//            }
-//        }
 
         onDepthChanged: {
             if( mainWindowPages.depth === 1 )
