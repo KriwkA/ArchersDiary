@@ -2,25 +2,19 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>pages/Arrows.qml</file>
         <file>elements/DoubleSpinBox.qml</file>
         <file>dialogs/CreateArrowDialog.qml</file>
         <file>dialogs/ArcherEditDialog.qml</file>
         <file>elements/EditableListView.qml</file>
         <file>elements/ImageButton.qml</file>
         <file>elements/ArcherEditDrawer.qml</file>
-        <file>pages/Bows.qml</file>
         <file>dialogs/BowEditDialog.qml</file>
-        <file>pages/Scopes.qml</file>
         <file>dialogs/ScopeEditDialog.qml</file>
         <file>elements/AddButton.qml</file>
         <file>elements/RemoveButton.qml</file>
         <file>elements/EditButton.qml</file>
-        <file>pages/Trainings.qml</file>
-        <file>pages/Training.qml</file>
         <file>elements/HeaderToolButton.qml</file>
         <file>elements/HeaderLabel.qml</file>
-        <file>pages/RecordPage.qml</file>
         <file>dialogs/RecordEditDialog.qml</file>
         <file>elements/TitleStackView.qml</file>
         <file>pages/StackPage.qml</file>
