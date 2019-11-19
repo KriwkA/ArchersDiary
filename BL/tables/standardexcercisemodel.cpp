@@ -34,7 +34,7 @@ void StandardExcerciseModel::setStandardID(core::db::ID standardID)
     {
         m_standardID = standardID;
         if( m_standardID != core::db::FAKE_ID )
-            setFilter( QString("Standard=%0").arg( m_standardID ));
+            setFilter( QString("[Standard]=%0").arg( m_standardID ));
         else
             resetFilter();
         select();

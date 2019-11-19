@@ -2,7 +2,7 @@
 #include "shotmodel.h"
 
 #include "dbtables.h"
-#include "trainingstandardmodel.h"
+#include "trainingtablemodel.h"
 
 ShotModel::ShotModel(QSqlDatabase& db, QObject *parent)
     : BaseShotModel( db, parent )
@@ -16,7 +16,7 @@ const core::db::SqlColumnList& ShotModel::getColumns() const noexcept
         using SC = core::db::SqlColumn;
         return std::array{
                 SC::createPrimaryKey(FieldType::ftINTEGER),
-                SC::createForeign(bl::db::DbTables::Instance().getTable<TrainingStandardModel>()),
+                SC::createForeign(bl::db::DbTables::Instance().getTable<TrainingTableModel>()),
                 SC(u"Number", FieldType::ftINTEGER),
                 SC(u"Round", FieldType::ftINTEGER),
                 SC(u"Radius", FieldType::ftREAL),
@@ -33,7 +33,7 @@ const core::db::SqlColumnList& ShotModel::getColumns() const noexcept
 
 bool ShotModel::addShot(int number, double radius, double alpha, double arrowDiameter)
 {
-    if( trainingStandardID() != core::db::FAKE_ID )
-        return insertValues( { trainingStandardID(), number, round(), radius, alpha, arrowDiameter } );
+    if( trainingID() != core::db::FAKE_ID )
+        return insertValues( { trainingID(), number, round(), radius, alpha, arrowDiameter } );
     return false;
 }

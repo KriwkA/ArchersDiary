@@ -145,8 +145,8 @@ private:
     QFont m_dayNumberFont;
     QFont m_monthHeaderFont;
 
-    QColor m_backgroundColor = QColor( "#F7F7F7" );
-    QColor m_dayColor = QColor( "#FFFFFF" );
+    QColor m_backgroundColor = QColor( "#F0F0F0" );
+    QColor m_dayColor = QColor( "#CCCCCC" );
     QColor m_dayNumberTextColor;
     QColor m_currDayNumberTextColor = QColor( "#FFFFFF" );
     QColor m_currDayColor = QColor( "#0000FF" );

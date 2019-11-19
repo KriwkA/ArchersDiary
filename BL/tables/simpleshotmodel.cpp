@@ -1,6 +1,6 @@
 #include <precomp.h>
 #include "simpleshotmodel.h"
-#include "trainingstandardmodel.h"
+#include "trainingtablemodel.h"
 #include "dbtables.h"
 
 
@@ -17,8 +17,8 @@ const core::db::SqlColumnList& SimpleShotModel::getColumns() const noexcept
         using SC = core::db::SqlColumn;
         return std::array{
                 SC::createPrimaryKey(FieldType::ftINTEGER),
-                SC::createForeign(bl::db::DbTables::Instance().getTable<TrainingStandardModel>()),
-                SC(u"Number", FieldType::ftINTEGER),
+                SC::createForeign(bl::db::DbTables::Instance().getTable<TrainingTableModel>()),
+                SC(u"Number", FieldType::ftINTEGER), //TODO: make as key
                 SC(u"Round", FieldType::ftINTEGER),
                 SC(u"Score", FieldType::ftINTEGER),
         };
@@ -33,7 +33,7 @@ const core::db::SqlColumnList& SimpleShotModel::getColumns() const noexcept
 
 bool SimpleShotModel::setShot(int number, int score)
 {
-    if( trainingStandardID() != core::db::FAKE_ID )
+    if( trainingID() != core::db::FAKE_ID )
     {
         if( shotExists( number ) )
             return updateShot( number, score );
@@ -44,7 +44,7 @@ bool SimpleShotModel::setShot(int number, int score)
 
 int SimpleShotModel::shot(int number) const
 {
-    if( trainingStandardID() != core::db::FAKE_ID )
+    if( trainingID() != core::db::FAKE_ID )
     {
         QSqlRecord rec = recByShotNumber( number );
         if( rec.contains( "Score" ) )
@@ -55,7 +55,7 @@ int SimpleShotModel::shot(int number) const
 
 bool SimpleShotModel::addShot(int number, int score)
 {    
-    return insertValues( { trainingStandardID(), number, round(), score } );
+    return insertValues( { trainingID(), number, round(), score } );
 }
 
 bool SimpleShotModel::shotExists(int number)

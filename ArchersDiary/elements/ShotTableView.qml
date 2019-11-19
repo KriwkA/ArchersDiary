@@ -50,7 +50,7 @@ Rectangle {
                 id: cell
                 anchors.fill: parent;
                 score: styleData.value;
-                total: styleData.column === colCount;
+                total: styleData.column === colCount - 1;
             }                                  
 
             onClicked: {

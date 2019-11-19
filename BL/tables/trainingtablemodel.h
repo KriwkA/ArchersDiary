@@ -3,48 +3,38 @@
 #include <bl_global.h>
 #include <db/sqltablemodel.h>
 
+#include <QDate>
+
 class BL_SHARED_EXPORT TrainingTableModel : public core::db::SqlTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(core::db::ID archerID READ archerID WRITE setArcherID NOTIFY archerIDChanged)
-    Q_PROPERTY(int shotCount READ shotCount WRITE setShotCount NOTIFY shotCountChanged)
-    Q_PROPERTY(core::db::ID currentTrainingID READ currentTrainingID WRITE setCurrentTrainingID NOTIFY currentTrainingIDChanged)
 public:
+    Q_PROPERTY(core::db::ID archerID READ archerID WRITE setArcherID NOTIFY archerIDChanged)
+    Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY dateChanged)
+
     explicit TrainingTableModel(QSqlDatabase& db, QObject* parent = nullptr);
 
     const core::db::SqlColumnList& getColumns() const noexcept override;
 
-    virtual bool select() override;
-
     Q_ALWAYS_INLINE core::db::ID archerID() const { return m_archerID; }
+    Q_ALWAYS_INLINE QDate date() const { return m_date; }
     int shotCount() const;
-    Q_ALWAYS_INLINE core::db::ID currentTrainingID() const { return m_currentTrainingID; }
 
-    Q_INVOKABLE bool addTraining();
+    Q_INVOKABLE bool addTraining(core::db::ID standardID);
 
 
 public slots:
     void setArcherID(core::db::ID archerID);
-    void setShotCount(int shotCount);
-    void setCurrentTrainingID(core::db::ID currentTrainingID)
-    {
-        if (m_currentTrainingID == currentTrainingID)
-            return;
-
-        m_currentTrainingID = currentTrainingID;
-        emit currentTrainingIDChanged(m_currentTrainingID);
-    }
+    void setDate(const QDate& date);
 
 signals:
-    void archerIDChanged( core::db::ID id );
-    void shotCountChanged( int count );
-    void currentTrainingIDChanged(core::db::ID currentTrainingID);
+    void archerIDChanged(core::db::ID id);
+    void dateChanged(const QDate& date);
 
 private:
+    void updateFilter();
+
     core::db::ID m_archerID;
-    core::db::ID m_currentTrainingID;
-
-    QModelIndex currentTrainingModelIndex() const;
-
+    QDate m_date = QDate::currentDate();
 
 };

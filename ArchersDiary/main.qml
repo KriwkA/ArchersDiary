@@ -53,7 +53,13 @@ ApplicationWindow {
             }
 
             HeaderToolButton {
-                source: "../" + SettingsImage;
+                source: "../" + AddImage;
+
+                onClicked: {
+                    if( mainWindowPages.depth == 1 ) {
+                        standardsDrawer.open()
+                    }
+                }
             }
 
         }
@@ -66,13 +72,51 @@ ApplicationWindow {
         height: parent.height
     }
 
+    StandardsDrawer {
+        id: standardsDrawer
+        dragMargin: 0
+        width: Math.min(parent.width, window.height) / 3 * 2
+        height: parent.height
+    }
+
     TitleStackView {
         id: mainWindowPages
         anchors.fill: parent
 
         initialItem: ColumnLayout {
-            TrainingCalendar {
+            anchors.fill: parent
+            spacing: 0;
+
+            TrainingCalendar {                
                 id: calendar
+                Layout.fillWidth: true;
+                Layout.fillHeight: true;
+            }
+
+            ListView {
+                id: standardList
+                Layout.fillWidth: true;
+                Layout.fillHeight: true;
+
+                delegate: ItemDelegate {
+                    width: standardList.width
+                    highlighted: ListView.isCurrentItem
+
+                    text: standardModel.standardName( Standard );
+
+                    onClicked: {
+                        console.log(trainingModel.rowCount());
+                        trainingModel.select();
+//                        standardList.currentIndex = index;
+//                        simpleShotModel.trainingID = Id;
+//                        standardExcerciseModel.standardID = Standard;
+//                        excerciseModel.select();
+//                        mainWindowPages.title = "Standard";
+//                        mainWindowPages.push( "pages/StandardPage.qml" );
+                    }
+                }
+
+                model: trainingModel
             }
         }
 

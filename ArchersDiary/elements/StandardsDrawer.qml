@@ -32,7 +32,7 @@ Drawer {
             width: parent.width
             text: Name ? Name : "";            
             onClicked: {
-                trainingStandardModel.addStandard( Id );
+                trainingModel.addTraining( Id );
                 close();
             }
         }

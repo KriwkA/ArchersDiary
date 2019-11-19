@@ -10,7 +10,7 @@ StackPage {
     id: standardPage
     property int trainingStandardID;
     property int roundNumber: 0;
-    property int roundCount: standardExcerciseModel.excerciseCount();
+    property int roundCount: standardExcerciseModel.excerciseCount();        
 
     function excerciseId() {
         return standardExcerciseModel.excerciseId( roundNumber );

@@ -63,8 +63,8 @@ int ExcerciseModel::excerciseID(const QString& name) const
 
 QString ExcerciseModel::excerciseName(core::db::ID excersiceID) const
 {
-    QSqlRecord rec = recordById( excersiceID );
-    if( rec.contains( "Name"))
+    QSqlRecord rec = recordById(excersiceID);
+    if(rec.contains("Name"))
         return rec.field("Name").value().toString();
     return "Unknown excercise";
 }

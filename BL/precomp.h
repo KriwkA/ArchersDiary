@@ -7,6 +7,7 @@
 #include <QSqlError>
 #include <QDebug>
 
+#include <QDate>
 #include <QDateTime>
 #include <QString>
 #include <QStringView>

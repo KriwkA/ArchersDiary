@@ -1,13 +1,13 @@
 #include <precomp.h>
 #include "trainingtablemodel.h"
 #include "archerstablemodel.h"
+#include "standardmodel.h"
 #include "dbtables.h"
 
 
 TrainingTableModel::TrainingTableModel(QSqlDatabase& db, QObject *parent)
     : SqlTableModel(db, parent)
-    , m_archerID( core::db::FAKE_ID )
-    , m_currentTrainingID( core::db::FAKE_ID )
+    , m_archerID( core::db::FAKE_ID )    
 {
     setTable("Training");
 }
@@ -19,8 +19,8 @@ const core::db::SqlColumnList& TrainingTableModel::getColumns() const noexcept
         return std::array{
                 SC::createPrimaryKey(FieldType::ftINTEGER),
                 SC::createForeign(bl::db::DbTables::Instance().getTable<ArchersTableModel>()),
-                SC(u"Date", FieldType::ftDATE),
-                SC(u"SimpleShots", FieldType::ftINTEGER)
+                SC::createForeign(bl::db::DbTables::Instance().getTable<StandardModel>()),
+                SC(u"Date", FieldType::ftDATE), // TODO: make as key
         };
     };
 
@@ -30,70 +30,47 @@ const core::db::SqlColumnList& TrainingTableModel::getColumns() const noexcept
     return res;
 }
 
-bool TrainingTableModel::select()
-{
-    if( SqlTableModel::select() ) {
-        if( m_archerID != core::db::FAKE_ID ) {
-            emit shotCountChanged( shotCount() );
-        }
-        return true;
-    }
-    return false;
-}
-
 void TrainingTableModel::setArcherID(core::db::ID archerID)
 {
     if( m_archerID != archerID )
     {
         m_archerID = archerID;
-        if(m_archerID != core::db::FAKE_ID )
-            setFilter(QString("Archer=%0").arg(m_archerID));
-        else
-            resetFilter();
+        updateFilter();
+        select();
         emit archerIDChanged( m_archerID );
     }
 }
 
-int TrainingTableModel::shotCount() const
-{
-    auto modelIndex = currentTrainingModelIndex();
-    if( modelIndex.isValid() ) {
-        return data( modelIndex, roleFromRoleName( "SimpleShots" ) ).toInt();
-    }
-    return 0;
-}
-
-void TrainingTableModel::setShotCount(int shotCount)
-{
-    if( shotCount != this->shotCount() ) {
-        auto modelIndex = currentTrainingModelIndex();
-        if( modelIndex.isValid() && setData( modelIndex.row(), shotCount, roleFromRoleName( "SimpleShots" ) ) )
-            emit shotCountChanged( shotCount );        
+void TrainingTableModel::setDate(const QDate &date) {
+    if(date != m_date) {
+        m_date = date;
+        updateFilter();
+        select();
+        emit dateChanged(m_date);
     }
 }
 
-QModelIndex TrainingTableModel::currentTrainingModelIndex() const
+void TrainingTableModel::updateFilter()
 {
-    if( m_currentTrainingID != core::db::FAKE_ID )
-    {
-        int rows = rowCount();
-        QModelIndex modelIndex;
-        bool ok = false;
-        for( int i = 0; i < rows; ++i ) {
-            modelIndex = index(i, 0);
-            if( data( modelIndex, roleFromRoleName( "Id" ) ).toInt( &ok ) == m_currentTrainingID && ok )
-                return modelIndex;
+    if(m_archerID != core::db::FAKE_ID ) {
+        if(m_date.isNull()) {
+            setFilter(QString("[Archer]=%0").arg(m_archerID));
+        } else {
+            setFilter(QString("[Archer]=%0 AND [Date] BETWEEN %1 AND %2")
+                             .arg(m_archerID)
+                             .arg(QDateTime(m_date).toMSecsSinceEpoch())
+                             .arg(QDateTime(m_date.addDays(1)).toMSecsSinceEpoch()));
         }
+    } else {
+        resetFilter();
     }
-
-    return QModelIndex();
 }
 
-bool TrainingTableModel::addTraining()
+bool TrainingTableModel::addTraining(core::db::ID standardID)
 {
     if(m_archerID >= 0)
-        return insertValues({ m_archerID, QDateTime::currentDateTime().toSecsSinceEpoch(), 0 });
-    qWarning() << "Invalid archer core::db::ID";
+        return insertValues({ m_archerID, standardID, QDateTime::currentDateTime().toMSecsSinceEpoch() });
+    qWarning() << "Invalid archer ID";
     return false;
 }
 
