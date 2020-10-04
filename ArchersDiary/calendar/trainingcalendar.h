@@ -22,24 +22,7 @@ class TrainingCalendar : public QQuickPaintedItem
 public:
     Q_PROPERTY(int cellIndent READ cellIndent WRITE setCellIndent)
     Q_PROPERTY(int monthHeaderHeight READ monthHeaderHeight WRITE setMonthHeaderHeight)
-    Q_PROPERTY(int weakHeaderHeight READ weakHeaderHeight WRITE setWeakHeaderHeight)
-
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
-
-    Q_PROPERTY(QColor dayColor READ dayColor WRITE setDayColor)
-    Q_PROPERTY(QColor currDayColor READ currDayColor WRITE setCurrDayColor)
-
-    Q_PROPERTY(QFont dayNumberFont READ dayNumberFont WRITE setDayNumberFont)
-    Q_PROPERTY(QColor dayNumberTextColor READ dayNumberTextColor WRITE dayNumberTextColor)
-    Q_PROPERTY(QColor currDayNumberTextColor READ currDayNumberTextColor WRITE setCurrDayNumberTextColor)
-    Q_PROPERTY(int dayTextAlign READ dayTextAlign WRITE setDayTextAlign)
-    Q_PROPERTY(QPoint dayNumberTextIndent READ dayNumberTextIndent WRITE setDayNumberTextIndent)
-
-    Q_PROPERTY(QFont weakHeaderFont READ weakHeaderFont WRITE setWeakFont)
-    Q_PROPERTY(QColor weakHeaderTextColor READ weakHeaderTextColor WRITE setWeakHeaderTextColor)
-
-    Q_PROPERTY(QFont monthHeaderFont READ monthHeaderFont WRITE setMonthHeaderFont)
-    Q_PROPERTY(QColor monthHeaderTextColor READ monthHeaderTextColor WRITE setMonthHeaderTextColor)
+    Q_PROPERTY(int weakHeaderHeight READ weakHeaderHeight WRITE setWeakHeaderHeight)  
 
     Q_PROPERTY(int currYear READ currYear WRITE setCurrYear)
     Q_PROPERTY(int currMonth READ currMonth WRITE setCurrMonth)
@@ -52,25 +35,13 @@ public:
     int monthHeaderHeight() const;
     int weakHeaderHeight() const;
 
-    const QColor& dayColor() const;
-    const QColor& currDayColor() const;
-    const QColor& dayNumberTextColor() const;
-    const QColor& currDayNumberTextColor() const;
-    const QFont& dayNumberFont() const;
-    int dayTextAlign() const;
     const QPoint& dayNumberTextIndent() const;
-
-    const QFont& weakHeaderFont() const;
-    const QColor& weakHeaderTextColor() const;
-
-    const QFont& monthHeaderFont() const;
-    const QColor& monthHeaderTextColor() const;
 
     int currYear() const;
     int currMonth() const;
 
-
-    const QColor& backgroundColor() const;
+signals:
+    void currMonthChanged(QDate);
 
 
 public slots:
@@ -78,25 +49,8 @@ public slots:
     void setMonthHeaderHeight(int monthHeaderHeight);
     void setWeakHeaderHeight(int weakHeaderHeight);
 
-    void setDayColor(const QColor& dayColor);
-    void setCurrDayColor(const QColor& currDayColor);
-    void setDayNumberFont(const QFont& dayNumberFont);
-    void dayNumberTextColor(const QColor& dayNumberTextColor);
-    void setCurrDayNumberTextColor(const QColor &currDayNumberTextColor);
-    void setDayTextAlign(int dayTextAlign);
-
-    void setWeakFont(const QFont& weakHeaderFont);
-    void setWeakHeaderTextColor(const QColor& weakHeaderTextColor);
-
-    void setMonthHeaderFont(const QFont& monthHeaderFont);
-    void setMonthHeaderTextColor(const QColor& monthHeaderTextColor);
-
     void setCurrYear(int currYear);
     void setCurrMonth(int currMonth);
-
-    void setBackgroundColor(const QColor& backgroundColor);
-
-    void setDayNumberTextIndent(const QPoint& dayNumberTextIndent);
 
 protected:
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) Q_DECL_OVERRIDE;
@@ -148,10 +102,10 @@ private:
 
     QColor m_backgroundColor = QColor( "#F0F0F0" );
     QColor m_dayColor = QColor( "#CCCCCC" );
-    QColor m_dayNumberTextColor;
+    QColor m_dayNumberTextColor = QColor("#000000");
     QColor m_currDayNumberTextColor = QColor( "#FFFFFF" );
     QColor m_currDayColor = QColor( "#0000FF" );
-    Qt::AlignmentFlag m_dayTextAlign = Qt::AlignCenter;
+    Qt::AlignmentFlag m_dayTextAlign = static_cast<Qt::AlignmentFlag>( static_cast<int>(Qt::AlignRight) | static_cast<int>(Qt::AlignTop) );
 
     QColor m_weakHeaderTextColor;
     QColor m_monthHeaderTextColor;

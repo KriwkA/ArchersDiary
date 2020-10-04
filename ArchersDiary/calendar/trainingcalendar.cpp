@@ -25,7 +25,7 @@ void TrainingCalendar::paint(QPainter *painter)
         return;
 
     painter->setPen( Qt::NoPen );
-    painter->setBrush( backgroundColor() );
+    painter->setBrush( m_backgroundColor );
     painter->drawRect( 0, 0, width(), height() );
 
     drawMonthHeader( painter );
@@ -48,46 +48,6 @@ int TrainingCalendar::weakHeaderHeight() const
     return m_weakHeaderHeight;
 }
 
-const QColor &TrainingCalendar::dayColor() const
-{
-    return m_dayColor;
-}
-
-const QFont &TrainingCalendar::weakHeaderFont() const
-{
-    return m_weakHeaderFont;
-}
-
-const QFont &TrainingCalendar::dayNumberFont() const
-{
-    return m_dayNumberFont;
-}
-
-const QColor &TrainingCalendar::weakHeaderTextColor() const
-{
-    return m_weakHeaderTextColor;
-}
-
-const QColor &TrainingCalendar::dayNumberTextColor() const
-{
-    return m_dayNumberTextColor;
-}
-
-const QColor &TrainingCalendar::currDayNumberTextColor() const
-{
-    return m_currDayNumberTextColor;
-}
-
-const QFont &TrainingCalendar::monthHeaderFont() const
-{
-    return m_monthHeaderFont;
-}
-
-const QColor &TrainingCalendar::monthHeaderTextColor() const
-{
-    return m_monthHeaderTextColor;
-}
-
 int TrainingCalendar::currYear() const
 {
     return m_currMonth.year();
@@ -98,24 +58,9 @@ int TrainingCalendar::currMonth() const
     return m_currMonth.month();
 }
 
-const QColor &TrainingCalendar::backgroundColor() const
-{
-    return m_backgroundColor;
-}
-
 const QPoint &TrainingCalendar::dayNumberTextIndent() const
 {
     return m_dayNumberTextIndent;
-}
-
-int TrainingCalendar::dayTextAlign() const
-{
-    return m_dayTextAlign;
-}
-
-const QColor &TrainingCalendar::currDayColor() const
-{
-    return m_currDayColor;
 }
 
 void TrainingCalendar::setCellIndent(int cellIndent)
@@ -139,59 +84,15 @@ void TrainingCalendar::setWeakHeaderHeight(int weakHeaderHeight)
     update( weakHeaderRect() );
 }
 
-void TrainingCalendar::setDayColor(const QColor &cellColor)
-{
-    m_dayColor = cellColor;
-    update( daysViewPortRect() );
-}
-
-void TrainingCalendar::setWeakFont(const QFont &weakHeaderFont)
-{
-    m_weakHeaderFont = weakHeaderFont;
-    update( weakHeaderRect() );
-}
-
-void TrainingCalendar::setDayNumberFont(const QFont &dayNumberFont)
-{
-    m_dayNumberFont = dayNumberFont;
-    update( daysViewPortRect() );
-}
-
-void TrainingCalendar::setWeakHeaderTextColor(const QColor &weakHeaderTextColor)
-{
-    m_weakHeaderTextColor = weakHeaderTextColor;
-    update( weakHeaderRect() );
-}
-
-void TrainingCalendar::dayNumberTextColor(const QColor &dayNumberTextColor)
-{
-    m_dayNumberTextColor = dayNumberTextColor;
-    update( daysViewPortRect() );
-}
-
-void TrainingCalendar::setCurrDayNumberTextColor(const QColor& currDayTextColor)
-{
-    m_currDayNumberTextColor = currDayTextColor;
-    update( daysViewPortRect() );
-}
-
 void TrainingCalendar::setCurrMonth(const QDate &currMonth)
 {
-    m_currMonth.setDate( currMonth.year(), currMonth.month(), 1 );
-    m_cellRects = calcCellRects( m_currMonth );
-    update();
-}
-
-void TrainingCalendar::setMonthHeaderFont(const QFont &monthHeaderFont)
-{
-    m_monthHeaderFont = monthHeaderFont;
-    update( monthHeaderRect() );
-}
-
-void TrainingCalendar::setMonthHeaderTextColor(const QColor &monthHeaderTextColor)
-{
-    m_monthHeaderTextColor = monthHeaderTextColor;
-    update( monthHeaderRect() );
+    QDate newMonth(currMonth.year(), currMonth.month(), 1 );
+    if( newMonth != m_currMonth ) {
+       m_currMonth = std::move( newMonth );
+       m_cellRects = calcCellRects( m_currMonth );
+       update();
+       currMonthChanged( m_currMonth );
+    }
 }
 
 void TrainingCalendar::setCurrYear(int year)
@@ -202,30 +103,6 @@ void TrainingCalendar::setCurrYear(int year)
 void TrainingCalendar::setCurrMonth(int month)
 {
     setCurrMonth( QDate( currYear(), month, 1 ) );
-}
-
-void TrainingCalendar::setBackgroundColor(const QColor &backgroundColor)
-{
-    m_backgroundColor = backgroundColor;
-    update();
-}
-
-void TrainingCalendar::setDayNumberTextIndent(const QPoint &dayNumberTextIndent)
-{
-    m_dayNumberTextIndent = dayNumberTextIndent;
-    update();
-}
-
-void TrainingCalendar::setDayTextAlign(int dayTextAlign)
-{
-    m_dayTextAlign = static_cast<Qt::AlignmentFlag>(dayTextAlign);
-    update( daysViewPortRect() );
-}
-
-void TrainingCalendar::setCurrDayColor(const QColor &currDayColor)
-{
-    m_currDayColor = currDayColor;
-    update( daysViewPortRect() );
 }
 
 void TrainingCalendar::drawMonthHeader(QPainter *painter)
@@ -246,8 +123,8 @@ void TrainingCalendar::drawMonthHeader(QPainter *painter, const QDate &month, in
     auto rect = monthHeaderRect();
     rect.moveLeft( rect.left() + dx );
 
-    painter->setPen( monthHeaderTextColor() );
-    painter->setFont( monthHeaderFont() );
+    painter->setPen( m_monthHeaderTextColor );
+    painter->setFont( m_monthHeaderFont );
     painter->drawText( rect , Qt::AlignCenter, QString("%1 %2").arg(month_names[static_cast<size_t>(month.month()) - 1]).arg(month.year()) );
 }
 
@@ -264,8 +141,8 @@ void TrainingCalendar::drawWeakHeader(QPainter *painter, int dx)
     constexpr std::array day_short_names = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
     constexpr std::array day_names = { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресение" };
 
-    painter->setPen( weakHeaderTextColor() );
-    painter->setFont( weakHeaderFont() );
+    painter->setPen( m_weakHeaderTextColor );
+    painter->setFont( m_weakHeaderFont );
 
 
     auto UseShortFormat = [&]{
@@ -310,14 +187,14 @@ void TrainingCalendar::drawDayCells(QPainter *painter, const QVector<DayPaintedD
     }
 
 
-    painter->setFont( dayNumberFont() );
+    painter->setFont( m_dayNumberFont );
 
     for( auto& day : cell_rects )
     {
         painter->setPen( day.numberColor );
         QRect rect = day.numberRect;
         rect.moveLeft( rect.left() + dx );
-        painter->drawText( rect, dayTextAlign(), QString::number( day.number ) );
+        painter->drawText( rect, m_dayTextAlign, QString::number( day.number ) );
     }
 }
 
@@ -381,8 +258,8 @@ QVector<DayPaintedData> TrainingCalendar::calcCellRects(const QDate &month)
         DayPaintedData data{
             QRect( top_left, bottom_right ),
             QRect( top_left + m_dayNumberTextIndent , bottom_right - m_dayNumberTextIndent ),
-            is_curr ? currDayColor() : dayColor(),
-            is_curr ? currDayNumberTextColor() : dayNumberTextColor(),
+            is_curr ? m_currDayColor : m_dayColor,
+            is_curr ? m_currDayNumberTextColor : m_dayNumberTextColor,
             day
         };
 
