@@ -7,11 +7,9 @@
 QT       -= gui
 QT       += sql core
 
+CONFIG += c++17
+
 TARGET = BL
-
-win32: QMAKE_CXXFLAGS += /std:c++17
-else: QMAKE_CXXFLAGS += -std=c++17
-
 TEMPLATE = lib
 
 #android: TEMPLATE = app  # for Android this is an "app"

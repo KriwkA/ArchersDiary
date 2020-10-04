@@ -55,8 +55,4 @@ signals:
 
 };
 
-
-
-
-
 #endif // SHOTTABLEMODEL_H

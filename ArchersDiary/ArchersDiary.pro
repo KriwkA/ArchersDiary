@@ -1,9 +1,7 @@
-win32: QMAKE_CXXFLAGS += /std:c++17
-else: QMAKE_CXXFLAGS += -std=c++17
-
 QT += core qml quick sql quickcontrols2
 
 CONFIG += qtquickcompiler
+CONFIG += c++17
 
 SOURCES += main.cpp \
     calendar/trainingcalendar.cpp \

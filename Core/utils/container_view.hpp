@@ -36,7 +36,8 @@ protected:
 
 public:
 
-   struct const_iterator {
+   struct const_iterator : public std::iterator<std::forward_iterator_tag,
+                                                vType, vType, vType*, vType&> {
       using value_type = vType;
 
       const value_type& operator*() const noexcept {

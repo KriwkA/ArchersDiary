@@ -6,6 +6,8 @@
 
 #include <array>
 
+#include <tables/excercisemodel.h>
+
 static constexpr int SHOW_WEAK_COUNT = 6;
 static constexpr int DAY_PER_WEAK = 7;
 
@@ -258,6 +260,7 @@ void TrainingCalendar::drawWeakHeader(QPainter *painter)
 
 void TrainingCalendar::drawWeakHeader(QPainter *painter, int dx)
 {
+    // TODO: локализация
     constexpr std::array day_short_names = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
     constexpr std::array day_names = { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресение" };
 
@@ -268,7 +271,7 @@ void TrainingCalendar::drawWeakHeader(QPainter *painter, int dx)
     auto UseShortFormat = [&]{
         QFontMetrics metrix( painter->font() );
         for( const auto& name : day_names ) {
-            if( metrix.width( name ) >= m_cellRects[0].rect.width() - 8 ) {
+            if( metrix.horizontalAdvance( name ) >= m_cellRects[0].rect.width() - 8 ) {
                 return true;
             }
         }

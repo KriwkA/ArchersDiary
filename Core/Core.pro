@@ -9,8 +9,7 @@ QT       += sql core
 
 TARGET = Core
 
-win32: QMAKE_CXXFLAGS += /std:c++17
-else: QMAKE_CXXFLAGS += -std=c++17
+CONFIG += c++17
 
 #android: TEMPLATE = app  # for Android this is an "app"
 #else:

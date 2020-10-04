@@ -12,7 +12,8 @@ struct DayPaintedData
     QRect numberRect;
     QColor backgroundColor;
     QColor numberColor;
-    int number;
+    int number = -1;
+    bool hasTraining = false;
 };
 
 class TrainingCalendar : public QQuickPaintedItem
