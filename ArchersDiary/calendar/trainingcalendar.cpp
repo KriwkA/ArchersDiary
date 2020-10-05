@@ -25,6 +25,17 @@ static constexpr QColor m_currDayNumberTextColor(255, 255, 255);
 static constexpr QColor m_currDayColor( 0, 0, 255 );
 static constexpr QColor m_selectedDayColor( 0x41, 0xcd, 0x52 );
 
+auto& TrainingImage(int height) {
+   static const QPixmap img( ":/img/images/calendar_bow.png" );
+   static std::unordered_map<int, QPixmap> res;
+   if( auto it = res.find(height); it != res.end() ) {
+      return it->second;
+   } else {
+      return res[height] = img.scaled( height, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+   }
+}
+
+
 static constexpr QPoint m_dayNumberTextIndent( 4, 0 );
 static constexpr Qt::AlignmentFlag m_dayTextAlign = static_cast<Qt::AlignmentFlag>( static_cast<int>(Qt::AlignRight) | static_cast<int>(Qt::AlignTop) );
 }
@@ -193,6 +204,7 @@ void TrainingCalendar::drawDayCells(QPainter *painter)
 
 void TrainingCalendar::drawDayCells(QPainter *painter, const QVector<DayPaintedData> &cell_rects, int dx)
 {
+    painter->setBackgroundMode(Qt::BGMode::TransparentMode);
     painter->setPen( Qt::NoPen );
     for( auto& day : cell_rects )
     {
@@ -200,6 +212,12 @@ void TrainingCalendar::drawDayCells(QPainter *painter, const QVector<DayPaintedD
         QRect rect = day.rect;
         rect.moveLeft( rect.left() + dx );
         painter->drawRect( rect );
+        if( day.hasTraining )
+        {
+            auto h = std::min( rect.width(), rect.height() ) * 2 / 3;
+            rect.setSize(QSize(h, h));
+            painter->drawPixmap(rect, TrainingImage(h));
+        }
     }
 
 
@@ -276,7 +294,8 @@ QVector<DayPaintedData> TrainingCalendar::calcCellRects(const QDate &month) cons
             QRect( top_left + m_dayNumberTextIndent , bottom_right - m_dayNumberTextIndent ),
             is_curr ? m_currDayColor : (is_selected ? m_selectedDayColor : m_dayColor),
             is_curr || is_selected ? m_currDayNumberTextColor : m_dayNumberTextColor,
-            day
+            day,
+            false
         };
 
         day_cell_rects << data;
@@ -421,6 +440,9 @@ void TrainingCalendar::geometryChanged(const QRectF &newGeometry, const QRectF &
     if( newGeometry != oldGeometry )
     {        
         m_cellRects = calcCellRects( m_currMonth );
+//        auto& r = m_cellRects[0].rect;
+//        auto bow_img_h = std::min( r.width(), r.height() ) / 2;
+//        m_trainingImg = TrainingImage().scaled(bow_img_h, bow_img_h);
     }
     QQuickPaintedItem::geometryChanged( newGeometry, oldGeometry );
 }

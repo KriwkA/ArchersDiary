@@ -93,5 +93,6 @@
         <file>images/+material/settings@x3.png</file>
         <file>images/+material/settings@x4.png</file>
         <file>images/archery.png</file>
+        <file>images/calendar_bow.png</file>
     </qresource>
 </RCC>

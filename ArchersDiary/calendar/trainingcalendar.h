@@ -3,6 +3,7 @@
 
 #include <QQuickPaintedItem>
 #include <QDate>
+#include <QPixmap>
 
 class QVariantAnimation;
 
