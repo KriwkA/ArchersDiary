@@ -29,7 +29,7 @@ Drawer {
         headerPositioning: ListView.OverlayHeader
 
         delegate: ItemDelegate {
-            width: parent.width
+            width: standardList.width
             text: Name ? Name : "";            
             onClicked: {
                 trainingModel.addTraining( Id );

@@ -8,12 +8,29 @@
 
 #include <tables/excercisemodel.h>
 
+
+
+namespace {
 static constexpr int SHOW_WEAK_COUNT = 6;
 static constexpr int DAY_PER_WEAK = 7;
+static const QFont m_dayNumberFont;
+static const QFont m_monthHeaderFont;
+
+static constexpr QColor m_weakHeaderTextColor;
+static constexpr QColor m_monthHeaderTextColor;
+static constexpr QColor m_backgroundColor(240, 240, 240);
+static constexpr QColor m_dayColor(204, 204, 204);
+static constexpr QColor m_dayNumberTextColor;
+static constexpr QColor m_currDayNumberTextColor(255, 255, 255);
+static constexpr QColor m_currDayColor( 0, 0, 255 );
+static constexpr QColor m_selectedDayColor( 0, 255, 0 );
+
+static constexpr QPoint m_dayNumberTextIndent( 4, 0 );
+static constexpr Qt::AlignmentFlag m_dayTextAlign = static_cast<Qt::AlignmentFlag>( static_cast<int>(Qt::AlignRight) | static_cast<int>(Qt::AlignTop) );
+}
 
 TrainingCalendar::TrainingCalendar(QQuickItem *parent)
     : QQuickPaintedItem( parent )
-    , m_currMonth( QDate::currentDate().year(), QDate::currentDate().month(), 1 )
 {    
     setAcceptedMouseButtons(Qt::LeftButton);
     setFlag(ItemAcceptsInputMethod, true);
@@ -55,7 +72,12 @@ int TrainingCalendar::currYear() const
 
 int TrainingCalendar::currMonth() const
 {
-    return m_currMonth.month();
+   return m_currMonth.month();
+}
+
+QDate TrainingCalendar::selectedDay() const
+{
+   return m_selectedDay;
 }
 
 const QPoint &TrainingCalendar::dayNumberTextIndent() const
@@ -93,6 +115,16 @@ void TrainingCalendar::setCurrMonth(const QDate &currMonth)
        update();
        currMonthChanged( m_currMonth );
     }
+}
+
+void TrainingCalendar::setSelectedDay(const QDate& day)
+{
+   if( m_selectedDay != day ) {
+      m_currMonth = std::move( day );
+      m_cellRects = calcCellRects( m_currMonth );
+      update();
+      daySelected( m_currMonth );
+   }
 }
 
 void TrainingCalendar::setCurrYear(int year)
@@ -214,7 +246,7 @@ Q_ALWAYS_INLINE QRect TrainingCalendar::daysViewPortRect() const
     return QRect( QPoint(0, h_diff), QSize(width(), height() - h_diff ) );
 }
 
-QVector<DayPaintedData> TrainingCalendar::calcCellRects(const QDate &month)
+QVector<DayPaintedData> TrainingCalendar::calcCellRects(const QDate &month) const
 {    
     auto cell_width = sizeAndRest( true, DAY_PER_WEAK );
     auto cell_height = sizeAndRest( false, SHOW_WEAK_COUNT );
@@ -242,7 +274,6 @@ QVector<DayPaintedData> TrainingCalendar::calcCellRects(const QDate &month)
     day_cell_rects.reserve( month.daysInMonth() );
 
     int day_indent = month.dayOfWeek() - 1;
-    bool contains_curr_day = month.month() == QDate::currentDate().month() && month.year() == QDate::currentDate().year();
     auto curr_day = QDate::currentDate();
 
     for( QDate day = month; day.month() == month.month(); day = day.addDays(1) )
@@ -254,12 +285,13 @@ QVector<DayPaintedData> TrainingCalendar::calcCellRects(const QDate &month)
         QPoint top_left( xs[col].first, ys[row].first );
         QPoint bottom_right( xs[col].second, ys[row].second );
 
-        bool is_curr = contains_curr_day && day == curr_day;
+        bool is_curr = day == curr_day;
+        bool is_selected = day == m_selectedDay;
         DayPaintedData data{
             QRect( top_left, bottom_right ),
             QRect( top_left + m_dayNumberTextIndent , bottom_right - m_dayNumberTextIndent ),
-            is_curr ? m_currDayColor : m_dayColor,
-            is_curr ? m_currDayNumberTextColor : m_dayNumberTextColor,
+            is_curr ? m_currDayColor : (is_selected ? m_selectedDayColor : m_dayColor),
+            is_curr || is_selected ? m_currDayNumberTextColor : m_dayNumberTextColor,
             day
         };
 
@@ -357,6 +389,16 @@ void TrainingCalendar::mouseReleaseEvent(QMouseEvent *event)
     {
         m_scrollOn = false;
         scrollMonth( m_drawXDif < 0, std::abs( m_drawXDif ) < 50 );
+    } else {
+       for( auto& day : m_cellRects ) {
+          if( day.rect.contains( event->pos() ) ) {
+             qDebug() << day.date.toString();
+             m_selectedDay = day.date;
+             m_cellRects = calcCellRects( m_currMonth );
+             update();
+             break;
+          }
+       }
     }
 }
 

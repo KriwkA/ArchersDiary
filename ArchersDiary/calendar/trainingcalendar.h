@@ -26,6 +26,7 @@ public:
 
     Q_PROPERTY(int currYear READ currYear WRITE setCurrYear)
     Q_PROPERTY(int currMonth READ currMonth WRITE setCurrMonth)
+    Q_PROPERTY(QDate selectedDay READ selectedDay NOTIFY daySelected)
 
     explicit TrainingCalendar( QQuickItem* parent = nullptr );
 
@@ -39,9 +40,11 @@ public:
 
     int currYear() const;
     int currMonth() const;
+    QDate selectedDay() const;
 
 signals:
     void currMonthChanged(QDate);
+    void daySelected(QDate);
 
 
 public slots:
@@ -65,6 +68,7 @@ private slots:
     void finishCancelScrollAnimation();
 
 private:
+    void setSelectedDay( const QDate& day );
     void setCurrMonth(const QDate &currMonth);
     static QDate nextMonth( const QDate& from, bool next );
     void scrollMonth(bool right, bool cancel_scroll = false );
@@ -83,7 +87,7 @@ private:
     QRect monthHeaderRect() const;
     QRect weakHeaderRect() const;
     QRect daysViewPortRect() const;
-    QVector<DayPaintedData> calcCellRects( const QDate& currMonth );
+    QVector<DayPaintedData> calcCellRects( const QDate& currMonth ) const;
 
     int FirstMondayIndexInCellRects() const;
 
@@ -95,29 +99,15 @@ private:
     int m_cellIndent = 1;
     int m_monthHeaderHeight = 34;
     int m_weakHeaderHeight = 28;
-    QDate m_currMonth;
+    QDate m_currMonth{ QDate::currentDate().year(), QDate::currentDate().month(), 1 };
+    QDate m_selectedDay{ QDate::currentDate() };
     QFont m_weakHeaderFont;
-    QFont m_dayNumberFont;
-    QFont m_monthHeaderFont;
-
-    QColor m_backgroundColor = QColor( "#F0F0F0" );
-    QColor m_dayColor = QColor( "#CCCCCC" );
-    QColor m_dayNumberTextColor = QColor("#000000");
-    QColor m_currDayNumberTextColor = QColor( "#FFFFFF" );
-    QColor m_currDayColor = QColor( "#0000FF" );
-    Qt::AlignmentFlag m_dayTextAlign = static_cast<Qt::AlignmentFlag>( static_cast<int>(Qt::AlignRight) | static_cast<int>(Qt::AlignTop) );
-
-    QColor m_weakHeaderTextColor;
-    QColor m_monthHeaderTextColor;
 
     bool m_scrollOn = false;
     QPoint m_lastMovePoint = QPoint( -1, -1 );
     int m_drawXDif = 0;        
 
-    QVariantAnimation* m_scrollAnimation = nullptr;
-
-
-    QPoint m_dayNumberTextIndent;
+    QVariantAnimation* m_scrollAnimation = nullptr;    
 };
 
 
