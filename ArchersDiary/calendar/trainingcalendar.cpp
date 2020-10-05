@@ -194,7 +194,7 @@ void TrainingCalendar::drawDayCells(QPainter *painter, const QVector<DayPaintedD
         painter->setPen( day.numberColor );
         QRect rect = day.numberRect;
         rect.moveLeft( rect.left() + dx );
-        painter->drawText( rect, m_dayTextAlign, QString::number( day.number ) );
+        painter->drawText( rect, m_dayTextAlign, QString::number( day.date.day() ) );
     }
 }
 
@@ -243,11 +243,11 @@ QVector<DayPaintedData> TrainingCalendar::calcCellRects(const QDate &month)
 
     int day_indent = month.dayOfWeek() - 1;
     bool contains_curr_day = month.month() == QDate::currentDate().month() && month.year() == QDate::currentDate().year();
-    int curr_day = QDate::currentDate().day() - 1;
+    auto curr_day = QDate::currentDate();
 
-    for( int day = 0; day < month.daysInMonth(); ++day )
+    for( QDate day = month; day.month() == month.month(); day = day.addDays(1) )
     {
-        int weak_day = day + day_indent;
+        int weak_day = day.day() + day_indent - 1;
         int row = weak_day / DAY_PER_WEAK;
         int col = weak_day - row * DAY_PER_WEAK;
 
@@ -316,7 +316,7 @@ Q_ALWAYS_INLINE int TrainingCalendar::scrollNextIndent() const
 
 void TrainingCalendar::mousePressEvent(QMouseEvent *event)
 {
-    m_lastMovePoint= event->pos();
+    m_lastMovePoint = event->pos();
     if( m_scrollAnimation != nullptr )
     {
         m_scrollAnimation->stop();

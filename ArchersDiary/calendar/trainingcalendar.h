@@ -12,7 +12,7 @@ struct DayPaintedData
     QRect numberRect;
     QColor backgroundColor;
     QColor numberColor;
-    int number = -1;
+    QDate date;
     bool hasTraining = false;
 };
 
