@@ -23,7 +23,7 @@ static constexpr QColor m_dayColor(204, 204, 204);
 static constexpr QColor m_dayNumberTextColor;
 static constexpr QColor m_currDayNumberTextColor(255, 255, 255);
 static constexpr QColor m_currDayColor( 0, 0, 255 );
-static constexpr QColor m_selectedDayColor( 0, 255, 0 );
+static constexpr QColor m_selectedDayColor( 0x41, 0xcd, 0x52 );
 
 static constexpr QPoint m_dayNumberTextIndent( 4, 0 );
 static constexpr Qt::AlignmentFlag m_dayTextAlign = static_cast<Qt::AlignmentFlag>( static_cast<int>(Qt::AlignRight) | static_cast<int>(Qt::AlignTop) );
@@ -65,16 +65,6 @@ int TrainingCalendar::weakHeaderHeight() const
     return m_weakHeaderHeight;
 }
 
-int TrainingCalendar::currYear() const
-{
-    return m_currMonth.year();
-}
-
-int TrainingCalendar::currMonth() const
-{
-   return m_currMonth.month();
-}
-
 QDate TrainingCalendar::selectedDay() const
 {
    return m_selectedDay;
@@ -85,9 +75,13 @@ const QPoint &TrainingCalendar::dayNumberTextIndent() const
     return m_dayNumberTextIndent;
 }
 
+QDate TrainingCalendar::currMonth() const {
+   return m_currMonth;
+}
+
 void TrainingCalendar::setCellIndent(int cellIndent)
 {
-    if (m_cellIndent == cellIndent)
+   if (m_cellIndent == cellIndent)
         return;
 
     m_cellIndent = cellIndent;
@@ -125,16 +119,6 @@ void TrainingCalendar::setSelectedDay(const QDate& day)
       update();
       daySelected( m_currMonth );
    }
-}
-
-void TrainingCalendar::setCurrYear(int year)
-{
-    setCurrMonth( QDate( year, currMonth(), 1 ) );
-}
-
-void TrainingCalendar::setCurrMonth(int month)
-{
-    setCurrMonth( QDate( currYear(), month, 1 ) );
 }
 
 void TrainingCalendar::drawMonthHeader(QPainter *painter)
@@ -384,7 +368,6 @@ void TrainingCalendar::mouseMoveEvent(QMouseEvent *event)
 
 void TrainingCalendar::mouseReleaseEvent(QMouseEvent *event)
 {
-    Q_UNUSED( event )
     if( m_scrollOn )
     {
         m_scrollOn = false;
@@ -392,7 +375,6 @@ void TrainingCalendar::mouseReleaseEvent(QMouseEvent *event)
     } else {
        for( auto& day : m_cellRects ) {
           if( day.rect.contains( event->pos() ) ) {
-             qDebug() << day.date.toString();
              m_selectedDay = day.date;
              m_cellRects = calcCellRects( m_currMonth );
              update();

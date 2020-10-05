@@ -23,10 +23,8 @@ public:
     Q_PROPERTY(int cellIndent READ cellIndent WRITE setCellIndent)
     Q_PROPERTY(int monthHeaderHeight READ monthHeaderHeight WRITE setMonthHeaderHeight)
     Q_PROPERTY(int weakHeaderHeight READ weakHeaderHeight WRITE setWeakHeaderHeight)  
-
-    Q_PROPERTY(int currYear READ currYear WRITE setCurrYear)
-    Q_PROPERTY(int currMonth READ currMonth WRITE setCurrMonth)
     Q_PROPERTY(QDate selectedDay READ selectedDay NOTIFY daySelected)
+    Q_PROPERTY(QDate currMonth READ currMonth NOTIFY currMonthChanged)
 
     explicit TrainingCalendar( QQuickItem* parent = nullptr );
 
@@ -38,8 +36,7 @@ public:
 
     const QPoint& dayNumberTextIndent() const;
 
-    int currYear() const;
-    int currMonth() const;
+    QDate currMonth() const;
     QDate selectedDay() const;
 
 signals:
@@ -51,9 +48,6 @@ public slots:
     void setCellIndent(int cellIndent);
     void setMonthHeaderHeight(int monthHeaderHeight);
     void setWeakHeaderHeight(int weakHeaderHeight);
-
-    void setCurrYear(int currYear);
-    void setCurrMonth(int currMonth);
 
 protected:
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) Q_DECL_OVERRIDE;
